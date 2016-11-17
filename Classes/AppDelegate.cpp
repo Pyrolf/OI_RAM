@@ -1,5 +1,7 @@
 #include "AppDelegate.h"
 #include "AnimationSystem.h"
+#include "SpriteSystem.h"
+#include "GameStateManager.h"
 #include "HelloWorldScene.h"
 
 USING_NS_CC;
@@ -42,7 +44,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("OI_RAM", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
+		glview = GLViewImpl::createWithRect("OI_RAM", cocos2d::Rect(0, 0, mediumResolutionSize.width, mediumResolutionSize.height));
 #else
         glview = GLViewImpl::create("OI_RAM");
 #endif
@@ -76,15 +78,19 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	register_all_packages();
 
-	// create animation system
+	// create Animation System
 	CAnimationSystem::getInstance();
+	// create Sprite System
+	CSpriteSystem::getInstance();
+
+	// create Game State Manager
+	CGameStateManager::getInstance()->startState(CGameStateManager::STATE_GAMEPLAY);
 
     // create a scene. it's an autorelease object
     auto scene = HelloWorld::createScene();
 
     // run
-    director->runWithScene(scene);
-
+	director->runWithScene(TransitionFade::create(1.0f, scene, Color3B(100, 100 , 100)));
     return true;
 }
 

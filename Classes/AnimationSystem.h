@@ -17,7 +17,7 @@ public:
 
 	// Normal Methods
 	cocos2d::Animate* getAnimate(const char *format, int count, float delay = 0.0f, unsigned int loops = 1);
-	void loadAnimation(const char *format, int count);
+	void loadAnimation(const char *format, cocos2d::Size newSize, int count);
 };
 
 #endif // __ANIMATION_SYSTEM_H__

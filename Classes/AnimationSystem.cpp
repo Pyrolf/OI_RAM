@@ -1,4 +1,5 @@
 #include "AnimationSystem.h"
+#include "SpriteSystem.h"
 
 USING_NS_CC;
 
@@ -11,7 +12,6 @@ CAnimationSystem::CAnimationSystem()
 
 CAnimationSystem::~CAnimationSystem()
 {
-
 }
 
 // Instance Methods
@@ -38,7 +38,8 @@ Animate* CAnimationSystem::getAnimate(const char *format, int count, float delay
 	for (int i = 1; i <= count; i++)
 	{
 		sprintf(str, format, i);
-		animation->addSpriteFrameWithFile(str);
+		CSpriteSystem::TextureInfo* textureInfo = CSpriteSystem::getInstance()->getTextureInfo(str);
+		animation->addSpriteFrameWithTexture(textureInfo->texture, textureInfo->rect);
 	}
 	animation->setDelayPerUnit(delay);
 	animation->setLoops(loops);
@@ -46,12 +47,12 @@ Animate* CAnimationSystem::getAnimate(const char *format, int count, float delay
 }
 
 
-void CAnimationSystem::loadAnimation(const char *format, int count)
+void CAnimationSystem::loadAnimation(const char *format, Size newSize, int count)
 {
 	char str[100];
 	for (int i = 1; i <= count; i++)
 	{
 		sprintf(str, format, i);
-		Director::getInstance()->getTextureCache()->addImage(str);
+		CSpriteSystem::getInstance()->createSprite(str, newSize);
 	}
 }

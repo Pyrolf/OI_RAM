@@ -1,5 +1,7 @@
 #include "HelloWorldScene.h"
 #include "AnimationSystem.h"
+#include "SpriteSystem.h"
+#include "GameStateManager.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
@@ -77,16 +79,13 @@ bool HelloWorld::init()
     this->addChild(sprite, 0);
 
 
-
-
 	// Load sprites
-	CAnimationSystem::getInstance()->loadAnimation("animations/monsters/monster1/idle/frame_%d.png", 8);
-	CAnimationSystem::getInstance()->loadAnimation("animations/monsters/monster1/walking/frame_%d.png", 8);
-
+	Size targetSize(visibleSize.height * 0.2f, visibleSize.height * 0.2f);
+	CAnimationSystem::getInstance()->loadAnimation("animations/monsters/monster1/idle/frame_%d.png", targetSize, 8);
+	CAnimationSystem::getInstance()->loadAnimation("animations/monsters/monster1/walking/frame_%d.png", targetSize, 8);
+	
 	// Start
-	auto monster = Sprite::create("animations/monsters/monster1/walking/frame_1.png");
-	monster->setScale(	visibleSize.height * 0.2f / monster->getContentSize().width,
-						visibleSize.height * 0.2f / monster->getContentSize().height);
+	Sprite* monster = CSpriteSystem::getInstance()->createSprite("animations/monsters/monster1/walking/frame_1.png", targetSize);
 	Vec2 leftPos(	origin.x + monster->getScaleX() *  monster->getContentSize().width * 0.5f,
 					visibleSize.height * 0.5f + origin.y);
 	Vec2 rightPos(	visibleSize.width + origin.x - monster->getScaleX() *  monster->getContentSize().width * 0.5f,
