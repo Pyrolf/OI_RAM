@@ -1,19 +1,18 @@
-#include "HelloWorldScene.h"
+#include "InGameScene.h"
 #include "AnimationSystem.h"
 #include "SpriteSystem.h"
 #include "GameStateManager.h"
 #include "SimpleAudioEngine.h"
-#include "MainMenuScene.h"
 
 USING_NS_CC;
 
-Scene* HelloWorld::createScene()
+Scene* CInGameScene::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
     
     // 'layer' is an autorelease object
-    auto layer = HelloWorld::create();
+    auto layer = CInGameScene::create();
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -22,7 +21,7 @@ Scene* HelloWorld::createScene()
     return scene;
 }
 
-void HelloWorld::toHelloWorldScene()
+void CInGameScene::toInGameScene()
 {
 	if (!Director::getInstance()->getRunningScene())
 		Director::getInstance()->runWithScene(TransitionFade::create(1.0f, createScene(), Color3B(100, 100, 100)));
@@ -31,7 +30,7 @@ void HelloWorld::toHelloWorldScene()
 }
 
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool CInGameScene::init()
 {
     //////////////////////////////
     // 1. super init first
@@ -53,7 +52,7 @@ bool HelloWorld::init()
     auto closeItem = MenuItemImage::create(
                                            "CloseNormal.png",
                                            "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+										   CC_CALLBACK_1(CInGameScene::backToMainMenuCallback, this));
     
     closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
@@ -78,7 +77,7 @@ bool HelloWorld::init()
     // add the label as a child to this layer
     this->addChild(label, 1);
 
-    // add "HelloWorld" splash screen"
+    // add "CInGameScene" splash screen"
     auto sprite = Sprite::create("animations/knight/idle/frame_1.png");
 
     // position the sprite on the center of the screen
@@ -133,22 +132,12 @@ bool HelloWorld::init()
     return true;
 }
 
-void HelloWorld::update(float dt)
+void CInGameScene::update(float dt)
 {
 }
 
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
+void CInGameScene::backToMainMenuCallback(Ref* pSender)
 {
-	// 'layer' is an autorelease object
-	auto layer2 = CMainMenuScene::create();
-
-	// add layer as a child to scene
-	Director::getInstance()->getRunningScene()->addChild(layer2);
-
-   // Director::getInstance()->end();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
+	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_MAINMENU);
 }

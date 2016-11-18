@@ -10,6 +10,15 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Systems">
+      <UniqueIdentifier>{d9016c43-bd75-474b-84f1-e2767e103662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Managers">
+      <UniqueIdentifier>{0aa8e939-0dca-41ca-bc5a-cc77dde188ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Scenes">
+      <UniqueIdentifier>{a9d3a341-cb87-415f-9a46-e3ee6628b294}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -18,20 +27,29 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\AnimationSystem.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\FileOperation.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\AnimationSystem.cpp">
+      <Filter>src\Systems</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\SpriteSystem.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Systems</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GameStateManager.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
+      <Filter>src\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MainMenuScene.cpp">
+      <Filter>src\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\StoreScene.cpp">
+      <Filter>src\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\InGameScene.cpp">
+      <Filter>src\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -41,20 +59,29 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\AnimationSystem.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\FileOperation.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\AnimationSystem.h">
+      <Filter>src\Systems</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\SpriteSystem.h">
-      <Filter>src</Filter>
+      <Filter>src\Systems</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameStateManager.h">
-      <Filter>src</Filter>
+      <Filter>src\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloWorldScene.h">
+      <Filter>src\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MainMenuScene.h">
+      <Filter>src\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StoreScene.h">
+      <Filter>src\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\InGameScene.h">
+      <Filter>src\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

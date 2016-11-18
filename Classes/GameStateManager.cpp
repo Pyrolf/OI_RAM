@@ -1,16 +1,19 @@
 #include "GameStateManager.h"
+#include "MainMenuScene.h"
+#include "InGameScene.h"
+#include "StoreScene.h"
 
 USING_NS_CC;
 
 CGameStateManager* CGameStateManager::s_gameStateManagerInstance = NULL;
 
 CGameStateManager::CGameStateManager()
+	: m_eState(STATE_NIL)
 {
 }
 
 CGameStateManager::~CGameStateManager()
 {
-	m_eStates.clear();
 }
 
 // Instance Methods
@@ -30,44 +33,34 @@ void CGameStateManager::destroy()
 
 // Normal Methods
 // Public Methods
-void CGameStateManager::startState(CGameStateManager::STATE state)
-{
-	if (!m_eStates.empty)
-	{
-		m_eStates.clear();
-	}
-	m_eStates.push_back(state);
-}
 void CGameStateManager::switchState(CGameStateManager::STATE state)
 {
-	if (!m_eStates.empty)
+	m_eState = state;
+	switch (state)
 	{
-		m_eStates.back() = state;
-	}
-	else
-	{
-		m_eStates.push_back(state);
+		case STATE_MAINMENU:
+		{
+			CMainMenuScene::toMainMenuScene();
+			break;
+		}
+		case STATE_GAMEPLAY:
+		{
+			CInGameScene::toInGameScene();
+			break;
+		}
+		case STATE_STORE:
+		{
+			CStoreScene::toStoreScene();
+			break;
+		}
+		default:
+		{
+			CMainMenuScene::toMainMenuScene();
+			break;
+		}
 	}
 }
-void CGameStateManager::pushState(CGameStateManager::STATE state)
+CGameStateManager::STATE CGameStateManager::getState()
 {
-	m_eStates.push_back(state);
-}
-CGameStateManager::STATE CGameStateManager::popState()
-{
-	if (!m_eStates.empty)
-	{
-		STATE toPopState = m_eStates.back();
-		m_eStates.pop_back();
-		return toPopState;
-	}
-	else
-		return STATE_NIL;
-}
-CGameStateManager::STATE CGameStateManager::getCurrentState()
-{
-	if (!m_eStates.empty)
-		return m_eStates.back();
-	else
-		return STATE_NIL;
+	return m_eState;
 }

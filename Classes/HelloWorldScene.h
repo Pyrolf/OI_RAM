@@ -7,6 +7,7 @@ class HelloWorld : public cocos2d::Layer
 {
 public:
     static cocos2d::Scene* createScene();
+	static void toHelloWorldScene();
 
 	virtual bool init();
 

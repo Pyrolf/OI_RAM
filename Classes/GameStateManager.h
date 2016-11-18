@@ -12,6 +12,7 @@ public:
 		STATE_MAINMENU,
 		STATE_GAMEPLAY,
 		STATE_PAUSE,
+		STATE_STORE,
 		NUM_OF_STATE
 	};
 private:
@@ -19,18 +20,15 @@ private:
 	CGameStateManager();
 	~CGameStateManager();
 
-	std::vector<STATE> m_eStates;
+	STATE m_eState;
 public:
 	// Instance Methods
 	static CGameStateManager* getInstance();
 	static void destroy();
 
 	// Normal Methods
-	void startState(STATE state);
 	void switchState(STATE state);
-	void pushState(STATE state);
-	STATE popState();
-	STATE getCurrentState();
+	STATE getState();
 };
 
 #endif // __GAME_STATE_MANAGER_H__
