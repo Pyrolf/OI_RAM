@@ -23,10 +23,11 @@ Scene* CInGameScene::createScene()
 
 void CInGameScene::toInGameScene()
 {
-	if (!Director::getInstance()->getRunningScene())
-		Director::getInstance()->runWithScene(TransitionFade::create(1.0f, createScene(), Color3B(100, 100, 100)));
+	Director* director = Director::getInstance();
+	if (!director->getRunningScene())
+		director->runWithScene(TransitionFade::create(1.0f, createScene(), Color3B(100, 100, 100)));
 	else
-		Director::getInstance()->replaceScene(TransitionFade::create(1.0f, createScene(), Color3B(100, 100, 100)));
+		director->replaceScene(TransitionFade::create(1.0f, createScene(), Color3B(100, 100, 100)));
 }
 
 // on "init" you need to initialize your instance
@@ -78,7 +79,9 @@ bool CInGameScene::init()
     this->addChild(label, 1);
 
     // add "CInGameScene" splash screen"
-    auto sprite = Sprite::create("animations/knight/idle/frame_1.png");
+	Size targetSize(visibleSize.width * 0.15f, visibleSize.height * 0.2f);
+	auto sprite = Sprite::create("animations/monsters/monster1/idle/frame_1.png");
+	sprite->setScale(targetSize.width / sprite->getContentSize().width, targetSize.height / sprite->getContentSize().height);
 
     // position the sprite on the center of the screen
     sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
@@ -88,12 +91,11 @@ bool CInGameScene::init()
 
 
 	// Load sprites
-	Size targetSize(visibleSize.width * 0.15f, visibleSize.height * 0.2f);
 	CAnimationSystem::getInstance()->loadAnimation("animations/monsters/monster1/idle/frame_%d.png", targetSize, 8);
 	CAnimationSystem::getInstance()->loadAnimation("animations/monsters/monster1/walking/frame_%d.png", targetSize, 8);
 	
 	// Start
-	Sprite* monster = CSpriteSystem::getInstance()->createSprite("animations/monsters/monster1/walking/frame_1.png", targetSize);
+	Sprite* monster = CSpriteSystem::getInstance()->createSprite("animations/monsters/monster1/idle/frame_1.png", targetSize);
 	Vec2 leftPos(	origin.x + monster->getScaleX() *  monster->getContentSize().width * 0.5f,
 					visibleSize.height * 0.5f + origin.y);
 	Vec2 rightPos(	visibleSize.width + origin.x - monster->getScaleX() *  monster->getContentSize().width * 0.5f,
@@ -125,7 +127,7 @@ bool CInGameScene::init()
 															idlingAnimateAction, idlingTimeAction,
 															walkingAnimateAction, moveToLeftAction,
 															NULL));
-	monster->runAction(action);
+	//monster->runAction(action);
 	monster->setTag(100);
 	this->addChild(monster, 1);
     

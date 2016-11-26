@@ -19,6 +19,9 @@
     <Filter Include="src\Scenes">
       <UniqueIdentifier>{a9d3a341-cb87-415f-9a46-e3ee6628b294}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\AIs">
+      <UniqueIdentifier>{1f9183d2-77e6-45fc-ba2d-439e2b529735}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,6 +54,12 @@
     <ClCompile Include="..\Classes\InGameScene.cpp">
       <Filter>src\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\AIBase.cpp">
+      <Filter>src\AIs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AIEnemy.cpp">
+      <Filter>src\AIs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -82,6 +91,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\InGameScene.h">
       <Filter>src\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AIBase.h">
+      <Filter>src\AIs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AIEnemy.h">
+      <Filter>src\AIs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
