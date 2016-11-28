@@ -12,7 +12,7 @@ public:
 	void Update(float dt);
 private:
 
-	void CheckForCollision(cocos2d::Sprite* pGO1, cocos2d::Sprite* pGO2);
+	void CheckForCollision(cocos2d::Node* pGO1, cocos2d::Node* pGO2);
 };
 
 #endif // __COLLISION_MANAGER_H__
