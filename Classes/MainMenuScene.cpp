@@ -97,7 +97,7 @@ bool CMainMenuScene::init()
 
     // Create menu
 	auto menu = Menu::createWithArray(menuItemList);
-    menu->setPosition(Vec2::ZERO);
+    menu->setPosition(origin);
 	this->addChild(menu, CHILD_TAG_MENU);
 
     return true;

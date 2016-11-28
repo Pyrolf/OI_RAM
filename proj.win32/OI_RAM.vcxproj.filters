@@ -60,6 +60,9 @@
     <ClCompile Include="..\Classes\AIEnemy.cpp">
       <Filter>src\AIs</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\PauseLayer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -97,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\AIEnemy.h">
       <Filter>src\AIs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PauseLayer.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

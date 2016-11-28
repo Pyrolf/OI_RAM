@@ -31,14 +31,14 @@ void CAnimationSystem::destroy()
 
 // Normal Methods
 // Public Methods
-Animate* CAnimationSystem::getAnimate(const char *format, int count, float delay/* = 0.0f*/, unsigned int loops/* = 1*/)
+Animate* CAnimationSystem::getAnimate(const char *format, Size newSize, int count, float delay/* = 0.0f*/, unsigned int loops/* = 1*/)
 {
 	auto animation = Animation::create();
 	char str[100];
 	for (int i = 1; i <= count; i++)
 	{
 		sprintf(str, format, i);
-		CSpriteSystem::TextureInfo* textureInfo = CSpriteSystem::getInstance()->getTextureInfo(str);
+		CSpriteSystem::TextureInfo* textureInfo = CSpriteSystem::getInstance()->getTextureInfo(str, newSize);
 		animation->addSpriteFrameWithTexture(textureInfo->texture, textureInfo->rect);
 	}
 	animation->setDelayPerUnit(delay);

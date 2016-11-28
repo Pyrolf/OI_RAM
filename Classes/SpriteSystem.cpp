@@ -62,6 +62,7 @@ Sprite* CSpriteSystem::createNewSpriteWithoutScale(const char *format, Size newS
 	TextureInfo newTexturePath;
 	sprintf(newTexturePath.originalPath, format);
 	newTexturePath.texture = newSprite->getTexture();
+	newTexturePath.size = newSize;
 	newTexturePath.rect = newSprite->getTextureRect();
 	textureInfoList.push_back(newTexturePath);
 
@@ -72,7 +73,7 @@ Sprite* CSpriteSystem::createSprite(const char *format, Size newSize)
 {
 	Sprite* sprite = NULL;
 	
-	CSpriteSystem::TextureInfo* textureinfo = CSpriteSystem::getInstance()->getTextureInfo(format);
+	CSpriteSystem::TextureInfo* textureinfo = CSpriteSystem::getInstance()->getTextureInfo(format, newSize);
 	
 	if (textureinfo)
 		sprite = Sprite::createWithTexture(textureinfo->texture);
@@ -81,13 +82,16 @@ Sprite* CSpriteSystem::createSprite(const char *format, Size newSize)
 	
 	return sprite;
 }
-CSpriteSystem::TextureInfo* CSpriteSystem::getTextureInfo(const char *format)
+CSpriteSystem::TextureInfo* CSpriteSystem::getTextureInfo(const char *format, Size newSize)
 {
 	for (int i = 0; i < textureInfoList.size(); i++)
 	{
 		std::string originalPath = textureInfoList[i].originalPath;
 		std::string formatPath = format;
-		if (originalPath == formatPath)
+		Size originalSize = textureInfoList[i].size;
+		if (originalPath == formatPath &&
+			originalSize.width == newSize.width &&
+			originalSize.height == newSize.height)
 		{
 			return &textureInfoList[i];
 		}

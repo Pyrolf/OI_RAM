@@ -10,6 +10,7 @@ public:
 	{
 		char originalPath[100];
 		cocos2d::Texture2D* texture;
+		cocos2d::Size size;
 		cocos2d::Rect rect;
 	};
 
@@ -29,7 +30,7 @@ public:
 
 	// Normal Methods
 	cocos2d::Sprite* createSprite(const char *format, cocos2d::Size newSize);
-	TextureInfo* getTextureInfo(const char *format);
+	TextureInfo* getTextureInfo(const char *format, cocos2d::Size newSize);
 };
 
 #endif // __SPRITE_SYSTEM_H__

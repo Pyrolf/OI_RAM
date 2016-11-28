@@ -3,8 +3,10 @@
 #include "SpriteSystem.h"
 #include "GameStateManager.h"
 #include "SimpleAudioEngine.h"
+#include "PauseLayer.h"
 
 USING_NS_CC;
+
 
 Scene* CInGameScene::createScene()
 {
@@ -16,6 +18,8 @@ Scene* CInGameScene::createScene()
 
     // add layer as a child to scene
     scene->addChild(layer);
+
+	layer->m_pPauseLayer = CPauseLayer::addLayerToScene(scene);
 
     // return the scene
     return scene;
@@ -44,51 +48,17 @@ bool CInGameScene::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	this->scheduleUpdate();
+	
+	initPause();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
-
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-										   CC_CALLBACK_1(CInGameScene::backToMainMenuCallback, this));
-    
-    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
-
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
-
-    /////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
-    
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 1);
-
-    // add "CInGameScene" splash screen"
+	// Monster sprite
 	Size targetSize(visibleSize.width * 0.15f, visibleSize.height * 0.2f);
 	auto sprite = Sprite::create("animations/monsters/monster1/idle/frame_1.png");
 	sprite->setScale(targetSize.width / sprite->getContentSize().width, targetSize.height / sprite->getContentSize().height);
-
     // position the sprite on the center of the screen
     sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
-
 
 	// Load sprites
 	CAnimationSystem::getInstance()->loadAnimation("animations/monsters/monster1/idle/frame_%d.png", targetSize, 8);
@@ -104,7 +74,9 @@ bool CInGameScene::init()
 	float movingDuration = 3.0f;
 	auto idlingAnimateAction = CallFunc::create([this]()
 	{
-		auto action = RepeatForever::create((CAnimationSystem::getInstance()->getAnimate("animations/monsters/monster1/idle/frame_%d.png", 8, 0.05f)));
+		auto visibleSize = Director::getInstance()->getVisibleSize();
+		Size targetSize(visibleSize.width * 0.15f, visibleSize.height * 0.2f);
+		auto action = RepeatForever::create((CAnimationSystem::getInstance()->getAnimate("animations/monsters/monster1/idle/frame_%d.png", targetSize, 8, 0.05f)));
 		action->setTag(100);
 		auto monster = this->getChildByTag(100);
 		monster->stopActionByTag(100);
@@ -113,7 +85,9 @@ bool CInGameScene::init()
 	auto idlingTimeAction = DelayTime::create(1.0f);
 	auto walkingAnimateAction = CallFunc::create([this]()
 	{
-		auto action = RepeatForever::create(CAnimationSystem::getInstance()->getAnimate("animations/monsters/monster1/walking/frame_%d.png", 8, 0.125f));
+		auto visibleSize = Director::getInstance()->getVisibleSize();
+		Size targetSize(visibleSize.width * 0.15f, visibleSize.height * 0.2f);
+		auto action = RepeatForever::create(CAnimationSystem::getInstance()->getAnimate("animations/monsters/monster1/walking/frame_%d.png", targetSize, 8, 0.125f));
 		action->setTag(100);
 		auto monster = (Sprite*)this->getChildByTag(100);
 		monster->stopActionByTag(100);
@@ -127,11 +101,27 @@ bool CInGameScene::init()
 															idlingAnimateAction, idlingTimeAction,
 															walkingAnimateAction, moveToLeftAction,
 															NULL));
-	//monster->runAction(action);
+	monster->runAction(action);
 	monster->setTag(100);
 	this->addChild(monster, 1);
     
     return true;
+}
+
+void CInGameScene::initPause()
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	// Pause Button
+	auto pauseButton = MenuItemImage::create(	"CloseNormal.png",
+												"CloseSelected.png",
+												CC_CALLBACK_1(CInGameScene::pauseCallback, this));
+	pauseButton->setPosition(Vec2(	origin.x + visibleSize.width - pauseButton->getContentSize().width * 0.5f,
+									origin.y + pauseButton->getContentSize().height * 0.5f));
+	// create pause menu, it's an autorelease object
+	auto pauseMenu = Menu::create(pauseButton, NULL);
+	pauseMenu->setPosition(origin);
+	this->addChild(pauseMenu, 1);
 }
 
 void CInGameScene::update(float dt)
@@ -139,7 +129,8 @@ void CInGameScene::update(float dt)
 }
 
 
-void CInGameScene::backToMainMenuCallback(Ref* pSender)
+void CInGameScene::pauseCallback(Ref* pSender)
 {
-	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_MAINMENU);
+	Director::getInstance()->pause();
+	m_pPauseLayer->ShowLayer();
 }
