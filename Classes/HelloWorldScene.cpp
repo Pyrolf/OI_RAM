@@ -60,7 +60,7 @@ bool HelloWorld::init()
 
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
+    menu->setPosition(origin);
     this->addChild(menu, 1);
 
     /////////////////////////////
@@ -103,7 +103,9 @@ bool HelloWorld::init()
 	float movingDuration = 3.0f;
 	auto idlingAnimateAction = CallFunc::create([this]()
 	{
-		auto action = RepeatForever::create((CAnimationSystem::getInstance()->getAnimate("animations/monsters/monster1/idle/frame_%d.png", 8, 0.05f)));
+		auto visibleSize = Director::getInstance()->getVisibleSize();
+		Size targetSize(visibleSize.width * 0.15f, visibleSize.height * 0.2f);
+		auto action = RepeatForever::create((CAnimationSystem::getInstance()->getAnimate("animations/monsters/monster1/idle/frame_%d.png", targetSize, 8, 0.05f)));
 		action->setTag(100);
 		auto monster = this->getChildByTag(100);
 		monster->stopActionByTag(100);
@@ -112,7 +114,9 @@ bool HelloWorld::init()
 	auto idlingTimeAction = DelayTime::create(1.0f);
 	auto walkingAnimateAction = CallFunc::create([this]()
 	{
-		auto action = RepeatForever::create(CAnimationSystem::getInstance()->getAnimate("animations/monsters/monster1/walking/frame_%d.png", 8, 0.125f));
+		auto visibleSize = Director::getInstance()->getVisibleSize();
+		Size targetSize(visibleSize.width * 0.15f, visibleSize.height * 0.2f);
+		auto action = RepeatForever::create(CAnimationSystem::getInstance()->getAnimate("animations/monsters/monster1/walking/frame_%d.png", targetSize, 8, 0.125f));
 		action->setTag(100);
 		auto monster = (Sprite*)this->getChildByTag(100);
 		monster->stopActionByTag(100);

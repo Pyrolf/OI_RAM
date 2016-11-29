@@ -25,6 +25,12 @@
     <Filter Include="src\GameObjects">
       <UniqueIdentifier>{b237e114-4e85-459b-99a1-cf268dd014ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\AIs">
+      <UniqueIdentifier>{218aac7d-0f47-4d70-8de8-d7f1fab419c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Layers">
+      <UniqueIdentifier>{e3135643-2788-4555-9c6e-200392d54fd0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,6 +72,21 @@
     <ClCompile Include="..\Classes\Player.cpp">
       <Filter>src\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\AIBase.cpp">
+      <Filter>src\AIs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AIEnemy.cpp">
+      <Filter>src\AIs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CollisionManager.cpp">
+      <Filter>src\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PauseLayer.cpp">
+      <Filter>src\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GUILayer.cpp">
+      <Filter>src\Layers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -106,6 +127,21 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Player.h">
       <Filter>src\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AIBase.h">
+      <Filter>src\AIs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AIEnemy.h">
+      <Filter>src\AIs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CollisionManager.h">
+      <Filter>src\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PauseLayer.h">
+      <Filter>src\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GUILayer.h">
+      <Filter>src\Layers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
