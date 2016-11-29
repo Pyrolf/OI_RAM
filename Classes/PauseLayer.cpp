@@ -29,15 +29,16 @@ bool CPauseLayer::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	
-	// Create background
-	auto background = CSpriteSystem::getInstance()->createSprite("HelloWorld.png", Size(visibleSize.width * 0.6f, visibleSize.height * 0.95f));
-	background->setPosition(origin + visibleSize * 0.5f);
-	background->setTag(CHILD_TAG_BACKGROUND);
-	this->addChild(background, CHILD_TAG_BACKGROUND);
-
 	// Create menu itmes
 	Vector<MenuItem*> menuItemList;
+	
+	auto background = MenuItemImage::create("HelloWorld.png",
+												"HelloWorld.png");
+	background->setScale(	visibleSize.width * 0.5f / background->getContentSize().width,
+							visibleSize.height * 0.9f / background->getContentSize().height);
+	background->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
+									origin.y + visibleSize.height * 0.5f));
+	menuItemList.pushBack(background);
 	// Create Title
 	// Use label for now, may change to sprite image
 	auto titleLabel = MenuItemLabel::create(Label::createWithTTF("Pause", "fonts/Marker Felt.ttf", visibleSize.height * 0.25f));
@@ -85,8 +86,7 @@ bool CPauseLayer::init()
     // Create menu
 	auto menu = Menu::createWithArray(menuItemList);
 	menu->setPosition(origin);
-	menu->setTag(CHILD_TAG_MENU);
-	this->addChild(menu, CHILD_TAG_MENU);
+	this->addChild(menu);
 
 
 
@@ -102,7 +102,7 @@ void CPauseLayer::HideLayer()
 }
 void CPauseLayer::ShowLayer(Vec2 offset)
 {
-	this->getChildByTag(CHILD_TAG_MENU)->setPosition(offset);
+	this->setPosition(offset);
 	setVisible(true);
 }
 

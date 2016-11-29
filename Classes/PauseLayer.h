@@ -5,13 +5,6 @@
 
 class CPauseLayer : public cocos2d::Layer
 {
-private:
-	enum CHILD_TAG
-	{
-		CHILD_TAG_BACKGROUND = 0,
-		CHILD_TAG_MENU,
-		NUM_OF_CHILD_TAGS
-	};
 public:
 	static CPauseLayer* addLayerToScene(cocos2d::Scene* scene);
 

@@ -125,24 +125,22 @@ bool CInGameScene::init()
 
 void CInGameScene::update(float dt)
 {
+	Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
 	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_LEFT_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_A))
 	{
-		Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
 		c->setPosition(c->getPositionX() - dt * 500, c->getPositionY());
 	}
 	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_RIGHT_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_D))
 	{
-		Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
 		c->setPosition(c->getPositionX() + dt * 500, c->getPositionY());
 	}
 	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_W))
 	{
-		Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
 		c->setPosition(c->getPositionX(), c->getPositionY() + dt * 500);
 	}
 	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_S))
 	{
-		Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
 		c->setPosition(c->getPositionX(), c->getPositionY() - dt * 500);
 	}
+	m_pGUILayer->setPosition(c->getPosition() - m_pGUILayer->GetInitialCamPos());
 }
