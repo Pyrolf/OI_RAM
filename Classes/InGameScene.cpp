@@ -3,7 +3,7 @@
 #include "SpriteSystem.h"
 #include "GameStateManager.h"
 #include "SimpleAudioEngine.h"
-#include "PauseLayer.h"
+#include "GUILayer.h"
 
 USING_NS_CC;
 
@@ -19,7 +19,7 @@ Scene* CInGameScene::createScene()
     // add layer as a child to scene
     scene->addChild(layer);
 
-	layer->m_pPauseLayer = CPauseLayer::addLayerToScene(scene);
+	layer->m_pGUILayer = CGUILayer::addLayerToScene(scene);
 
     // return the scene
     return scene;
@@ -48,8 +48,6 @@ bool CInGameScene::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	this->scheduleUpdate();
-	
-	initPause();
 
 	// Monster sprite
 	Size targetSize(visibleSize.width * 0.15f, visibleSize.height * 0.2f);
@@ -108,29 +106,6 @@ bool CInGameScene::init()
     return true;
 }
 
-void CInGameScene::initPause()
-{
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	// Pause Button
-	auto pauseButton = MenuItemImage::create(	"CloseNormal.png",
-												"CloseSelected.png",
-												CC_CALLBACK_1(CInGameScene::pauseCallback, this));
-	pauseButton->setPosition(Vec2(	origin.x + visibleSize.width - pauseButton->getContentSize().width * 0.5f,
-									origin.y + pauseButton->getContentSize().height * 0.5f));
-	// create pause menu, it's an autorelease object
-	auto pauseMenu = Menu::create(pauseButton, NULL);
-	pauseMenu->setPosition(origin);
-	this->addChild(pauseMenu, 1);
-}
-
 void CInGameScene::update(float dt)
 {
-}
-
-
-void CInGameScene::pauseCallback(Ref* pSender)
-{
-	Director::getInstance()->pause();
-	m_pPauseLayer->ShowLayer();
 }

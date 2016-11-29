@@ -66,6 +66,9 @@
     <ClCompile Include="..\Classes\CollisionManager.cpp">
       <Filter>src\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GUILayer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -109,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\CollisionManager.h">
       <Filter>src\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GUILayer.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

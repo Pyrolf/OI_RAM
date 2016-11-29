@@ -18,7 +18,7 @@ public:
 	virtual bool init();
 
 	void HideLayer();
-	void ShowLayer();
+	void ShowLayer(cocos2d::Vec2 offset);
 
     // selector callbacks
 	void resumeCallback(cocos2d::Ref* pSender);

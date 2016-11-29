@@ -100,8 +100,9 @@ void CPauseLayer::HideLayer()
 {
 	setVisible(false);
 }
-void CPauseLayer::ShowLayer()
+void CPauseLayer::ShowLayer(Vec2 offset)
 {
+	this->getChildByTag(CHILD_TAG_MENU)->setPosition(offset);
 	setVisible(true);
 }
 
@@ -112,9 +113,11 @@ void CPauseLayer::resumeCallback(Ref* pSender)
 }
 void CPauseLayer::restartCallback(Ref* pSender)
 {
+	Director::getInstance()->resume();
 	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_GAMEPLAY);
 }
 void CPauseLayer::quitCallback(Ref* pSender)
 {
+	Director::getInstance()->resume();
 	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_MAINMENU);
 }
