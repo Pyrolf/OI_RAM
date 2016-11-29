@@ -19,6 +19,12 @@
     <Filter Include="src\Scenes">
       <UniqueIdentifier>{a9d3a341-cb87-415f-9a46-e3ee6628b294}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Tilemap">
+      <UniqueIdentifier>{6a977fb3-bcd0-42dc-8b89-816f8f0c40cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameObjects">
+      <UniqueIdentifier>{b237e114-4e85-459b-99a1-cf268dd014ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,6 +57,15 @@
     <ClCompile Include="..\Classes\InGameScene.cpp">
       <Filter>src\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\TilemapManager.cpp">
+      <Filter>src\Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\KeyboardManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Player.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -82,6 +97,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\InGameScene.h">
       <Filter>src\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TilemapManager.h">
+      <Filter>src\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\KeyboardManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Player.h">
+      <Filter>src\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,11 +6,18 @@
 
 USING_NS_CC;
 
+CInGameScene::~CInGameScene()
+{
+	delete tileMapManager;
+}
+
 Scene* CInGameScene::createScene()
 {
     // 'scene' is an autorelease object
-    auto scene = Scene::create();
-    
+    auto scene = Scene::createWithPhysics();
+
+	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+
     // 'layer' is an autorelease object
     auto layer = CInGameScene::create();
 
@@ -129,13 +136,43 @@ bool CInGameScene::init()
 	monster->setTag(100);
 	this->addChild(monster, 1);
     
+
+	KBM = new KeyboardManager();
+	this->addChild(KBM);
+
+	tileMapManager = new TilemapManager("tmx/Test Level.tmx", this);
+
+	player = new Player();
+	player->setPosition(Vec2(origin.x + visibleSize.width / 2,
+		origin.y + visibleSize.height));
+	this->addChild(player);
+
     return true;
 }
 
 void CInGameScene::update(float dt)
 {
+	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_LEFT_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_A))
+	{
+		Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
+		c->setPosition(c->getPositionX() - dt * 500, c->getPositionY());
+	}
+	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_RIGHT_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_D))
+	{
+		Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
+		c->setPosition(c->getPositionX() + dt * 500, c->getPositionY());
+	}
+	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_W))
+	{
+		Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
+		c->setPosition(c->getPositionX(), c->getPositionY() + dt * 500);
+	}
+	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_S))
+	{
+		Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
+		c->setPosition(c->getPositionX(), c->getPositionY() - dt * 500);
+	}
 }
-
 
 void CInGameScene::backToMainMenuCallback(Ref* pSender)
 {
