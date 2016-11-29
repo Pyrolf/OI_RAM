@@ -1,6 +1,8 @@
 #ifndef __INGAME_SCENE_H__
 #define __INGAME_SCENE_H__
 
+class CGUILayer;
+
 #include "cocos2d.h"
 #include "TilemapManager.h"
 #include "KeyboardManager.h"
@@ -8,6 +10,8 @@
 
 class CInGameScene : public cocos2d::Layer
 {
+private:
+	CGUILayer* m_pGUILayer;
 public:
 	~CInGameScene();
 
@@ -18,10 +22,7 @@ public:
 
 	virtual void update(float);
 
-    // a selector callback
-	void backToMainMenuCallback(cocos2d::Ref* pSender);
-    
-	
+    // selector callback
 
     // implement the "static create()" method manually
 	CREATE_FUNC(CInGameScene);

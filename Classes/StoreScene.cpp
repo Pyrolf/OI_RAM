@@ -23,10 +23,11 @@ Scene* CStoreScene::createScene()
 
 void CStoreScene::toStoreScene()
 {
-	if (!Director::getInstance()->getRunningScene())
-		Director::getInstance()->runWithScene(TransitionFade::create(1.0f, createScene(), Color3B(100, 100, 100)));
+	Director* director = Director::getInstance();
+	if (!director->getRunningScene())
+		director->runWithScene(TransitionFade::create(1.0f, createScene(), Color3B(100, 100, 100)));
 	else
-		Director::getInstance()->replaceScene(TransitionFade::create(1.0f, createScene(), Color3B(100, 100, 100)));
+		director->replaceScene(TransitionFade::create(1.0f, createScene(), Color3B(100, 100, 100)));
 }
 
 // on "init" you need to initialize your instance
@@ -71,7 +72,7 @@ bool CStoreScene::init()
 
     // Create menu
 	auto menu = Menu::createWithArray(menuItemList);
-    menu->setPosition(Vec2::ZERO);
+    menu->setPosition(origin);
 	this->addChild(menu, CHILD_TAG_MENU);
 
     return true;

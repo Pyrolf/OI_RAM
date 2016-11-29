@@ -16,7 +16,7 @@ public:
 	static void destroy();
 
 	// Normal Methods
-	cocos2d::Animate* getAnimate(const char *format, int count, float delay = 0.0f, unsigned int loops = 1);
+	cocos2d::Animate* getAnimate(const char *format, cocos2d::Size newSize, int count, float delay = 0.0f, unsigned int loops = 1);
 	void loadAnimation(const char *format, cocos2d::Size newSize, int count);
 };
 
