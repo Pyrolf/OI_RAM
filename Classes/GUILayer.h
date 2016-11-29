@@ -8,13 +8,6 @@ class CPauseLayer;
 class CGUILayer : public cocos2d::Layer
 {
 private:
-	enum CHILD_TAG
-	{
-		CHILD_TAG_BACKGROUND = 0,
-		CHILD_TAG_MENU,
-		NUM_OF_CHILD_TAGS
-	};
-
 	CPauseLayer* m_pPauseLayer;
 	cocos2d::Vec2 m_vec2InitialCamPos;
 public:
@@ -30,6 +23,9 @@ public:
     
     // implement the "static create()" method manually
 	CREATE_FUNC(CGUILayer);
+
+	// Getters
+	cocos2d::Vec2 GetInitialCamPos(){ return m_vec2InitialCamPos; }
 };
 
 #endif // __GUI_LAYER_H__
