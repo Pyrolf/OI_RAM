@@ -77,5 +77,7 @@ void CGUILayer::ShowLayer(Vec2 offset)
 void CGUILayer::pauseCallback(Ref* pSender)
 {
 	Director::getInstance()->pause();
+	if (Director::getInstance()->getRunningScene()->getPhysicsWorld())
+		Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(0);
 	m_pPauseLayer->ShowLayer(Camera::getDefaultCamera()->getPosition() - m_vec2InitialCamPos);
 }

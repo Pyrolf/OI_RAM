@@ -109,15 +109,21 @@ void CPauseLayer::ShowLayer(Vec2 offset)
 void CPauseLayer::resumeCallback(Ref* pSender)
 {
 	Director::getInstance()->resume();
+	if (Director::getInstance()->getRunningScene()->getPhysicsWorld())
+		Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(1);
 	HideLayer();
 }
 void CPauseLayer::restartCallback(Ref* pSender)
 {
 	Director::getInstance()->resume();
+	if (Director::getInstance()->getRunningScene()->getPhysicsWorld())
+		Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(1);
 	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_GAMEPLAY);
 }
 void CPauseLayer::quitCallback(Ref* pSender)
 {
 	Director::getInstance()->resume();
+	if (Director::getInstance()->getRunningScene()->getPhysicsWorld())
+		Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(1);
 	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_MAINMENU);
 }

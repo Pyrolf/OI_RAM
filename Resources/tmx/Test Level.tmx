@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="32" height="32" tilewidth="64" tileheight="64" nextobjectid="11">
+ <tileset firstgid="1" name="forest" tilewidth="64" tileheight="64" tilecount="90" columns="10">
+  <image source="forest.png" width="640" height="576"/>
+ </tileset>
+ <layer name="background" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztzTkOgzAARFFfAToCB2Ct2CogqRKggpD7X4VfQOOOxlLEfOlJlmVrjFFKKaWUUkqp/ylBigw5Csf7JSrUaNA63u/QY8ATL8f7b3wwYsJ84W+Ax3GOD2cefOt9iMi6W7Diiw2/C/t3bwfbwwcF
+  </data>
+ </layer>
+ <layer name="midground" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzt0jsKwCAQQME1qPc/ciwEsQikUUFm4B1gPxEAAACzp8cef/Z98h63/EOKMcuqcqt+VA73ApvYAQg=
+  </data>
+ </layer>
+ <objectgroup name="Obj">
+  <object id="10" name="Player" type="Player" x="157.576" y="1612.12" width="136.364" height="136.364"/>
+ </objectgroup>
+ <layer name="Collision" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzjZBgYwImER8EoGAWjYBQgACfDwJaRnGhsersB3b6RbP9Ahf9IqKPJ8Rs1wwRbPOMzm9pxgm4/uhi97ad3ehvotD1U7OeCYmraQa+4Hor2ExPexMYHLfxPSnrAZz89ACH/0wPjc9tAlQEgewGp7QNx
+  </data>
+ </layer>
+</map>

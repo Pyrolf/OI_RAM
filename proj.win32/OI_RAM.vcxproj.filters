@@ -19,8 +19,17 @@
     <Filter Include="src\Scenes">
       <UniqueIdentifier>{a9d3a341-cb87-415f-9a46-e3ee6628b294}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Tilemap">
+      <UniqueIdentifier>{6a977fb3-bcd0-42dc-8b89-816f8f0c40cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameObjects">
+      <UniqueIdentifier>{b237e114-4e85-459b-99a1-cf268dd014ea}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\AIs">
-      <UniqueIdentifier>{1f9183d2-77e6-45fc-ba2d-439e2b529735}</UniqueIdentifier>
+      <UniqueIdentifier>{218aac7d-0f47-4d70-8de8-d7f1fab419c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Layers">
+      <UniqueIdentifier>{e3135643-2788-4555-9c6e-200392d54fd0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,20 +63,29 @@
     <ClCompile Include="..\Classes\InGameScene.cpp">
       <Filter>src\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\TilemapManager.cpp">
+      <Filter>src\Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\KeyboardManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Player.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\AIBase.cpp">
       <Filter>src\AIs</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\AIEnemy.cpp">
       <Filter>src\AIs</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\PauseLayer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\CollisionManager.cpp">
       <Filter>src\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\PauseLayer.cpp">
+      <Filter>src\Layers</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\GUILayer.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Layers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,20 +119,29 @@
     <ClInclude Include="..\Classes\InGameScene.h">
       <Filter>src\Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\TilemapManager.h">
+      <Filter>src\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\KeyboardManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Player.h">
+      <Filter>src\GameObjects</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\AIBase.h">
       <Filter>src\AIs</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\AIEnemy.h">
       <Filter>src\AIs</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\PauseLayer.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\CollisionManager.h">
       <Filter>src\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\PauseLayer.h">
+      <Filter>src\Layers</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\GUILayer.h">
-      <Filter>src</Filter>
+      <Filter>src\Layers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
