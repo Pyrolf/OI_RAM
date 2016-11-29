@@ -32,7 +32,7 @@ bool CGUILayer::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	m_vec2InitialCamPos = Camera::getDefaultCamera()->getPosition();
+	m_vec2InitialCamPos = origin + Vec2(visibleSize.width * 0.5f, visibleSize.height * 0.5f);
 
 	// Create menu itmes
 	Vector<MenuItem*> menuItemList;
@@ -58,8 +58,7 @@ bool CGUILayer::init()
     // Create menu
 	auto menu = Menu::createWithArray(menuItemList);
 	menu->setPosition(origin);
-	menu->setTag(CHILD_TAG_MENU);
-	this->addChild(menu, CHILD_TAG_MENU);
+	this->addChild(menu);
 
 	return true;
 }
@@ -70,7 +69,7 @@ void CGUILayer::HideLayer()
 }
 void CGUILayer::ShowLayer(Vec2 offset)
 {
-	this->getChildByTag(CHILD_TAG_MENU)->setPosition(offset);
+	this->setPosition(offset);
 	setVisible(true);
 }
 
