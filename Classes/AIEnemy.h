@@ -22,11 +22,15 @@ public:
 		FSM_CHASE,
 		FSM_ATTACK,
 		FSM_DEFEND,
+		FSM_DYING,
+		FSM_DIED,
 		NUM_OF_STATES
 	};
 
 	void Init(CGameObject* pTargetGO, float speed, float fDetectionRange, float fAttackRange);
 	virtual void Update(float dt);
+
+	void Dying();
 
 	// Setters
 	void SetSpeed(float speed) { m_fSpeed = speed; }

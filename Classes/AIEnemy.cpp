@@ -63,24 +63,44 @@ void CAIEnemy::Update(float dt)
 	}
 }
 
+void CAIEnemy::Dying()
+{
+	if (m_nCurrentState != FSM_DYING && m_nCurrentState != FSM_DIED)
+	{
+		StopGO();
+
+		m_nCurrentState = FSM_DYING;
+
+		auto dyingAction = DelayTime::create(1.0f);
+		auto diedAction = CallFunc::create([this]()
+		{
+			m_nCurrentState = FSM_DIED;
+		});
+		m_pGO->runAction(Sequence::create(dyingAction, diedAction, NULL));
+	}
+}
+
 void CAIEnemy::CheckTarget()
 {
-	if (m_pTargetGO)
+	if (m_nCurrentState != FSM_DYING && m_nCurrentState != FSM_DIED)
 	{
-		float getDistance = m_pTargetGO->getPosition().getDistance(m_pGO->getPosition());
+		if (m_pTargetGO)
+		{
+			float getDistance = m_pTargetGO->getPosition().getDistance(m_pGO->getPosition());
 
-		if (getDistance <= m_fAttackRange)
-		{
-			AttackOrDefend();
-			return;
+			if (getDistance <= m_fAttackRange)
+			{
+				AttackOrDefend();
+				return;
+			}
+			else if (getDistance <= m_fDetectionRange)
+			{
+				Chase();
+				return;
+			}
 		}
-		else if (getDistance <= m_fDetectionRange)
-		{
-			Chase();
-			return;
-		}
+		Idle();
 	}
-	Idle();
 }
 
 void CAIEnemy::StopGO()

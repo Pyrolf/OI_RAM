@@ -39,8 +39,14 @@ void CGameObjectManager::Update(float dt)
 	for (int i = 0; i < m_pEnemyList.size(); i++)
 	{
 		auto enmey = m_pEnemyList.at(i);
-		if (enmey)
+		if (enmey->GetActive())
+		{
 			enmey->Update(dt);
+			if (enmey->GetAI()->GetCurrentState() == CAIEnemy::FSM_DIED)
+			{
+				DeactivateEnemy(enmey);
+			}
+		}
 	}
 }
 
@@ -60,12 +66,11 @@ void CGameObjectManager::AddEnemies(int numOfEnemies)
 	int goListSize = m_pEnemyList.size();
 	for (int i = 0; i < numOfEnemies; i++)
 	{
-		auto go = CEnemy::create();
-		go->pause();
-		go->setVisible(false);
-		go->setTag(goListSize + i);
-		m_pEnemyList.pushBack(go);
-		this->addChild(go);
+		auto enemy = CEnemy::create();
+		DeactivateEnemy(enemy);
+		enemy->setTag(goListSize + i);
+		m_pEnemyList.pushBack(enemy);
+		this->addChild(enemy);
 	}
 }
 
@@ -85,4 +90,12 @@ CEnemy* CGameObjectManager::GetAnInactiveEnemy()
 	// Create more game objects if no empty game object
 	AddEnemies(m_nAmountOfEnemiesToAdd);
 	return GetAnInactiveEnemy();
+}
+
+void CGameObjectManager::DeactivateEnemy(CEnemy* enemy)
+{
+	enemy->RemovePhysicsBody();
+	enemy->SetActive(false);
+	enemy->pause();
+	enemy->setVisible(false);
 }

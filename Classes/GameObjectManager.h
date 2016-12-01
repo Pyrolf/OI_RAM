@@ -25,6 +25,7 @@ private:
 
 	void AddEnemies(int numOfEnemies);
 	CEnemy* GetAnInactiveEnemy();
+	void DeactivateEnemy(CEnemy* enemy);
 };
 
 
