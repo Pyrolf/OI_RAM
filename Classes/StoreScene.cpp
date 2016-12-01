@@ -45,7 +45,7 @@ bool CStoreScene::init()
 
 
 	// Create background
-	auto background = CSpriteSystem::getInstance()->createSprite("HelloWorld.png", visibleSize);
+	auto background = CSpriteSystem::getInstance()->getSprite("HelloWorld.png", visibleSize);
 	background->setPosition(origin + visibleSize * 0.5f);
 	this->addChild(background, CHILD_TAG_BACKGROUND);
 

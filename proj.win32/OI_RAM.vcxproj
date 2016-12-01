@@ -146,10 +146,14 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\AIBase.cpp" />
     <ClCompile Include="..\Classes\AIEnemy.cpp" />
+    <ClCompile Include="..\Classes\AnimationLoader.cpp" />
     <ClCompile Include="..\Classes\AnimationSystem.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\CollisionManager.cpp" />
+    <ClCompile Include="..\Classes\Enemy.cpp" />
     <ClCompile Include="..\Classes\FileOperation.cpp" />
+    <ClCompile Include="..\Classes\GameObject.cpp" />
+    <ClCompile Include="..\Classes\GameObjectManager.cpp" />
     <ClCompile Include="..\Classes\GameStateManager.cpp" />
     <ClCompile Include="..\Classes\GUILayer.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
@@ -158,6 +162,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\MainMenuScene.cpp" />
     <ClCompile Include="..\Classes\PauseLayer.cpp" />
     <ClCompile Include="..\Classes\Player.cpp" />
+    <ClCompile Include="..\Classes\SpriteLoader.cpp" />
     <ClCompile Include="..\Classes\SpriteSystem.cpp" />
     <ClCompile Include="..\Classes\StoreScene.cpp" />
     <ClCompile Include="..\Classes\TilemapManager.cpp" />
@@ -166,10 +171,14 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClInclude Include="..\Classes\AIBase.h" />
     <ClInclude Include="..\Classes\AIEnemy.h" />
+    <ClInclude Include="..\Classes\AnimationLoader.h" />
     <ClInclude Include="..\Classes\AnimationSystem.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\CollisionManager.h" />
+    <ClInclude Include="..\Classes\Enemy.h" />
     <ClInclude Include="..\Classes\FileOperation.h" />
+    <ClInclude Include="..\Classes\GameObject.h" />
+    <ClInclude Include="..\Classes\GameObjectManager.h" />
     <ClInclude Include="..\Classes\GameStateManager.h" />
     <ClInclude Include="..\Classes\GUILayer.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
@@ -178,6 +187,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\MainMenuScene.h" />
     <ClInclude Include="..\Classes\PauseLayer.h" />
     <ClInclude Include="..\Classes\Player.h" />
+    <ClInclude Include="..\Classes\SpriteLoader.h" />
     <ClInclude Include="..\Classes\SpriteSystem.h" />
     <ClInclude Include="..\Classes\StoreScene.h" />
     <ClInclude Include="..\Classes\TilemapManager.h" />

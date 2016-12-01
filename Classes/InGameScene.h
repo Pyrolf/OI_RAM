@@ -7,11 +7,19 @@ class CGUILayer;
 #include "TilemapManager.h"
 #include "KeyboardManager.h"
 #include "Player.h"
+#include "GameObjectManager.h"
 
 class CInGameScene : public cocos2d::Layer
 {
 private:
 	CGUILayer* m_pGUILayer;
+
+	enum CHILD_TAG
+	{
+		CHILD_TAG_BACKGROUND = 0,
+		CHILD_TAG_GAMEOBJECT,
+		NUM_OF_CHILD_TAGS = CHILD_TAG_GAMEOBJECT + 4
+	};
 public:
 	~CInGameScene();
 
@@ -19,6 +27,7 @@ public:
 	static void toInGameScene();
 
 	virtual bool init();
+	void initGameObjects();
 
 	virtual void update(float);
 
@@ -33,6 +42,8 @@ private:
 	TilemapManager* tileMapManager;
 
 	Player* player;
+
+	CGameObjectManager* m_pGOManager;
 };
 
 #endif // __INGAME_SCENE_H__
