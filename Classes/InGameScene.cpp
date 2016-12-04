@@ -7,6 +7,7 @@
 #include "Enemy.h";
 #include "AnimationLoader.h"
 #include "SpriteLoader.h"
+#include "ParticleLoader.h"
 
 USING_NS_CC;
 
@@ -69,8 +70,10 @@ bool CInGameScene::init()
 
 	player = new Player();
 	player->setPosition(Vec2(	origin.x + visibleSize.width / 2,
-								origin.y + visibleSize.height));
+								origin.y + visibleSize.height * 0.75f));
 	this->addChild(player);
+
+	CParticleLoader::createBleedingEffect(player);
 
     return true;
 }

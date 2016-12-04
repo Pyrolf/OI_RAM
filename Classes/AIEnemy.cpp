@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "AnimationSystem.h"
 #include "AnimationLoader.h"
+#include "ParticleLoader.h"
 
 USING_NS_CC;
 

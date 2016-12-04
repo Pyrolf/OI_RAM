@@ -105,6 +105,9 @@
     <ClCompile Include="..\Classes\SpriteLoader.cpp">
       <Filter>src\Loaders</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ParticleLoader.cpp">
+      <Filter>src\Loaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -174,6 +177,9 @@
       <Filter>src\Managers</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\SpriteLoader.h">
+      <Filter>src\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ParticleLoader.h">
       <Filter>src\Loaders</Filter>
     </ClInclude>
   </ItemGroup>
