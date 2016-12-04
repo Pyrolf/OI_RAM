@@ -44,6 +44,9 @@ private:
 	Player* player;
 
 	CGameObjectManager* m_pGOManager;
+
+	void getData();
+	void saveData();
 };
 
 #endif // __INGAME_SCENE_H__

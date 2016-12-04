@@ -8,6 +8,7 @@
 #include "AnimationLoader.h"
 #include "SpriteLoader.h"
 #include "ParticleLoader.h"
+#include "FileOperation.h"
 
 USING_NS_CC;
 
@@ -75,6 +76,9 @@ bool CInGameScene::init()
 
 	CParticleLoader::createBleedingEffect(player);
 
+	getData();
+	saveData();
+
     return true;
 }
 
@@ -132,4 +136,24 @@ void CInGameScene::update(float dt)
 	}
 
 	m_pGUILayer->setPosition(c->getPosition() - m_pGUILayer->GetInitialCamPos());
+}
+
+void CInGameScene::getData()
+{
+	std::vector<std::string> Data2 = FileOperation::readFile();
+	if (Data2.size() == 0)
+		return;
+	// Write data
+	int one = std::stoi(Data2[0]);
+	int two = std::stoi(Data2[1]);
+	int three = std::stoi(Data2[2]);
+}
+void CInGameScene::saveData()
+{
+	// Save data
+	std::string Data1("");
+	Data1 += "1\n";
+	Data1 += "2\n";
+	Data1 += "3\n";
+	FileOperation::saveFile(Data1);
 }

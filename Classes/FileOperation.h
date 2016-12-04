@@ -6,8 +6,8 @@
 class FileOperation 
 {
 public:
-	static void saveFile(void);
-	static void readFile(void);
+	static void saveFile(std::string vecFileContents);
+	static std::vector<std::string> readFile();
 	static std::string getFilePath();
 };
 
