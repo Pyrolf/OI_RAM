@@ -1,4 +1,7 @@
 #include "AIBase.h"
+#include "GameObject.h"
+
+USING_NS_CC;
 
 CAIBase::CAIBase()
 	: m_nCurrentState(0)
@@ -6,7 +9,7 @@ CAIBase::CAIBase()
 {
 }
 
-CAIBase::CAIBase(int nState, cocos2d::Node* pGO)
+CAIBase::CAIBase(int nState, CGameObject* pGO)
 	: m_nCurrentState(nState)
 	, m_pGO(pGO)
 {
@@ -14,6 +17,4 @@ CAIBase::CAIBase(int nState, cocos2d::Node* pGO)
 
 CAIBase::~CAIBase()
 {
-	if (m_pGO)
-		delete m_pGO;
 }

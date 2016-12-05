@@ -31,6 +31,9 @@
     <Filter Include="src\Layers">
       <UniqueIdentifier>{e3135643-2788-4555-9c6e-200392d54fd0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Loaders">
+      <UniqueIdentifier>{5ebbbb8d-44c4-44e8-b24d-14b8ce47d882}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -87,6 +90,24 @@
     <ClCompile Include="..\Classes\GUILayer.cpp">
       <Filter>src\Layers</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GameObject.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Enemy.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AnimationLoader.cpp">
+      <Filter>src\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObjectManager.cpp">
+      <Filter>src\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SpriteLoader.cpp">
+      <Filter>src\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ParticleLoader.cpp">
+      <Filter>src\Loaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -142,6 +163,24 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GUILayer.h">
       <Filter>src\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject.h">
+      <Filter>src\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Enemy.h">
+      <Filter>src\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AnimationLoader.h">
+      <Filter>src\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObjectManager.h">
+      <Filter>src\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SpriteLoader.h">
+      <Filter>src\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ParticleLoader.h">
+      <Filter>src\Loaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
