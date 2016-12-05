@@ -27,8 +27,8 @@ Scene* CInGameScene::createScene()
 	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
-    auto layer = CInGameScene::create();
-
+	auto layer = CInGameScene::create();
+	layer->setName("CInGameScene");
     // add layer as a child to scene
     scene->addChild(layer);
 
@@ -60,8 +60,6 @@ bool CInGameScene::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	this->scheduleUpdate();
-
 	initGameObjects();
 
 	KBM = new KeyboardManager();
@@ -76,6 +74,10 @@ bool CInGameScene::init()
 
 	CParticleLoader::createBleedingEffect(player);
 
+	m_nPoints = 0;
+	m_nPointsAddedToLabel = 0;
+
+	// Last, get data
 	getData();
 	saveData();
 
@@ -112,8 +114,18 @@ void CInGameScene::initGameObjects()
 	this->addChild(pGOManagerNode, CHILD_TAG_GAMEOBJECT);
 }
 
+void CInGameScene::onEnterTransitionDidFinish()
+{
+	this->scheduleUpdate();
+	if (m_pGUILayer)
+		m_pGUILayer->ShowLayer(Vec2::ANCHOR_BOTTOM_LEFT);
+}
+
 void CInGameScene::update(float dt)
 {
+	AddPoints(1);
+	if (m_nPointsAddedToLabel != m_nPoints)
+		AddPointsToLabel();
 	if (m_pGOManager)
 		m_pGOManager->Update(dt);
 
@@ -138,22 +150,40 @@ void CInGameScene::update(float dt)
 	m_pGUILayer->setPosition(c->getPosition() - m_pGUILayer->GetInitialCamPos());
 }
 
+void CInGameScene::endScene(bool bSave)
+{
+	this->unscheduleUpdate();
+	if (bSave)
+		saveData();
+}
+
 void CInGameScene::getData()
 {
-	std::vector<std::string> Data2 = FileOperation::readFile();
-	if (Data2.size() == 0)
+	std::vector<std::string> vec_sData = FileOperation::readFile(FileOperation::CURRENCY_DATA_FILE_TYPE);
+	if (vec_sData.size() == 0)
 		return;
-	// Write data
-	int one = std::stoi(Data2[0]);
-	int two = std::stoi(Data2[1]);
-	int three = std::stoi(Data2[2]);
+	// Get data
+	AddPoints(std::stoi(vec_sData[0]));
 }
 void CInGameScene::saveData()
 {
 	// Save data
-	std::string Data1("");
-	Data1 += "1\n";
-	Data1 += "2\n";
-	Data1 += "3\n";
-	FileOperation::saveFile(Data1);
+	std::stringstream ss;
+
+	ss << m_nPoints << "\n";
+	FileOperation::saveFile(ss.str(), FileOperation::CURRENCY_DATA_FILE_TYPE);
+}
+
+void CInGameScene::AddPoints(const unsigned int points)
+{
+	m_nPoints += points;
+}
+
+void CInGameScene::AddPointsToLabel()
+{
+	if (m_pGUILayer)
+	{
+		m_nPointsAddedToLabel = m_nPoints;
+		m_pGUILayer->ChangePointsLabel(m_nPointsAddedToLabel);
+	}
 }

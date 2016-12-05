@@ -8,9 +8,9 @@
 USING_NS_CC;
 using namespace std;
 
-void FileOperation::saveFile(string sFileContents)
+void FileOperation::saveFile(string sFileContents, FILE_TYPE fileType)
 {
-	string path = getFilePath();
+	string path = getFilePath(fileType);
 	FILE *fp = fopen(path.c_str(), "w");
 	if (! fp)
 	{
@@ -22,13 +22,13 @@ void FileOperation::saveFile(string sFileContents)
 	fclose(fp);
 }
 
-vector<string> FileOperation::readFile()
+vector<string> FileOperation::readFile(FILE_TYPE fileType)
 {
 	vector<string> mFileContents;
 	const unsigned int fileSize = 50;
 	char buf[fileSize] = { 0 };
 
-	string path = getFilePath();
+	string path = getFilePath(fileType);
 	FILE* fp = fopen(path.c_str(), "r");
 	if (!fp)
 	{
@@ -49,9 +49,27 @@ vector<string> FileOperation::readFile()
 	return mFileContents;
 }
 
-string FileOperation::getFilePath()
+void FileOperation::removeFile(FILE_TYPE fileType)
 {
-	string path = (CCFileUtils::getInstance()->getWritablePath() + "tmpfile");
+	CCFileUtils::getInstance()->removeFile(getFilePath(fileType));
+}
+
+string FileOperation::getFilePath(FILE_TYPE fileType)
+{
+	string path("");
+	switch (fileType)
+	{
+		case PLAYER_DATA_FILE_TYPE:
+		{
+			path = CCFileUtils::getInstance()->getWritablePath() + "playerfile";
+			break;
+		}
+		case CURRENCY_DATA_FILE_TYPE:
+		{
+			path = CCFileUtils::getInstance()->getWritablePath() + "currencyfile";
+			break;
+		}
+	}
 //	string path("");
 //
 //#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

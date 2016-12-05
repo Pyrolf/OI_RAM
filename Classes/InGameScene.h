@@ -29,6 +29,8 @@ public:
 	virtual bool init();
 	void initGameObjects();
 
+	virtual void onEnterTransitionDidFinish();
+
 	virtual void update(float);
 
     // selector callback
@@ -36,6 +38,10 @@ public:
     // implement the "static create()" method manually
 	CREATE_FUNC(CInGameScene);
 
+	void AddPoints(const unsigned int points);
+	void AddPointsToLabel();
+
+	void endScene(bool bSave = false);
 private:
 	KeyboardManager* KBM;
 
@@ -44,6 +50,9 @@ private:
 	Player* player;
 
 	CGameObjectManager* m_pGOManager;
+
+	unsigned int m_nPoints;
+	unsigned int m_nPointsAddedToLabel;
 
 	void getData();
 	void saveData();

@@ -2,6 +2,7 @@
 #include "AnimationSystem.h"
 #include "SpriteSystem.h"
 #include "GameStateManager.h"
+#include "InGameScene.h"
 
 USING_NS_CC;
 
@@ -9,7 +10,7 @@ CPauseLayer* CPauseLayer::addLayerToScene(Scene* scene)
 {
     // 'layer' is an autorelease object
     auto layer = CPauseLayer::create();
-
+	layer->setName("CPauseLayer");
     // add layer as a child to scene
     scene->addChild(layer);
 
@@ -52,7 +53,7 @@ bool CPauseLayer::init()
 					visibleSize.height * 0.1f);
 	Vec2 buttonPositionOffset(0, -visibleSize.height * 0.11f);
 	Color3B buttonColor(Color3B::YELLOW);
-	// Create start button
+	// Create resume button
 	auto resumeButton = MenuItemImage::create(	"CloseNormal.png",
 												"CloseSelected.png",
 												CC_CALLBACK_1(CPauseLayer::resumeCallback, this));
@@ -68,7 +69,7 @@ bool CPauseLayer::init()
 												"CloseSelected.png",
 												CC_CALLBACK_1(CPauseLayer::restartCallback, this));
 	restartButton->setScale(	buttonSize.width / restartButton->getContentSize().width,
-							buttonSize.height / restartButton->getContentSize().height);
+								buttonSize.height / restartButton->getContentSize().height);
 	restartButton->setPosition(resumeButton->getPosition() - Vec2(0, (resumeButton->getScaleY() * resumeButton->getContentSize().height) * 0.5f) + buttonPositionOffset);
 	restartButton->setColor(buttonColor);
 	menuItemList.pushBack(restartButton);
@@ -79,7 +80,7 @@ bool CPauseLayer::init()
 											CC_CALLBACK_1(CPauseLayer::quitCallback, this));
 	quitButton->setScale(	buttonSize.width / quitButton->getContentSize().width,
 							buttonSize.height / quitButton->getContentSize().height);
-	quitButton->setPosition(restartButton->getPosition() - Vec2(0, (restartButton->getScaleY() * restartButton->getContentSize().height) * 0.5f) + buttonPositionOffset);
+	quitButton->setPosition(restartButton->getPosition() - Vec2(0, buttonSize.height * 0.5f) + buttonPositionOffset);
 	quitButton->setColor(buttonColor);
 	menuItemList.pushBack(quitButton);
 
@@ -109,21 +110,38 @@ void CPauseLayer::ShowLayer(Vec2 offset)
 void CPauseLayer::resumeCallback(Ref* pSender)
 {
 	Director::getInstance()->resume();
-	if (Director::getInstance()->getRunningScene()->getPhysicsWorld())
-		Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(1);
+	Scene* scene = Director::getInstance()->getRunningScene();
+	if (scene->getPhysicsWorld())
+		scene->getPhysicsWorld()->setSpeed(1);
 	HideLayer();
 }
 void CPauseLayer::restartCallback(Ref* pSender)
 {
 	Director::getInstance()->resume();
-	if (Director::getInstance()->getRunningScene()->getPhysicsWorld())
-		Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(1);
+	Scene* scene = Director::getInstance()->getRunningScene();
+	if (scene->getPhysicsWorld())
+		scene->getPhysicsWorld()->setSpeed(1);
+	// End Scene
+	auto gameScene = (CInGameScene*)scene->getChildByName("CInGameScene");
+	if (gameScene)
+	{
+		// Don't save data
+		gameScene->endScene();
+	}
 	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_GAMEPLAY);
 }
 void CPauseLayer::quitCallback(Ref* pSender)
 {
 	Director::getInstance()->resume();
-	if (Director::getInstance()->getRunningScene()->getPhysicsWorld())
-		Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(1);
+	Scene* scene = Director::getInstance()->getRunningScene();
+	if (scene->getPhysicsWorld())
+		scene->getPhysicsWorld()->setSpeed(1);
+	// End Scene
+	auto gameScene = (CInGameScene*)scene->getChildByName("CInGameScene");
+	if (gameScene)
+	{
+		// Save data
+		gameScene->endScene(true);
+	}
 	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_MAINMENU);
 }
