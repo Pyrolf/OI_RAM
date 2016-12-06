@@ -9,6 +9,7 @@
 #include "SpriteLoader.h"
 #include "ParticleLoader.h"
 #include "FileOperation.h"
+#include "CollisionManager.h"
 
 USING_NS_CC;
 
@@ -24,6 +25,8 @@ Scene* CInGameScene::createScene()
     // 'scene' is an autorelease object
     auto scene = Scene::createWithPhysics();
 
+	scene->getPhysicsWorld()->setFixedUpdateRate(120);
+	scene->getPhysicsWorld()->setGravity(Vec2(0, -98 * 5));
 	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
@@ -64,6 +67,8 @@ bool CInGameScene::init()
 
 	KBM = new KeyboardManager();
 	this->addChild(KBM);
+
+	this->addChild(new CCollisionManager());
 
 	tileMapManager = new TilemapManager("tmx/Test Level.tmx", this);
 
@@ -121,6 +126,8 @@ void CInGameScene::onEnterTransitionDidFinish()
 		m_pGUILayer->ShowLayer(Vec2::ANCHOR_BOTTOM_LEFT);
 }
 
+bool upKeypress = false;
+
 void CInGameScene::update(float dt)
 {
 	AddPoints(1);
@@ -132,15 +139,20 @@ void CInGameScene::update(float dt)
 	Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
 	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_LEFT_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_A))
 	{
-		c->setPosition(c->getPositionX() - dt * 500, c->getPositionY());
+		player->Move(false, 1000, dt);
 	}
 	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_RIGHT_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_D))
 	{
-		c->setPosition(c->getPositionX() + dt * 500, c->getPositionY());
+		player->Move(true, 1000, dt);
 	}
-	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_W))
+	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) && !upKeypress)
 	{
-		c->setPosition(c->getPositionX(), c->getPositionY() + dt * 500);
+		upKeypress = true;
+		player->Jump();
+	}
+	else if (!KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) && upKeypress)
+	{
+		upKeypress = false;
 	}
 	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_S))
 	{

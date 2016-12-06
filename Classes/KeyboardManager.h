@@ -13,6 +13,8 @@ public:
 
 	double keyPressedDuration(EventKeyboard::KeyCode code);
 
+	void removeKey(cocos2d::EventKeyboard::KeyCode);
+
 private:
 	//container of all keys that are pressed
 	std::map<cocos2d::EventKeyboard::KeyCode, std::chrono::high_resolution_clock::time_point> keys;
