@@ -1,7 +1,8 @@
 #include "TilemapManager.h"
+#include "CollisionManager.h"
 
 const float pixelsPerMeter = 32.0f;
-const float Gravity = -pixelsPerMeter / 0.7f;
+const float Gravity = -pixelsPerMeter / 0.98f;
 
 TilemapManager::TilemapManager(string filepath, Layer* theLayer, int Zorder)
 {
@@ -14,6 +15,7 @@ TilemapManager::TilemapManager(string filepath, Layer* theLayer, int Zorder)
 	//physicsWorld->DrawDebugData();
 
 	this->theLayer = theLayer;
+	
 
 	tileCollisionNodes = Node::create();
 
@@ -142,11 +144,13 @@ void TilemapManager::createRectangularFixture(cocos2d::experimental::TMXLayer* l
 
 	PhysicsBody* body;
 	if (isHorizontal)
-		body = PhysicsBody::createBox(Size(tileSize.width * (offset + 1), tileSize.height), PhysicsMaterial(1.0f, 0, 0.5));
+		body = PhysicsBody::createBox(Size(tileSize.width * (offset + 1), tileSize.height), PhysicsMaterial(1, 0, 1));
 	else
-		body = PhysicsBody::createBox(Size(tileSize.width, tileSize.height * (offset + 1)), PhysicsMaterial(1.0f, 0, 0.5));
+		body = PhysicsBody::createBox(Size(tileSize.width, tileSize.height * (offset + 1)), PhysicsMaterial(1, 0, 1));
 
 	body->setDynamic(false);
+	body->setCollisionBitmask(CCollisionManager::CB_GROUND);
+	body->setContactTestBitmask(1);
 
 	auto node = Node::create();
 	node->setName("TileColisionNode");
