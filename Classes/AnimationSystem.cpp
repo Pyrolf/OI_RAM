@@ -53,6 +53,6 @@ void CAnimationSystem::loadAnimation(const char *format, Size newSize, int count
 	for (int i = 1; i <= count; i++)
 	{
 		sprintf(str, format, i);
-		CSpriteSystem::getInstance()->createSprite(str, newSize);
+		CSpriteSystem::getInstance()->getSprite(str, newSize);
 	}
 }

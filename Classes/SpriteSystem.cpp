@@ -69,7 +69,7 @@ Sprite* CSpriteSystem::createNewSpriteWithoutScale(const char *format, Size newS
 	return newSprite;
 }
 // Public Methods
-Sprite* CSpriteSystem::createSprite(const char *format, Size newSize)
+Sprite* CSpriteSystem::getSprite(const char *format, Size newSize)
 {
 	Sprite* sprite = NULL;
 	

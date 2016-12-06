@@ -89,12 +89,12 @@ bool HelloWorld::init()
 
 
 	// Load sprites
-	Size targetSize(visibleSize.width * 0.15f, visibleSize.height * 0.2f);
+	Size targetSize(visibleSize.width * 0.1f, visibleSize.height * 0.1f);
 	CAnimationSystem::getInstance()->loadAnimation("animations/monsters/monster1/idle/frame_%d.png", targetSize, 8);
 	CAnimationSystem::getInstance()->loadAnimation("animations/monsters/monster1/walking/frame_%d.png", targetSize, 8);
 	
 	// Start
-	Sprite* monster = CSpriteSystem::getInstance()->createSprite("animations/monsters/monster1/walking/frame_1.png", targetSize);
+	Sprite* monster = CSpriteSystem::getInstance()->getSprite("animations/monsters/monster1/walking/frame_1.png", targetSize);
 	Vec2 leftPos(	origin.x + monster->getScaleX() *  monster->getContentSize().width * 0.5f,
 					visibleSize.height * 0.5f + origin.y);
 	Vec2 rightPos(	visibleSize.width + origin.x - monster->getScaleX() *  monster->getContentSize().width * 0.5f,
@@ -104,7 +104,7 @@ bool HelloWorld::init()
 	auto idlingAnimateAction = CallFunc::create([this]()
 	{
 		auto visibleSize = Director::getInstance()->getVisibleSize();
-		Size targetSize(visibleSize.width * 0.15f, visibleSize.height * 0.2f);
+		Size targetSize(visibleSize.width * 0.1f, visibleSize.height * 0.1f);
 		auto action = RepeatForever::create((CAnimationSystem::getInstance()->getAnimate("animations/monsters/monster1/idle/frame_%d.png", targetSize, 8, 0.05f)));
 		action->setTag(100);
 		auto monster = this->getChildByTag(100);
@@ -115,7 +115,7 @@ bool HelloWorld::init()
 	auto walkingAnimateAction = CallFunc::create([this]()
 	{
 		auto visibleSize = Director::getInstance()->getVisibleSize();
-		Size targetSize(visibleSize.width * 0.15f, visibleSize.height * 0.2f);
+		Size targetSize(visibleSize.width * 0.1f, visibleSize.height * 0.1f);
 		auto action = RepeatForever::create(CAnimationSystem::getInstance()->getAnimate("animations/monsters/monster1/walking/frame_%d.png", targetSize, 8, 0.125f));
 		action->setTag(100);
 		auto monster = (Sprite*)this->getChildByTag(100);

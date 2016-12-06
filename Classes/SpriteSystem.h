@@ -29,7 +29,7 @@ public:
 	static void destroy();
 
 	// Normal Methods
-	cocos2d::Sprite* createSprite(const char *format, cocos2d::Size newSize);
+	cocos2d::Sprite* getSprite(const char *format, cocos2d::Size newSize);
 	TextureInfo* getTextureInfo(const char *format, cocos2d::Size newSize);
 };
 

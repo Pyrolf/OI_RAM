@@ -3,16 +3,27 @@
 
 #include "cocos2d.h"
 
-class CCollisionManager
+class CCollisionManager : public cocos2d::Node
 {
 public:
+	
+	enum COLLISION_BITMASK
+	{
+		CB_PLAYER = 1,
+		CB_PLAYER_BOTTOM,
+		CB_GROUND,
+		CB_ENEMY
+	};
+
 	CCollisionManager();
 	~CCollisionManager();
 
 	void Update(float dt);
 private:
 
-	void CheckForCollision(cocos2d::Node* pGO1, cocos2d::Node* pGO2);
+	bool onContactBegin(cocos2d::PhysicsContact& contact);
+	void onContactSeparate(cocos2d::PhysicsContact& contact);
+	//bool onContactPreSolve(cocos2d::PhysicsContact& contact, cocos2d::PhysicsContactPreSolve& solve);
 };
 
 #endif // __COLLISION_MANAGER_H__
