@@ -19,8 +19,12 @@ AppDelegate::AppDelegate() {
 
 AppDelegate::~AppDelegate() 
 {
-	// Destroy animation system
+	// Destroy Animation System
 	CAnimationSystem::destroy();
+	// Destroy Sprite System
+	CSpriteSystem::destroy();
+	// Destroy Game State Manager
+	CGameStateManager::destroy();
 }
 
 //if you want a different context,just modify the value of glContextAttrs

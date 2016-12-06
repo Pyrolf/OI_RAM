@@ -123,7 +123,7 @@ void CAIEnemy::Idle()
 		auto sprite = m_pGO->GetSprite();
 		if (sprite)
 		{
-			auto animate = RepeatForever::create(CAnimationLoader::getEnemyAnimate(FSM_IDLE, m_pGO->GetSpriteSize(), 0.125f));
+			auto animate = RepeatForever::create(CAnimationLoader::getEnemyAnimate(FSM_IDLE, m_pGO->GetSpriteSize(), 1 / m_fSpeed));
 			sprite->runAction(animate);
 		}
 	}
@@ -140,7 +140,7 @@ void CAIEnemy::Chase()
 		auto sprite = m_pGO->GetSprite();
 		if (sprite)
 		{
-			auto animate = RepeatForever::create(CAnimationLoader::getEnemyAnimate(FSM_CHASE, m_pGO->GetSpriteSize(), 0.125f));
+			auto animate = RepeatForever::create(CAnimationLoader::getEnemyAnimate(FSM_CHASE, m_pGO->GetSpriteSize(), 1 / m_fSpeed));
 			sprite->runAction(animate);
 		}
 	}

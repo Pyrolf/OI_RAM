@@ -144,9 +144,9 @@ void TilemapManager::createRectangularFixture(cocos2d::experimental::TMXLayer* l
 
 	PhysicsBody* body;
 	if (isHorizontal)
-		body = PhysicsBody::createBox(Size(tileSize.width * (offset + 1), tileSize.height), PhysicsMaterial(1, 0, 1));
+		body = PhysicsBody::createBox(Size(tileSize.width * (offset + 1), tileSize.height), PhysicsMaterial(1, 1, 1));
 	else
-		body = PhysicsBody::createBox(Size(tileSize.width, tileSize.height * (offset + 1)), PhysicsMaterial(1, 0, 1));
+		body = PhysicsBody::createBox(Size(tileSize.width, tileSize.height * (offset + 1)), PhysicsMaterial(1, 1, 1));
 
 	body->setDynamic(false);
 	body->setCollisionBitmask(CCollisionManager::CB_GROUND);
