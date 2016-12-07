@@ -8,5 +8,7 @@ class CSpriteLoader
 public:
 	static void loadEnemiesSprites(cocos2d::Size size);
 	static cocos2d::Sprite* getEnemySprite(cocos2d::Size size);
+
+	static cocos2d::Sprite* getPlayerSprite();
 };
 #endif // __SPRITE_LOADER_H__

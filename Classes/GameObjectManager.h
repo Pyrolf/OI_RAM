@@ -2,6 +2,7 @@
 #define __GAME_OBJECT_MANAGER_H__
 
 #include "Enemy.h"
+#include "Player.h"
 
 class CGameObjectManager : cocos2d::Node
 {
@@ -17,8 +18,13 @@ public:
 					CGameObject* pTargetGO, float speed, float fDetectionRange, float fAttackRange);
 	// Getters
 	cocos2d::Size GetEnemySpriteSize() { return m_EnemySpriteSize; }
+
+	void SpawnPlayer(cocos2d::Vec2 Pos);
+
+	Player* getPlayer() { return dynamic_cast<Player*>(m_pLayerGO); };
 private:
-	cocos2d::Layer* m_pLayer;
+	CGameObject* m_pLayerGO = NULL;
+
 	int m_nAmountOfEnemiesToAdd;
 	cocos2d::Vector<CEnemy*> m_pEnemyList;
 	cocos2d::Size m_EnemySpriteSize;

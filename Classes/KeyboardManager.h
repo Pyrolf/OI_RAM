@@ -3,10 +3,13 @@
 
 using namespace cocos2d;
 
-class KeyboardManager : public cocos2d::Node
+class KeyboardManager : public Node
 {
 public:
-	KeyboardManager();
+	static KeyboardManager* GetInstance();
+
+	static void Destroy();
+
 	~KeyboardManager();
 	
 	bool isKeyPressed(cocos2d::EventKeyboard::KeyCode);
@@ -16,6 +19,10 @@ public:
 	void removeKey(cocos2d::EventKeyboard::KeyCode);
 
 private:
+	KeyboardManager();
+	
+	static KeyboardManager* instance;
+
 	//container of all keys that are pressed
 	std::map<cocos2d::EventKeyboard::KeyCode, std::chrono::high_resolution_clock::time_point> keys;
 };

@@ -108,6 +108,9 @@
     <ClCompile Include="..\Classes\ParticleLoader.cpp">
       <Filter>src\Loaders</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\CameraController.cpp">
+      <Filter>src\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -181,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ParticleLoader.h">
       <Filter>src\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CameraController.h">
+      <Filter>src\Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,7 @@
 #include "AnimationSystem.h"
 #include "SpriteSystem.h"
 #include "GameStateManager.h"
+#include "KeyboardManager.h"
 
 #include "HelloWorldScene.h"
 #include "MainMenuScene.h"
@@ -25,6 +26,8 @@ AppDelegate::~AppDelegate()
 	CSpriteSystem::destroy();
 	// Destroy Game State Manager
 	CGameStateManager::destroy();
+
+	KeyboardManager::Destroy();
 }
 
 //if you want a different context,just modify the value of glContextAttrs
@@ -89,6 +92,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	CAnimationSystem::getInstance();
 	// create Sprite System
 	CSpriteSystem::getInstance();
+
+	KeyboardManager::GetInstance();
 
 	// create Game State Manager
 	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_MAINMENU);

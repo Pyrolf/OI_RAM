@@ -8,6 +8,7 @@ class CGUILayer;
 #include "KeyboardManager.h"
 #include "Player.h"
 #include "GameObjectManager.h"
+#include "CameraController.h"
 
 class CInGameScene : public cocos2d::Layer
 {
@@ -47,9 +48,9 @@ private:
 
 	TilemapManager* tileMapManager;
 
-	Player* player;
-
 	CGameObjectManager* m_pGOManager;
+
+	CameraController* CamCon;
 
 	unsigned int m_nPoints;
 	unsigned int m_nPointsAddedToLabel;
