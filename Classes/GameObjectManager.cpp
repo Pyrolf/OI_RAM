@@ -48,14 +48,14 @@ void CGameObjectManager::Update(float dt)
 }
 
 void CGameObjectManager::SpawnEnemy(Vec2 vec2Position,
-									CGameObject* pTargetGO, float speed, float fDetectionRange, float fAttackRange )
+									CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, float fDetectionRange, float fAttackRange )
 {
 	auto enemy = GetAnInactiveEnemy();
 	enemy->SetActive(true);
 	enemy->SetSprite(CSpriteLoader::getEnemySprite(m_EnemySpriteSize), m_EnemySpriteSize);
 	enemy->AddPhysicsBodyBox();
 	enemy->setPosition(vec2Position);
-	enemy->Init(pTargetGO, speed, fDetectionRange, fAttackRange);
+	enemy->Init(pTargetGO, fMovementSpeed, fAnimationSpeed, fDetectionRange, fAttackRange);
 }
 
 void CGameObjectManager::AddEnemies(int numOfEnemies)

@@ -9,7 +9,8 @@ USING_NS_CC;
 CAIEnemy::CAIEnemy()
 	: CAIBase()
 	, m_pTargetGO(NULL)
-	, m_fSpeed(0.0f)
+	, m_fMovementSpeed(1.0f)
+	, m_fAnimationSpeed(1.0f)
 	, m_fDetectionRange(0.0f)
 	, m_fAttackRange(0.0f)
 {
@@ -18,7 +19,8 @@ CAIEnemy::CAIEnemy()
 CAIEnemy::CAIEnemy(int nState, CGameObject* pGO)
 	: CAIBase(nState, pGO)
 	, m_pTargetGO(NULL)
-	, m_fSpeed(0.0f)
+	, m_fMovementSpeed(1.0f)
+	, m_fAnimationSpeed(1.0f)
 	, m_fDetectionRange(0.0f)
 	, m_fAttackRange(0.0f)
 {
@@ -29,10 +31,11 @@ CAIEnemy::~CAIEnemy()
 	CAIBase::~CAIBase();
 }
 
-void CAIEnemy::Init(CGameObject* pTargetGO, float speed, float fDetectionRange, float fAttackRange)
+void CAIEnemy::Init(CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, float fDetectionRange, float fAttackRange)
 {
 	m_pTargetGO = pTargetGO;
-	m_fSpeed = speed;
+	m_fMovementSpeed = fMovementSpeed;
+	m_fAnimationSpeed = fAnimationSpeed;
 	m_fDetectionRange = fDetectionRange;
 	m_fAttackRange = fAttackRange;
 }
@@ -45,10 +48,12 @@ void CAIEnemy::Update(float dt)
 	{
 		case FSM_CHASE:
 		{
-			Vec2 thisToTarget = m_pTargetGO->getPosition() - m_pGO->getPosition();
-			Vec2 moveByCurrent = thisToTarget * dt / (m_pTargetGO->getPosition().getDistance(m_pGO->getPosition()) / m_fSpeed);
+			Vec2 targetPos(m_pTargetGO->getPositionX(), 0);
+			Vec2 goPos(m_pGO->getPositionX(), 0);
+			Vec2 thisToTarget(targetPos - goPos);
+			Vec2 moveByCurrent = thisToTarget * dt / (targetPos.getDistance(goPos) / m_fMovementSpeed);
 			m_pGO->runAction(MoveBy::create(dt, moveByCurrent));
-
+			CheckDirection(moveByCurrent);
 			break;
 		}
 		case FSM_ATTACK:
@@ -103,6 +108,18 @@ void CAIEnemy::CheckTarget()
 		Idle();
 	}
 }
+void CAIEnemy::CheckDirection(Vec2 moveByCurrent)
+{
+	auto sprite = m_pGO->GetSprite();
+	if (moveByCurrent.x > 0 && !sprite->isFlippedX())
+	{
+		sprite->setFlippedX(true);
+	}
+	else if (moveByCurrent.x < 0 && sprite->isFlippedX())
+	{
+		sprite->setFlippedX(false);
+	}
+}
 
 void CAIEnemy::StopGO()
 {
@@ -123,7 +140,7 @@ void CAIEnemy::Idle()
 		auto sprite = m_pGO->GetSprite();
 		if (sprite)
 		{
-			auto animate = RepeatForever::create(CAnimationLoader::getEnemyAnimate(FSM_IDLE, m_pGO->GetSpriteSize(), 1 / m_fSpeed));
+			auto animate = RepeatForever::create(CAnimationLoader::getEnemyAnimate(FSM_IDLE, m_pGO->GetSpriteSize(), m_fAnimationSpeed));
 			sprite->runAction(animate);
 		}
 	}
@@ -140,7 +157,7 @@ void CAIEnemy::Chase()
 		auto sprite = m_pGO->GetSprite();
 		if (sprite)
 		{
-			auto animate = RepeatForever::create(CAnimationLoader::getEnemyAnimate(FSM_CHASE, m_pGO->GetSpriteSize(), 1 / m_fSpeed));
+			auto animate = RepeatForever::create(CAnimationLoader::getEnemyAnimate(FSM_CHASE, m_pGO->GetSpriteSize(), m_fAnimationSpeed));
 			sprite->runAction(animate);
 		}
 	}

@@ -15,7 +15,7 @@ public:
 	virtual void AddPhysicsBodyBox();
 	virtual void AddPhysicsBodyBox(cocos2d::Size size);
 
-	void Init(CGameObject* pTargetGO, float speed, float fDetectionRange, float fAttackRange);
+	void Init(CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, float fDetectionRange, float fAttackRange);
 	void Update(float dt);
 
 	// Setters

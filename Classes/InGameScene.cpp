@@ -90,8 +90,8 @@ void CInGameScene::initGameObjects()
 	m_pGOManager = CGameObjectManager::create(10, targetSize);
 
 	//spawn player
-	m_pGOManager->SpawnPlayer(Vec2(origin.x + visibleSize.width / 2,
-		origin.y + visibleSize.height * 0.75f));
+	m_pGOManager->SpawnPlayer(Vec2(	origin.x + visibleSize.width / 2,
+									origin.y + visibleSize.height * 0.75f));
 	//play particle at the player
 	CParticleLoader::createBleedingEffect(m_pGOManager->getPlayer());
 
@@ -101,15 +101,16 @@ void CInGameScene::initGameObjects()
 	CAnimationLoader::loadEnemiesAnimates(targetSize);
 
 	// Spawn Enemy
-	float speed = visibleSize.width * 0.01f;
-	float detectionRange = visibleSize.width * 5.0f;
-	float attackRange = visibleSize.width * 1.5f;
+	float movementSpeed = targetSize.width * 0.75f;
+	float animationSpeed = 1 / movementSpeed * 10.0f;
+	float detectionRange = targetSize.width * 3.0f;
+	float attackRange = targetSize.width;
 	for (int i = 0; i < 1; i++)
 	{
 		Vec2 position(	visibleSize.width * 0.2f + origin.x + visibleSize.width * 0.2f * i,
 						visibleSize.height * 0.6f + origin.y);
 		m_pGOManager->SpawnEnemy(	position,
-									NULL, speed, detectionRange, attackRange);
+									m_pGOManager->getPlayer(), movementSpeed, animationSpeed, detectionRange, attackRange);
 	}
 
 	auto pGOManagerNode = (Node*)m_pGOManager;
