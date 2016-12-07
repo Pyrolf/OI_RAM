@@ -26,7 +26,7 @@ Scene* CInGameScene::createScene()
     auto scene = Scene::createWithPhysics();
 
 	scene->getPhysicsWorld()->setFixedUpdateRate(120);
-	scene->getPhysicsWorld()->setGravity(Vec2(0, -98 * 5));
+	scene->getPhysicsWorld()->setGravity(Vec2(0, -98 * 10));
 	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
@@ -65,19 +65,9 @@ bool CInGameScene::init()
 
 	initGameObjects();
 
-	KBM = new KeyboardManager();
-	this->addChild(KBM);
-
 	this->addChild(new CCollisionManager());
 
 	tileMapManager = new TilemapManager("tmx/Test Level.tmx", this);
-
-	player = new Player();
-	player->setPosition(Vec2(	origin.x + visibleSize.width / 2,
-								origin.y + visibleSize.height * 0.75f));
-	this->addChild(player);
-
-	CParticleLoader::createBleedingEffect(player);
 
 	m_nPoints = 0;
 	m_nPointsAddedToLabel = 0;
@@ -95,13 +85,20 @@ void CInGameScene::initGameObjects()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	Size targetSize = Size(visibleSize.width * 0.1f, visibleSize.height * 0.1f);
+	//Size targetSize = m_pGOManager->GetEnemySpriteSize();
+
+	m_pGOManager = CGameObjectManager::create(10, targetSize);
+
+	//spawn player
+	m_pGOManager->SpawnPlayer(Vec2(origin.x + visibleSize.width / 2,
+		origin.y + visibleSize.height * 0.75f));
+	//play particle at the player
+	CParticleLoader::createBleedingEffect(m_pGOManager->getPlayer());
 
 	// Load Sprites
 	CSpriteLoader::loadEnemiesSprites(targetSize);
 	// Load Animations
 	CAnimationLoader::loadEnemiesAnimates(targetSize);
-
-	m_pGOManager = CGameObjectManager::create(10, targetSize);
 
 	// Spawn Enemy
 	float speed = visibleSize.width * 0.01f;
@@ -125,9 +122,15 @@ void CInGameScene::onEnterTransitionDidFinish()
 	this->scheduleUpdate();
 	if (m_pGUILayer)
 		m_pGUILayer->ShowLayer(Vec2::ANCHOR_BOTTOM_LEFT);
-}
 
-bool upKeypress = false;
+	KeyboardManager::GetInstance()->removeFromParent();
+	this->addChild(KeyboardManager::GetInstance());
+
+	//set camera and follow player
+	CamCon = new CameraController();
+	addChild(CamCon);
+	CamCon->setFollowTarget(m_pGOManager->getPlayer());
+}
 
 void CInGameScene::update(float dt)
 {
@@ -138,27 +141,6 @@ void CInGameScene::update(float dt)
 		m_pGOManager->Update(dt);
 
 	Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
-	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_LEFT_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_A))
-	{
-		player->Move(false, 1000, dt);
-	}
-	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_RIGHT_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_D))
-	{
-		player->Move(true, 1000, dt);
-	}
-	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) && !upKeypress)
-	{
-		upKeypress = true;
-		player->Jump();
-	}
-	else if (!KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) && upKeypress)
-	{
-		upKeypress = false;
-	}
-	if (KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW) || KBM->isKeyPressed(EventKeyboard::KeyCode::KEY_S))
-	{
-		c->setPosition(c->getPositionX(), c->getPositionY() - dt * 500);
-	}
 
 	m_pGUILayer->setPosition(c->getPosition() - m_pGUILayer->GetInitialCamPos());
 }

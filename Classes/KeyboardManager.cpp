@@ -1,5 +1,19 @@
 #include "KeyboardManager.h"
 
+KeyboardManager* KeyboardManager::instance = NULL;
+
+KeyboardManager* KeyboardManager::GetInstance()
+{
+	if (!instance)
+		instance = new KeyboardManager();
+
+	return instance;
+}
+
+void KeyboardManager::Destroy()
+{
+	delete instance;
+}
 
 KeyboardManager::KeyboardManager()
 {
@@ -25,6 +39,7 @@ KeyboardManager::KeyboardManager()
 
 KeyboardManager::~KeyboardManager()
 {
+	instance = NULL;
 }
 
 bool KeyboardManager::isKeyPressed(EventKeyboard::KeyCode code) 

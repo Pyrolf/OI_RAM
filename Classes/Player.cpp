@@ -1,13 +1,25 @@
 #include "Player.h"
 #include "CollisionManager.h"
-
+#include "KeyboardManager.h"
 
 Player::Player()
+: CGameObject()
 {
-	sprite = Sprite::create("animations/knight/idle/frame_1.png");
-	addChild(sprite);
+}
 
-	auto spriteSize = sprite->getContentSize();
+Player::~Player()
+{
+}
+
+void Player::Init(Vec2 Pos)
+{
+	this->setPosition(Pos);
+
+	Sprite* temp = Sprite::create("animations/knight/idle/frame_1.png");
+	auto spriteSize = temp->getContentSize();
+
+	this->SetSprite(temp, spriteSize);
+
 
 	PhysicsBody* Body;
 	Body = PhysicsBody::createBox(Size(spriteSize.width, spriteSize.height), PhysicsMaterial(1, 0, 0));
@@ -19,7 +31,7 @@ Player::Player()
 	Body->setContactTestBitmask(1);
 
 	setPhysicsBody(Body);
-	
+
 
 	Body = PhysicsBody::createBox(Size(spriteSize.width - 2, 4), PhysicsMaterial(1, 0, 0), Vec2(0, -spriteSize.height / 2 + 2));
 	Body->setMass(1);
@@ -35,12 +47,10 @@ Player::Player()
 	this->scheduleUpdate();
 }
 
-Player::~Player()
-{
-}
-
 void Player::update(float dt)
 {
+	Movement(dt);
+
 	auto Body = this->getPhysicsBody();
 
 	if (!isMoving && frictionLerpValue > 0)
@@ -59,7 +69,7 @@ void Player::update(float dt)
 	isMoving = false;
 }
 
-void Player::Move(bool right, float speed, float dt)
+void Player::Move(bool right, float dt)
 {
 	isMoving = true;
 	frictionLerpValue = 1;
@@ -76,8 +86,6 @@ void Player::Move(bool right, float speed, float dt)
 		body->setVelocity(Vec2(150, body->getVelocity().y));
 	else if (body->getVelocity().x < -150)
 		body->setVelocity(Vec2(-150, body->getVelocity().y));
-
-	//if (body->)
 }
 
 void Player::Jump()
@@ -87,7 +95,34 @@ void Player::Jump()
 		auto body = this->getPhysicsBody();
 
 		body->setVelocity(Vec2(body->getVelocity().x, 0));
-		body->applyImpulse(Vec2(0, this->getPhysicsBody()->getMass() * 300));
+		body->applyImpulse(Vec2(0, this->getPhysicsBody()->getMass() * 400));
 		jumpCount++;
 	}
+}
+
+bool upKeypress = false;
+
+void Player::Movement(float dt)
+{
+	if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_LEFT_ARROW) || KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_A))
+	{
+		Move(false, dt);
+	}
+	if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_RIGHT_ARROW) || KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_D))
+	{
+		Move(true, dt);
+	}
+	if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) && !upKeypress)
+	{
+		upKeypress = true;
+		Jump();
+	}
+	else if (!KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) && upKeypress)
+	{
+		upKeypress = false;
+	}
+	/*if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW) || KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_S))
+	{
+		c->setPosition(c->getPositionX(), c->getPositionY() - dt * 500);
+	}*/
 }

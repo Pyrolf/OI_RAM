@@ -12,3 +12,8 @@ Sprite* CSpriteLoader::getEnemySprite(Size size)
 {
 	return CSpriteSystem::getInstance()->getSprite("animations/monsters/monster1/idle/frame_1.png", size);
 }
+
+//Sprite* CSpriteLoader::getPlayerSprite()
+//{
+//	return CSpriteSystem::getInstance()->getSprite("animations/knight/idle/frame_1.png", size);
+//}

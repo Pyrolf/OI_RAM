@@ -89,6 +89,18 @@ CEnemy* CGameObjectManager::GetAnInactiveEnemy()
 	return GetAnInactiveEnemy();
 }
 
+void CGameObjectManager::SpawnPlayer(Vec2 Pos)
+{
+	if (m_pLayerGO == NULL)
+		m_pLayerGO = new Player();
+
+	m_pLayerGO->SetActive(true);
+	m_pLayerGO->removeFromParent();
+	this->addChild(m_pLayerGO);
+	dynamic_cast<Player*>(this->m_pLayerGO)->Init(Pos);
+}
+
+
 void CGameObjectManager::DeactivateEnemy(CEnemy* enemy)
 {
 	enemy->RemovePhysicsBody();
