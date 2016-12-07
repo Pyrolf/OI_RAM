@@ -6,10 +6,10 @@
 class CGameObjectManager : cocos2d::Node
 {
 public:
-	CGameObjectManager(int numOfEnemies);
+	CGameObjectManager(int numOfEnemies, cocos2d::Size enemySpriteSize);
 	~CGameObjectManager();
 
-	static CGameObjectManager* create(int numOfEnemies);
+	static CGameObjectManager* create(int numOfEnemies, cocos2d::Size enemySpriteSize);
 
 	void Update(float dt);
 

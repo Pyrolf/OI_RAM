@@ -37,11 +37,7 @@ void CGameObject::RemovePhysicsBody()
 
 void CGameObject::AddPhysicsBodyBox()
 {
-	RemovePhysicsBody(); 
-
-	auto spriteSize = m_pSprite->getContentSize();
-	auto body = PhysicsBody::createBox(spriteSize);
-	this->setPhysicsBody(body);
+	AddPhysicsBodyBox(m_pSprite->getContentSize());
 }
 
 void CGameObject::AddPhysicsBodyBox(cocos2d::Size size)

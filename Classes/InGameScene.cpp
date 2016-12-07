@@ -94,22 +94,23 @@ void CInGameScene::initGameObjects()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	m_pGOManager = CGameObjectManager::create(10);
+	Size targetSize = Size(visibleSize.width * 0.1f, visibleSize.height * 0.1f);
 
-	Size targetSize = m_pGOManager->GetEnemySpriteSize();
 	// Load Sprites
 	CSpriteLoader::loadEnemiesSprites(targetSize);
 	// Load Animations
 	CAnimationLoader::loadEnemiesAnimates(targetSize);
 
+	m_pGOManager = CGameObjectManager::create(10, targetSize);
+
 	// Spawn Enemy
 	float speed = visibleSize.width * 0.01f;
 	float detectionRange = visibleSize.width * 5.0f;
 	float attackRange = visibleSize.width * 1.5f;
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		Vec2 position(	visibleSize.width * 0.2f + origin.x + visibleSize.width * 0.2f * i,
-						visibleSize.height * 0.325f + origin.y);
+						visibleSize.height * 0.6f + origin.y);
 		m_pGOManager->SpawnEnemy(	position,
 									NULL, speed, detectionRange, attackRange);
 	}

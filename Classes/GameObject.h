@@ -12,8 +12,8 @@ public:
 	static CGameObject* create();
 
 	void RemovePhysicsBody();
-	void AddPhysicsBodyBox();
-	void AddPhysicsBodyBox(cocos2d::Size size);
+	virtual void AddPhysicsBodyBox();
+	virtual void AddPhysicsBodyBox(cocos2d::Size size);
 	// Setters
 	void SetSprite(cocos2d::Sprite* sprite, cocos2d::Size size);
 	void SetSpriteSize(cocos2d::Size spriteSize) { m_spriteSize = spriteSize; }

@@ -29,6 +29,18 @@ CEnemy* CEnemy::create()
 	return ret;
 }
 
+void CEnemy::AddPhysicsBodyBox()
+{
+	AddPhysicsBodyBox(this->GetSprite()->getContentSize());
+}
+void CEnemy::AddPhysicsBodyBox(cocos2d::Size size)
+{
+	RemovePhysicsBody();
+
+	auto body = PhysicsBody::createBox(size, PhysicsMaterial(1, 0.4f, 1));
+	this->setPhysicsBody(body);
+}
+
 void CEnemy::Init(CGameObject* pTargetGO, float speed, float fDetectionRange, float fAttackRange)
 {
 	m_AI = new CAIEnemy(CAIEnemy::FEM_NIL, this);

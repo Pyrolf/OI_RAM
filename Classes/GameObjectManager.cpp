@@ -4,13 +4,10 @@
 
 USING_NS_CC;
 
-CGameObjectManager::CGameObjectManager(int numOfEnemies)
+CGameObjectManager::CGameObjectManager(int numOfEnemies, Size enemySpriteSize)
 	: m_nAmountOfEnemiesToAdd(numOfEnemies)
+	, m_EnemySpriteSize(enemySpriteSize)
 {
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-
-	m_EnemySpriteSize = Size(visibleSize.width * 0.1f, visibleSize.height * 0.1f);
-
 	AddEnemies(numOfEnemies);
 }
 
@@ -20,9 +17,9 @@ CGameObjectManager::~CGameObjectManager()
 }
 
 
-CGameObjectManager* CGameObjectManager::create(int numOfEnemies)
+CGameObjectManager* CGameObjectManager::create(int numOfEnemies, Size enemySpriteSize)
 {
-	CGameObjectManager * ret = new (std::nothrow) CGameObjectManager(numOfEnemies);
+	CGameObjectManager * ret = new (std::nothrow) CGameObjectManager(numOfEnemies, enemySpriteSize);
 	if (ret && ret->init())
 	{
 		ret->autorelease();
