@@ -51,20 +51,14 @@ bool CGUILayer::init()
 	menuItemList.pushBack(pointsLabel);
 
 	// Create Buttons
-	Size buttonSize(visibleSize.width * 0.25f,
-					visibleSize.height * 0.1f);
-	Vec2 buttonPositionOffset(0, -visibleSize.height * 0.11f);
-	Color3B buttonColor(Color3B::WHITE);
 	// Create pause button
-	auto pauseButton = MenuItemImage::create(	"CloseNormal.png",
-												"CloseSelected.png",
+	auto pauseButton = MenuItemImage::create(	"images/ui/pause.png",
+												"images/ui/pause_selected.png",
 												CC_CALLBACK_1(CGUILayer::pauseCallback, this));
-	pauseButton->setScale(	buttonSize.height * 1.5f / pauseButton->getContentSize().width,
-							buttonSize.height * 1.5f / pauseButton->getContentSize().height);
+	pauseButton->setScale(0.75f);
 	pauseButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
-	pauseButton->setPosition(Vec2(	origin.x + visibleSize.width,
-									origin.y));
-	pauseButton->setColor(buttonColor);
+	pauseButton->setPosition(Vec2(	origin.x + visibleSize.width - visibleSize.height * 0.01f,
+									origin.y + visibleSize.height * 0.01f));
 	menuItemList.pushBack(pauseButton);
 	
     // Create menu

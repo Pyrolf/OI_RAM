@@ -40,49 +40,71 @@ bool CPauseLayer::init()
 	background->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
 									origin.y + visibleSize.height * 0.5f));
 	menuItemList.pushBack(background);
+
+	// Label
+	std::string font = "fonts/Marker Felt.ttf";
+	float fontSize = visibleSize.height * 0.05f;
+	Color3B labelColor(Color3B::MAGENTA);
+
 	// Create Title
 	// Use label for now, may change to sprite image
-	auto titleLabel = MenuItemLabel::create(Label::createWithTTF("Pause", "fonts/Marker Felt.ttf", visibleSize.height * 0.25f));
+	auto titleLabel = MenuItemLabel::create(Label::createWithTTF("Pause", font, visibleSize.height * 0.25f));
 	titleLabel->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
 									origin.y + visibleSize.height * 0.75f));
-	titleLabel->setColor(Color3B::MAGENTA);
+	titleLabel->setColor(labelColor);
 	menuItemList.pushBack(titleLabel);
 
 	// Create buttons
-	Size buttonSize(visibleSize.width * 0.25f,
-					visibleSize.height * 0.1f);
+	/*Size buttonSize(visibleSize.width * 0.25f,
+					visibleSize.height * 0.1f);*/
 	Vec2 buttonPositionOffset(0, -visibleSize.height * 0.11f);
-	Color3B buttonColor(Color3B::YELLOW);
 	// Create resume button
-	auto resumeButton = MenuItemImage::create(	"CloseNormal.png",
-												"CloseSelected.png",
+	auto resumeButton = MenuItemImage::create(	"images/ui/button.png",
+												"images/ui/button_selected.png",
 												CC_CALLBACK_1(CPauseLayer::resumeCallback, this));
-	resumeButton->setScale(	buttonSize.width * 1.5f / resumeButton->getContentSize().width,
-							buttonSize.height * 1.5f / resumeButton->getContentSize().height);
+	/*resumeButton->setScale(	buttonSize.width * 1.5f / resumeButton->getContentSize().width,
+							buttonSize.height * 1.5f / resumeButton->getContentSize().height);*/
 	resumeButton->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
 									origin.y + visibleSize.height * 0.5f));
-	resumeButton->setColor(buttonColor);
 	menuItemList.pushBack(resumeButton);
+	// resume label
+	auto resumeLabel = MenuItemLabel::create(Label::createWithTTF("Resume", font, fontSize));
+	resumeLabel->setPosition(Vec2(	resumeButton->getContentSize().width * 0.5f,
+									resumeButton->getContentSize().height * 0.5f));
+	resumeLabel->setColor(labelColor);
+	resumeButton->addChild(resumeLabel);
 	
 	// Create restart button
-	auto restartButton = MenuItemImage::create(	"CloseNormal.png",
-												"CloseSelected.png",
+	auto restartButton = MenuItemImage::create(	"images/ui/button.png",
+												"images/ui/button_selected.png",
 												CC_CALLBACK_1(CPauseLayer::restartCallback, this));
-	restartButton->setScale(	buttonSize.width / restartButton->getContentSize().width,
-								buttonSize.height / restartButton->getContentSize().height);
+	/*restartButton->setScale(	buttonSize.width / restartButton->getContentSize().width,
+								buttonSize.height / restartButton->getContentSize().height);*/
+	restartButton->setScale(0.75f);
 	restartButton->setPosition(resumeButton->getPosition() - Vec2(0, (resumeButton->getScaleY() * resumeButton->getContentSize().height) * 0.5f) + buttonPositionOffset);
-	restartButton->setColor(buttonColor);
 	menuItemList.pushBack(restartButton);
+	// restart label
+	auto restartLabel = MenuItemLabel::create(Label::createWithTTF("Restart", font, fontSize));
+	restartLabel->setPosition(Vec2(	restartButton->getContentSize().width * 0.5f,
+									restartButton->getContentSize().height * 0.5f));
+	restartLabel->setColor(labelColor);
+	restartButton->addChild(restartLabel);
 	
 	// Create quit button
-	auto quitButton = MenuItemImage::create("CloseNormal.png",
-											"CloseSelected.png",
+	auto quitButton = MenuItemImage::create(	"images/ui/button.png",
+												"images/ui/button_selected.png",
 											CC_CALLBACK_1(CPauseLayer::quitCallback, this));
-	quitButton->setScale(	buttonSize.width / quitButton->getContentSize().width,
-							buttonSize.height / quitButton->getContentSize().height);
-	quitButton->setPosition(restartButton->getPosition() - Vec2(0, buttonSize.height * 0.5f) + buttonPositionOffset);
-	quitButton->setColor(buttonColor);
+	//quitButton->setScale(	buttonSize.width / quitButton->getContentSize().width,
+	//						buttonSize.height / quitButton->getContentSize().height);
+	quitButton->setScale(0.75f);
+	quitButton->setPosition(restartButton->getPosition() - Vec2(0, restartButton->getScaleY() * restartButton->getContentSize().height * 0.5f) + buttonPositionOffset);
 	menuItemList.pushBack(quitButton);
+	// quit label
+	auto quitLabel = MenuItemLabel::create(Label::createWithTTF("Quit", font, fontSize));
+	quitLabel->setPosition(Vec2(quitButton->getContentSize().width * 0.5f,
+								quitButton->getContentSize().height * 0.5f));
+	quitLabel->setColor(labelColor);
+	quitButton->addChild(quitLabel);
 
     // Create menu
 	auto menu = Menu::createWithArray(menuItemList);

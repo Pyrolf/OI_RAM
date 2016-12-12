@@ -49,51 +49,71 @@ bool CMainMenuScene::init()
 	background->setPosition(origin + visibleSize * 0.5f);
 	this->addChild(background, CHILD_TAG_BACKGROUND);
 
+	// Label
+	std::string font = "fonts/Marker Felt.ttf";
+	float fontSize = visibleSize.height * 0.05f;
+	Color3B labelColor(Color3B::MAGENTA);
+
 	// Create menu itmes
 	Vector<MenuItem*> menuItemList;
 	// Create Title
 	// Use label for now, may change to sprite image
-	auto titleLabel = MenuItemLabel::create(Label::createWithTTF("OI-RAM!", "fonts/Marker Felt.ttf", visibleSize.height * 0.25f));
+	auto titleLabel = MenuItemLabel::create(Label::createWithTTF("OI-RAM!", font, visibleSize.height * 0.25f));
 	titleLabel->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
-									origin.y + visibleSize.height * 0.75f));
-	titleLabel->setColor(Color3B::MAGENTA);
+									origin.y + visibleSize.height * 0.8f));
+	titleLabel->setColor(labelColor);
 	menuItemList.pushBack(titleLabel);
 
 	// Create buttons
-	Size buttonSize(visibleSize.width * 0.25f,
-					visibleSize.height * 0.1f);
+	/*Size buttonSize(visibleSize.width * 0.25f,
+					visibleSize.height * 0.1f);*/
 	Vec2 buttonPositionOffset(0, -visibleSize.height * 0.11f);
-	Color3B buttonColor(Color3B::YELLOW);
 	// Create start button
-	auto startButton = MenuItemImage::create(	"CloseNormal.png",
-												"CloseSelected.png",
+	auto startButton = MenuItemImage::create(	"images/ui/button.png",
+												"images/ui/button_selected.png",
 												CC_CALLBACK_1(CMainMenuScene::startGameCallback, this));
-	startButton->setScale(	buttonSize.width * 1.5f / startButton->getContentSize().width,
-							buttonSize.height * 1.5f / startButton->getContentSize().height);
+	/*startButton->setScale(	buttonSize.width * 1.5f / startButton->getContentSize().width,
+							buttonSize.height * 1.5f / startButton->getContentSize().height);*/
+	startButton->setScale(1.5f);
 	startButton->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
-									origin.y + visibleSize.height * 0.5f));
-	startButton->setColor(buttonColor);
+									origin.y + visibleSize.height * 0.55f));
 	menuItemList.pushBack(startButton);
+	// start label
+	auto startLabel = MenuItemLabel::create(Label::createWithTTF("Start", font, fontSize));
+	startLabel->setPosition(Vec2(	startButton->getContentSize().width * 0.5f,
+									startButton->getContentSize().height * 0.5f));
+	startLabel->setColor(labelColor);
+	startButton->addChild(startLabel);
 	
 	// Create store button
-	auto storeButton = MenuItemImage::create(	"CloseNormal.png",
-												"CloseSelected.png",
+	auto storeButton = MenuItemImage::create(	"images/ui/button.png",
+												"images/ui/button_selected.png",
 												CC_CALLBACK_1(CMainMenuScene::goStoreCallback, this));
-	storeButton->setScale(	buttonSize.width / storeButton->getContentSize().width,
-							buttonSize.height / storeButton->getContentSize().height);
+	/*storeButton->setScale(	buttonSize.width / storeButton->getContentSize().width,
+							buttonSize.height / storeButton->getContentSize().height);*/
 	storeButton->setPosition(startButton->getPosition() - Vec2(0, (startButton->getScaleY() * startButton->getContentSize().height) * 0.5f) + buttonPositionOffset);
-	storeButton->setColor(buttonColor);
 	menuItemList.pushBack(storeButton);
+	// store label
+	auto storeLabel = MenuItemLabel::create(Label::createWithTTF("Store", font, fontSize));
+	storeLabel->setPosition(Vec2(	storeButton->getContentSize().width * 0.5f,
+									storeButton->getContentSize().height * 0.5f));
+	storeLabel->setColor(labelColor);
+	storeButton->addChild(storeLabel);
 	
 	// Create exit button
-	auto exitButton = MenuItemImage::create("CloseNormal.png",
-											"CloseSelected.png",
+	auto exitButton = MenuItemImage::create(	"images/ui/button.png",
+												"images/ui/button_selected.png",
 											CC_CALLBACK_1(CMainMenuScene::exitGameCallback, this));
-	exitButton->setScale(	buttonSize.width / exitButton->getContentSize().width,
-							buttonSize.height / exitButton->getContentSize().height);
-	exitButton->setPosition(storeButton->getPosition() - Vec2(0, (storeButton->getScaleY() * storeButton->getContentSize().height) * 0.5f) + buttonPositionOffset);
-	exitButton->setColor(buttonColor);
+	/*exitButton->setScale(	buttonSize.width / exitButton->getContentSize().width,
+							buttonSize.height / exitButton->getContentSize().height);*/
+	exitButton->setPosition(storeButton->getPosition() - Vec2(0, (storeButton->getContentSize().height) * 0.5f) + buttonPositionOffset);
 	menuItemList.pushBack(exitButton);
+	// exit label
+	auto exitLabel = MenuItemLabel::create(Label::createWithTTF("Exit", font, fontSize));
+	exitLabel->setPosition(Vec2(exitButton->getContentSize().width * 0.5f,
+								exitButton->getContentSize().height * 0.5f));
+	exitLabel->setColor(labelColor);
+	exitButton->addChild(exitLabel);
 
     // Create menu
 	auto menu = Menu::createWithArray(menuItemList);
