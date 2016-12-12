@@ -149,10 +149,12 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\AnimationLoader.cpp" />
     <ClCompile Include="..\Classes\AnimationSystem.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\Classes\CameraController.cpp" />
     <ClCompile Include="..\Classes\CollisionManager.cpp" />
+    <ClCompile Include="..\Classes\EffectTileLayer.cpp" />
+    <ClCompile Include="..\Classes\EffectTileMap.cpp" />
     <ClCompile Include="..\Classes\Enemy.cpp" />
     <ClCompile Include="..\Classes\FileOperation.cpp" />
+    <ClCompile Include="..\Classes\FollowWithLerp.cpp" />
     <ClCompile Include="..\Classes\GameObject.cpp" />
     <ClCompile Include="..\Classes\GameObjectManager.cpp" />
     <ClCompile Include="..\Classes\GameStateManager.cpp" />
@@ -160,6 +162,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\InGameScene.cpp" />
     <ClCompile Include="..\Classes\KeyboardManager.cpp" />
+    <ClCompile Include="..\Classes\lighting\Effect.cpp" />
+    <ClCompile Include="..\Classes\lighting\EffectSprite.cpp" />
+    <ClCompile Include="..\Classes\lighting\LightEffect.cpp" />
     <ClCompile Include="..\Classes\MainMenuScene.cpp" />
     <ClCompile Include="..\Classes\ParticleLoader.cpp" />
     <ClCompile Include="..\Classes\PauseLayer.cpp" />
@@ -176,10 +181,12 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\AnimationLoader.h" />
     <ClInclude Include="..\Classes\AnimationSystem.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\CameraController.h" />
     <ClInclude Include="..\Classes\CollisionManager.h" />
+    <ClInclude Include="..\Classes\EffectTileLayer.h" />
+    <ClInclude Include="..\Classes\EffectTileMap.h" />
     <ClInclude Include="..\Classes\Enemy.h" />
     <ClInclude Include="..\Classes\FileOperation.h" />
+    <ClInclude Include="..\Classes\FollowWithLerp.h" />
     <ClInclude Include="..\Classes\GameObject.h" />
     <ClInclude Include="..\Classes\GameObjectManager.h" />
     <ClInclude Include="..\Classes\GameStateManager.h" />
@@ -187,6 +194,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\InGameScene.h" />
     <ClInclude Include="..\Classes\KeyboardManager.h" />
+    <ClInclude Include="..\Classes\lighting\Effect.h" />
+    <ClInclude Include="..\Classes\lighting\EffectSprite.h" />
+    <ClInclude Include="..\Classes\lighting\LightEffect.h" />
     <ClInclude Include="..\Classes\MainMenuScene.h" />
     <ClInclude Include="..\Classes\ParticleLoader.h" />
     <ClInclude Include="..\Classes\PauseLayer.h" />

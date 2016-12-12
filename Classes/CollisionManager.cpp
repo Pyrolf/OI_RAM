@@ -21,31 +21,34 @@ void CCollisionManager::Update(float dt)
 
 bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 {
-	PhysicsBody* body[2];
-	body[0] = contact.getShapeA()->getBody();
-	body[1] = contact.getShapeB()->getBody();
+	PhysicsShape* shape[2];
+	shape[0] = contact.getShapeA();
+	shape[1] = contact.getShapeB();
 
-	if (body[0]->getCollisionBitmask() == body[1]->getCollisionBitmask())
+	if (shape[0]->getCollisionBitmask() == shape[1]->getCollisionBitmask())
 	{
 		return false;
 	}
-	else if (body[0]->getCollisionBitmask() == CB_PLAYER_BOTTOM || body[1]->getCollisionBitmask() == CB_PLAYER_BOTTOM)
+	else if (shape[0]->getCollisionBitmask() == CB_PLAYER || shape[1]->getCollisionBitmask() == CB_PLAYER)
 	{
-		int self = (body[0]->getCollisionBitmask() == CB_PLAYER_BOTTOM ? 0 : 1);
+		int self = (shape[0]->getCollisionBitmask() == CB_PLAYER ? 0 : 1);
 		int other = !self;
-		if (body[other]->getCollisionBitmask() == CB_GROUND)
+
+		if (shape[self]->isSensor())
 		{
-			if (contact.getContactData()->normal.y == -1)
+			if (shape[other]->getCollisionBitmask() == CB_GROUND)
 			{
-				auto player = dynamic_cast<Player*>(body[self]->getNode()->getParent());
-				if (player)
+				if (fabs(contact.getContactData()->normal.y) > 0.9)
 				{
-					player->SetJumpCount(0);
-					player->SetFrictionMulti(GROUND_FRICTION_MULTI);
+					auto player = dynamic_cast<Player*>(shape[self]->getBody()->getNode());
+					if (player)
+					{
+						player->SetJumpCount(0);
+						player->SetFrictionMulti(GROUND_FRICTION_MULTI);
+					}
 				}
 			}
 		}
-		return false;
 	}
 
 	return true;
@@ -53,21 +56,25 @@ bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 
 void CCollisionManager::onContactSeparate(PhysicsContact& contact)
 {
-	PhysicsBody* body[2];
-	body[0] = contact.getShapeA()->getBody();
-	body[1] = contact.getShapeB()->getBody();
+	PhysicsShape* shape[2];
+	shape[0] = contact.getShapeA();
+	shape[1] = contact.getShapeB();
 
 	
-	if (body[0]->getCollisionBitmask() == CB_PLAYER_BOTTOM || body[1]->getCollisionBitmask() == CB_PLAYER_BOTTOM)
+	if (shape[0]->getCollisionBitmask() == CB_PLAYER || shape[1]->getCollisionBitmask() == CB_PLAYER)
 	{
-		int self = (body[0]->getCollisionBitmask() == CB_PLAYER_BOTTOM ? 0 : 1);
+		int self = (shape[0]->getCollisionBitmask() == CB_PLAYER ? 0 : 1);
 		int other = !self;
-		if (body[other]->getCollisionBitmask() == CB_GROUND)
+
+		if (shape[self]->isSensor())
 		{
-			auto player = dynamic_cast<Player*>(body[self]->getNode()->getParent());
-			if (player)
+			if (shape[other]->getCollisionBitmask() == CB_GROUND)
 			{
-				player->SetFrictionMulti(AIR_FRICTION_MULTI);
+				auto player = dynamic_cast<Player*>(shape[self]->getBody()->getNode());
+				if (player)
+				{
+					player->SetFrictionMulti(AIR_FRICTION_MULTI);
+				}
 			}
 		}
 	}

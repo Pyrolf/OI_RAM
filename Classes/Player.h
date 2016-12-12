@@ -31,5 +31,5 @@ private:
 	float frictionLerpValue = 0;
 
 	int jumpCount = 0;
-	int maxJumpCount = 2;
+	int maxJumpCount = 200;
 };

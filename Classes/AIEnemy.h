@@ -7,7 +7,8 @@ class CAIEnemy : public CAIBase
 {
 private:
 	CGameObject* m_pTargetGO;
-	float m_fSpeed;
+	float m_fMovementSpeed;
+	float m_fAnimationSpeed;
 	float m_fDetectionRange;
 	float m_fAttackRange;
 public:
@@ -27,20 +28,23 @@ public:
 		NUM_OF_STATES
 	};
 
-	void Init(CGameObject* pTargetGO, float speed, float fDetectionRange, float fAttackRange);
+	void Init(CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, float fDetectionRange, float fAttackRange);
 	virtual void Update(float dt);
 
 	void Dying();
 
 	// Setters
-	void SetSpeed(float speed) { m_fSpeed = speed; }
+	void SetMovementSpeed(float fMovementSpeed) { m_fMovementSpeed = fMovementSpeed; }
+	void SetAnimationSpeed(float fAnimationSpeed) { m_fAnimationSpeed = fAnimationSpeed; }
 	void SetTarget(CGameObject* pTargetGO) { m_pTargetGO = pTargetGO; }
 	// Getters
-	float GetSpeed() { return m_fSpeed; }
+	float GetMovementSpeed() { return m_fMovementSpeed; }
+	float GtAnimationSpeed() { return m_fAnimationSpeed; }
 	CGameObject* GetTarget() { return m_pTargetGO; }
 
 private:
 	void CheckTarget();
+	void CheckDirection(cocos2d::Vec2 moveByCurrent);
 
 	void StopGO();
 

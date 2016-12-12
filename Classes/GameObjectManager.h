@@ -15,7 +15,7 @@ public:
 	void Update(float dt);
 
 	void SpawnEnemy(cocos2d::Vec2 vec2Position,
-					CGameObject* pTargetGO, float speed, float fDetectionRange, float fAttackRange);
+					CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, float fDetectionRange, float fAttackRange);
 	// Getters
 	cocos2d::Size GetEnemySpriteSize() { return m_EnemySpriteSize; }
 

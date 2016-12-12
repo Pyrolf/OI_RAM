@@ -23,7 +23,8 @@ void Player::Init(Vec2 Pos)
 
 	PhysicsBody* Body;
 	Body = PhysicsBody::createBox(Size(spriteSize.width, spriteSize.height), PhysicsMaterial(1, 0, 0));
-	//Body->addShape(PhysicsShapeBox::create(Size(spriteSize.width - 2, 4), PhysicsMaterial(1, 0, 0), Vec2(0, -spriteSize.height / 2 + 2)));
+	Body->addShape(PhysicsShapeBox::create(Size(spriteSize.width - 2, 4), PhysicsMaterial(1, 0, 0), Vec2(0, -spriteSize.height / 2 + 2)));
+	Body->getShapes().at(1)->setSensor(true);
 	Body->setMass(1);
 	Body->setRotationEnable(false);
 
@@ -33,18 +34,16 @@ void Player::Init(Vec2 Pos)
 	setPhysicsBody(Body);
 
 
-	Body = PhysicsBody::createBox(Size(spriteSize.width - 2, 4), PhysicsMaterial(1, 0, 0), Vec2(0, -spriteSize.height / 2 + 2));
-	Body->setMass(1);
-	Body->setDynamic(false);
+	//Body = PhysicsBody::createBox(Size(spriteSize.width - 2, 4), PhysicsMaterial(1, 0, 0), Vec2(0, -spriteSize.height / 2 + 2));
+	//Body->setMass(1);
+	//Body->setDynamic(false);
 
-	Body->setCollisionBitmask(CCollisionManager::CB_PLAYER_BOTTOM);
-	Body->setContactTestBitmask(1);
+	//Body->setCollisionBitmask(CCollisionManager::CB_PLAYER_BOTTOM);
+	//Body->setContactTestBitmask(1);
 
-	auto n = Node::create();
-	n->setPhysicsBody(Body);
-	addChild(n);
-
-	this->scheduleUpdate();
+	//auto n = Node::create();
+	//n->setPhysicsBody(Body);
+	//addChild(n);
 }
 
 void Player::update(float dt)

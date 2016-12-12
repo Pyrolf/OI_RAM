@@ -10,7 +10,6 @@ public:
 	enum COLLISION_BITMASK
 	{
 		CB_PLAYER = 1,
-		CB_PLAYER_BOTTOM,
 		CB_GROUND,
 		CB_ENEMY
 	};

@@ -41,10 +41,10 @@ void CEnemy::AddPhysicsBodyBox(cocos2d::Size size)
 	this->setPhysicsBody(body);
 }
 
-void CEnemy::Init(CGameObject* pTargetGO, float speed, float fDetectionRange, float fAttackRange)
+void CEnemy::Init(CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, float fDetectionRange, float fAttackRange)
 {
 	m_AI = new CAIEnemy(CAIEnemy::FEM_NIL, this);
-	m_AI->Init(pTargetGO, speed, fDetectionRange, fAttackRange);
+	m_AI->Init(pTargetGO, fMovementSpeed, fAnimationSpeed, fDetectionRange, fAttackRange);
 }
 
 void CEnemy::Update(float dt)

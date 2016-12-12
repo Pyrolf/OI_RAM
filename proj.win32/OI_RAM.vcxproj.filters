@@ -34,6 +34,12 @@
     <Filter Include="src\Loaders">
       <UniqueIdentifier>{5ebbbb8d-44c4-44e8-b24d-14b8ce47d882}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ETC">
+      <UniqueIdentifier>{1d557856-fc83-4a05-b952-a816d93aabad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Lighting">
+      <UniqueIdentifier>{1fa9360f-f918-40a8-bec3-637f75cce9a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -108,8 +114,23 @@
     <ClCompile Include="..\Classes\ParticleLoader.cpp">
       <Filter>src\Loaders</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\CameraController.cpp">
-      <Filter>src\Managers</Filter>
+    <ClCompile Include="..\Classes\FollowWithLerp.cpp">
+      <Filter>src\ETC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lighting\Effect.cpp">
+      <Filter>src\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lighting\EffectSprite.cpp">
+      <Filter>src\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lighting\LightEffect.cpp">
+      <Filter>src\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\EffectTileMap.cpp">
+      <Filter>src\Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\EffectTileLayer.cpp">
+      <Filter>src\Tilemap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,8 +206,23 @@
     <ClInclude Include="..\Classes\ParticleLoader.h">
       <Filter>src\Loaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\CameraController.h">
-      <Filter>src\Managers</Filter>
+    <ClInclude Include="..\Classes\FollowWithLerp.h">
+      <Filter>src\ETC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lighting\Effect.h">
+      <Filter>src\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lighting\EffectSprite.h">
+      <Filter>src\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lighting\LightEffect.h">
+      <Filter>src\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\EffectTileMap.h">
+      <Filter>src\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\EffectTileLayer.h">
+      <Filter>src\Tilemap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
