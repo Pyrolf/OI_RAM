@@ -28,26 +28,6 @@ CGameObject* CGameObject::create()
 	return ret;
 }
 
-void CGameObject::RemovePhysicsBody()
-{
-	auto body = this->getPhysicsBody();
-	if (body)
-		this->removeComponent(body);
-}
-
-void CGameObject::AddPhysicsBodyBox()
-{
-	AddPhysicsBodyBox(m_pSprite->getContentSize());
-}
-
-void CGameObject::AddPhysicsBodyBox(cocos2d::Size size)
-{
-	RemovePhysicsBody();
-
-	auto body = PhysicsBody::createBox(size);
-	this->setPhysicsBody(body);
-}
-
 // Setters
 void CGameObject::SetSprite(cocos2d::Sprite* sprite, cocos2d::Size size)
 {

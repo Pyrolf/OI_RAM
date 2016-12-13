@@ -28,7 +28,7 @@ Scene* CInGameScene::createScene()
 
 	scene->getPhysicsWorld()->setFixedUpdateRate(120);
 	scene->getPhysicsWorld()->setGravity(Vec2(0, -98 * 10));
-	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
 	auto layer = CInGameScene::create();
@@ -94,12 +94,14 @@ void CInGameScene::initGameObjects()
 	m_pGOManager->SpawnPlayer(Vec2(	origin.x + visibleSize.width / 2,
 									origin.y + visibleSize.height * 0.75f));
 	//play particle at the player
-	CParticleLoader::createBleedingEffect(m_pGOManager->getPlayer());
+	//CParticleLoader::createBleedingEffect(m_pGOManager->getPlayer());
 
 	// Load Sprites
 	CSpriteLoader::loadEnemiesSprites(targetSize);
+	CSpriteLoader::loadPlayerSprites();
 	// Load Animations
 	CAnimationLoader::loadEnemiesAnimates(targetSize);
+	CAnimationLoader::loadPlayerAnimates();
 
 	// Spawn Enemy
 	float movementSpeed = targetSize.width * 0.75f;

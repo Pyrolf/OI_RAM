@@ -11,9 +11,6 @@ public:
 	virtual ~CEnemy();
 
 	static CEnemy* create();
-	
-	virtual void AddPhysicsBodyBox();
-	virtual void AddPhysicsBodyBox(cocos2d::Size size);
 
 	void Init(CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, float fDetectionRange, float fAttackRange);
 	void Update(float dt);

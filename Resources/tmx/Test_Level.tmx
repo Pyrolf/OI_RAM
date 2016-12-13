@@ -3,24 +3,45 @@
  <tileset firstgid="1" name="forest" tilewidth="64" tileheight="64" tilecount="300" columns="25">
   <image source="forest.png" width="1640" height="768"/>
  </tileset>
- <layer name="Scrolling_3" width="32" height="32">
+ <layer name="Scrolling_4" width="32" height="32">
+  <properties>
+   <property name="x_scroll_speed" type="float" value="0.1"/>
+   <property name="y_scroll_speed" type="float" value="0.5"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJztzclXjmEAxuGvRUhzSWyE5omyR2RKexFlyN7cbG+e2ZuJtDekKOwps9iThAwr1x/xnFp473Ou5e/csVi0aNGiRYsWbbKXSBLJpJBKGulkkMkssphNNnOYG6iN/v/v/zzyKaCQIoopoZQyylnEYiqoZEmgdinLWE4VK1hJNatYzRrWso4a1lMbqN1AHRvZRD2b2UIDjWxlG9vZQRM7A7W72M0e9rKP/RygmRZaaaOdDjo5GKg9xGGOcJRjHOcEJznFac5wlnOc50Kg9iKXuMwVrnKN69zgJl3c4jbd3KEnUHuXe9znAb08pI9+HvGYAQZ5wlOeBWqf84IhhnnJK17zhre84z0fGOEjnwK1n/nCKF8Z4xvjfOcHP5ngF7/5w99AbXxcLDaN6cwggZkkkkQyKaSSRjoZZMaFaeeRw3wWsJBc8singEKKKKaEUsoCtVO9f0KOsbE=
   </data>
  </layer>
- <layer name="Scrolling_2" width="32" height="32">
+ <layer name="Scrolling_3" width="32" height="32">
+  <properties>
+   <property name="x_scroll_speed" type="float" value="0.12"/>
+   <property name="y_scroll_speed" type="float" value="0.3"/>
+  </properties>
   <data encoding="base64" compression="zlib">
-   eJztjbcNxEAMBK9euSbkmpD+1YRcE3IVaUOCIAMmn/wOMMksAaZECCGEEEIIIb+hgCWsRMtgrjarebeR3sIO9uJ/DRu1Wc27jfQP/MJJ/B/gqDarebeRvsIN7uL/DBe1Wc27jfQL3vAR/w94qs1q3m2k/zsvuvZTWA==
+   eJztzscNAkEQRNFNFm9CwC0mBLwJAVhsCHgTEf/SEkK0RuJKfendStMTRUoppZRSSin1X6WQRgZZ5H58J48CiiihHNjbpoIqaqijEfiTdydGEy200QnsbdNFD30MMHT+ZHl3Rhhjgilmgb1t5lhgiQQr50+Wd2eNDbbYYR/Y2+aAI0444+L8yfLuXHHDHQ88A/v3zWff/mR5d7y8/QuualJo
+  </data>
+ </layer>
+ <layer name="Scrolling_2" width="32" height="32">
+  <properties>
+   <property name="x_scroll_speed" type="float" value="0.15"/>
+   <property name="y_scroll_speed" type="float" value="-0.01"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzccRAjEQRNFNFm9CwJsQ8CaEXTwhsHgi4h90UknaGxe6q95BPVOaKFIURVEURVEURflNqqihbt5lVBx9DnkUUEQp41/fvt33McDQzLvoOfoGmmihjU7Gfd++3S+xwtrM51g4+hHGmGCKWcZ9377dH3HC2cz3ODj6GAk22GIXuJ0E9u3+hTc+Zv7A09FfkOKKG+6B+2lg3+7/PV9KkkQH
   </data>
  </layer>
  <layer name="Scrolling" width="32" height="32">
+  <properties>
+   <property name="x_scroll_speed" type="float" value="0.01"/>
+   <property name="y_scroll_speed" type="float" value="-0.01"/>
+  </properties>
   <data encoding="base64" compression="zlib">
-   eJztzLcNgFAQBFGaxTWBawLXBK4JXE9M+JOTCE4iYEd60WkvipRSSimllFLqP8VIkCJD/uLmuSlQokKNJvhl3Tw3LTr0GDAGv6yb52bCjAUrtuCXdfPc7Dhw4sId/LJu3puvegBe/kq2
+   eJxjYBgFo2AUjIJRMApGwSgYBaNgFIyCUTAK6AcsgdgKia8ExMpoajiBmIsMsxWAWJE8Zw17AAB5NwEN
   </data>
  </layer>
  <layer name="midground" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMApGwSgYBaNg5ACpUftH7R+1f0Tbz0QBZsOCidXLDLWfdQAxAD9RAfM=
+   eJxjYBgFo2AUjIJRMApGwSgYBaNg5ACpUftH7R+1HycIpqP9IWTYH4wFk2o/EwWYDQsmVi8z1H7WAcQAwRYEjA==
   </data>
  </layer>
  <objectgroup name="Obj">
@@ -28,7 +49,7 @@
  </objectgroup>
  <layer name="Collision" width="32" height="32" opacity="0.42">
   <data encoding="base64" compression="zlib">
-   eJztz7ENAAAEAEG1/Qc2g5Ao3CVaTwQAAF+k/ukN+vr69/3JbOzd/qGjAHVlAgk=
+   eJzt1yEOADAIBMHT/P/B1dWkBTEkOMLorSQ1vFPD5/P5fD6fz+fz+fz7ZrPf6clX7fqzf7v/DrZBBRU=
   </data>
  </layer>
 </map>

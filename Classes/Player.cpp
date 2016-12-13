@@ -1,6 +1,9 @@
 #include "Player.h"
 #include "CollisionManager.h"
 #include "KeyboardManager.h"
+#include "SpriteLoader.h"
+#include "AnimationLoader.h"
+#include "ParticleLoader.h"
 
 Player::Player()
 : CGameObject()
@@ -15,15 +18,15 @@ void Player::Init(Vec2 Pos)
 {
 	this->setPosition(Pos);
 
-	Sprite* temp = Sprite::create("animations/knight/idle/frame_1.png");
+	Sprite* temp = CSpriteLoader::getPlayerSprite();
 	auto spriteSize = temp->getContentSize();
 
 	this->SetSprite(temp, spriteSize);
-
+	astate = A_Idle;
 
 	PhysicsBody* Body;
 	Body = PhysicsBody::createBox(Size(spriteSize.width, spriteSize.height), PhysicsMaterial(1, 0, 0));
-	Body->addShape(PhysicsShapeBox::create(Size(spriteSize.width - 2, 4), PhysicsMaterial(1, 0, 0), Vec2(0, -spriteSize.height / 2 + 2)));
+	Body->addShape(PhysicsShapeBox::create(Size(spriteSize.width - 6, 4), PhysicsMaterial(1, 0, 0), Vec2(0, -spriteSize.height / 2 + 2)));
 	Body->getShapes().at(1)->setSensor(true);
 	Body->setMass(1);
 	Body->setRotationEnable(false);
@@ -63,6 +66,8 @@ void Player::update(float dt)
 		Body->setVelocity(Vec2(0, Body->getVelocity().y).lerp(Body->getVelocity(), frictionLerpValue));
 
 		a = Body->getVelocity();
+
+		setA_Idle();
 	}
 	
 	isMoving = false;
@@ -76,15 +81,22 @@ void Player::Move(bool right, float dt)
 	auto body = this->getPhysicsBody();
 
 	if (right)
+	{
+		GetSprite()->setFlipX(false);
 		body->applyImpulse(Vec2(body->getMass() * 400.0f  * dt, 0));
+	}
 	else
+	{
+		GetSprite()->setFlipX(true);
 		body->applyImpulse(Vec2(body->getMass() * -400.0f  * dt, 0));
-
+	}
 
 	if (body->getVelocity().x > 150)
 		body->setVelocity(Vec2(150, body->getVelocity().y));
 	else if (body->getVelocity().x < -150)
 		body->setVelocity(Vec2(-150, body->getVelocity().y));
+
+	setA_Move();
 }
 
 void Player::Jump()
@@ -111,12 +123,12 @@ void Player::Movement(float dt)
 	{
 		Move(true, dt);
 	}
-	if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) && !upKeypress)
+	if ((KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) && !upKeypress) || (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_W) && !upKeypress))
 	{
 		upKeypress = true;
 		Jump();
 	}
-	else if (!KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) && upKeypress)
+	else if (!KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) && !KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_W) && upKeypress)
 	{
 		upKeypress = false;
 	}
@@ -124,4 +136,41 @@ void Player::Movement(float dt)
 	{
 		c->setPosition(c->getPositionX(), c->getPositionY() - dt * 500);
 	}*/
+}
+
+void Player::Knockback(Vec2 dir, float force)
+{
+	auto body = this->getPhysicsBody();
+
+	body->setVelocity(Vec2(0, 0));
+	body->applyImpulse(dir * force * body->getMass());
+
+	CParticleLoader::createBleedingEffect(this);
+}
+
+
+void Player::setA_Idle()
+{
+	if (astate != A_Idle)
+	{
+		GetSprite()->setFlipX(false);
+		GetSprite()->stopAllActions();
+
+		astate = A_Idle;
+
+		SetSprite(CSpriteLoader::getPlayerSprite(), Size(49, 90));
+	}
+}
+
+void Player::setA_Move()
+{
+	if (astate != A_Move)
+	{
+		GetSprite()->stopAllActions();
+
+		astate = A_Move;
+
+		auto animate = RepeatForever::create(CAnimationLoader::getPlayerAnimate(astate));
+		GetSprite()->runAction(animate);
+	}
 }

@@ -21,5 +21,5 @@ private:
 
 	cocos2d::experimental::TMXTiledMap * tilemap = nullptr;
 
-	void tilemapParallaxScrolling(Vec2 targetPos, Vec2 dir, float dt);
+	void tilemapParallaxScrolling(Vec2 displacement, float dt);
 };

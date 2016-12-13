@@ -75,9 +75,6 @@
     <ClCompile Include="..\Classes\TilemapManager.cpp">
       <Filter>src\Tilemap</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\KeyboardManager.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Player.cpp">
       <Filter>src\GameObjects</Filter>
     </ClCompile>
@@ -132,6 +129,9 @@
     <ClCompile Include="..\Classes\EffectTileLayer.cpp">
       <Filter>src\Tilemap</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\KeyboardManager.cpp">
+      <Filter>src\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -166,9 +166,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\TilemapManager.h">
       <Filter>src\Tilemap</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\KeyboardManager.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Player.h">
       <Filter>src\GameObjects</Filter>
@@ -223,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\EffectTileLayer.h">
       <Filter>src\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\KeyboardManager.h">
+      <Filter>src\Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

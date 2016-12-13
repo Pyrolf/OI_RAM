@@ -11,6 +11,11 @@ using namespace cocos2d;
 class Player : public CGameObject
 {
 public:
+	enum A_STATE
+	{
+		A_Idle,
+		A_Move
+	};
 
 	Player();
 	virtual ~Player();
@@ -24,12 +29,19 @@ public:
 
 	void SetJumpCount(int i) { jumpCount = i; };
 	void SetFrictionMulti(float f) { frictionMulti = f; };
+
+	void Knockback(Vec2 dir, float force);
 private:
+	A_STATE astate;
 
 	bool isMoving = false;
 	float frictionMulti = 0;
 	float frictionLerpValue = 0;
 
 	int jumpCount = 0;
-	int maxJumpCount = 200;
+	int maxJumpCount = 2;
+
+	void setA_Idle();
+
+	void setA_Move();
 };

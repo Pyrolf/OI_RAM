@@ -2,6 +2,7 @@
 #define __COLLISION_MANAGER_H__
 
 #include "cocos2d.h"
+#include "Enemy.h"
 
 class CCollisionManager : public cocos2d::Node
 {
@@ -18,6 +19,9 @@ public:
 	~CCollisionManager();
 
 	void Update(float dt);
+
+	static void addPhysicBody(CEnemy* target);
+
 private:
 
 	bool onContactBegin(cocos2d::PhysicsContact& contact);

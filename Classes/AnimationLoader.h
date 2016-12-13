@@ -8,5 +8,8 @@ class CAnimationLoader
 public:
 	static void loadEnemiesAnimates(cocos2d::Size size);
 	static cocos2d::Animate* getEnemyAnimate(int state, cocos2d::Size size, float delay = 0.0f, unsigned int loops = 1);
+
+	static void loadPlayerAnimates(cocos2d::Size size = cocos2d::Size(70, 90));
+	static cocos2d::Animate* getPlayerAnimate(int state, cocos2d::Size size = cocos2d::Size(70, 90), float delay = 0.0f, unsigned int loops = 1);
 };
 #endif // __ANIMATION_LOADER_H__
