@@ -10,6 +10,7 @@
 #include "ParticleLoader.h"
 #include "FileOperation.h"
 #include "CollisionManager.h"
+#include "FollowWithLerp.h"
 
 USING_NS_CC;
 
@@ -67,7 +68,7 @@ bool CInGameScene::init()
 
 	this->addChild(new CCollisionManager());
 
-	tileMapManager = new TilemapManager("tmx/Test Level.tmx", this);
+	tileMapManager = new TilemapManager("tmx/Test_Level.tmx", this);
 
 	m_nPoints = 0;
 	m_nPointsAddedToLabel = 0;
@@ -93,12 +94,14 @@ void CInGameScene::initGameObjects()
 	m_pGOManager->SpawnPlayer(Vec2(	origin.x + visibleSize.width / 2,
 									origin.y + visibleSize.height * 0.75f));
 	//play particle at the player
-	CParticleLoader::createBleedingEffect(m_pGOManager->getPlayer());
+	//CParticleLoader::createBleedingEffect(m_pGOManager->getPlayer());
 
 	// Load Sprites
 	CSpriteLoader::loadEnemiesSprites(targetSize);
+	CSpriteLoader::loadPlayerSprites();
 	// Load Animations
 	CAnimationLoader::loadEnemiesAnimates(targetSize);
+	CAnimationLoader::loadPlayerAnimates();
 
 	// Spawn Enemy
 	float movementSpeed = targetSize.width * 0.75f;
@@ -127,14 +130,53 @@ void CInGameScene::onEnterTransitionDidFinish()
 	KeyboardManager::GetInstance()->removeFromParent();
 	this->addChild(KeyboardManager::GetInstance());
 
-	//set camera and follow player
-	CamCon = new CameraController();
-	addChild(CamCon);
-	CamCon->setFollowTarget(m_pGOManager->getPlayer());
+	auto fll = FollowWithLerp::create(m_pGOManager->getPlayer(), 3, Rect(0, 0, tileMapManager->getTilemap()->getContentSize().width, tileMapManager->getTilemap()->getContentSize().height));
+
+	this->runAction(fll);
+
+	fll->setParallaxScrolling(tileMapManager->getTilemap());
+
+	//tileMapManager->setLightEffect(_effect);
+
+	/*auto avds = CSpriteLoader::getEnemySprite(Size(64, 64));
+	this->addChild(avds);
+	avds->setPosition(64, 64);
+	avds->setAnchorPoint(Vec2(0, 0));
+
+	RenderTexture* r = RenderTexture::create(700, 700);
+	
+	r->beginWithClear(1, 1, 1, 0);
+	m_pGOManager->getPlayer()->GetSprite()->visit();
+	avds->visit();
+	r->end();
+
+	auto assd = Sprite::createWithTexture(r->getSprite()->getTexture());
+	assd->setAnchorPoint(Vec2(0, 0));
+	addChild(assd);
+
+	RenderTexture* ra = RenderTexture::create(700, 700);
+	ra->beginWithClear(1, 1, 1, 0);
+	assd->visit();
+	ra->end();
+
+	auto assds = Sprite::createWithTexture(ra->getSprite()->getTexture());
+	assds->getTexture()->retain();
+	assds->setAnchorPoint(Vec2(0, 0));
+	addChild(assds);
+
+	assd->removeFromParent();
+	
+	avds->removeFromParent();*/
+	//CC_SAFE_DELETE(assd);
+	//bool a = e.updateWithData(tileMapManager->, 0, 0, 40, 40);
+	//m_pGOManager->getPlayer()->GetSprite()->setTexture(r->getSprite()->getTexture());
 }
 
 void CInGameScene::update(float dt)
 {
+	
+	m_pGOManager->getPlayer()->update(dt);
+
 	AddPoints(1);
 	if (m_nPointsAddedToLabel != m_nPoints)
 		AddPointsToLabel();
@@ -142,6 +184,23 @@ void CInGameScene::update(float dt)
 		m_pGOManager->Update(dt);
 
 	Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
+
+	/*if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_LEFT_ARROW) || KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_A))
+	{
+		c->setPosition(c->getPosition() - Vec2(100, 0));
+	}
+	if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_RIGHT_ARROW) || KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_D))
+	{
+		c->setPosition(c->getPosition() + Vec2(100, 00));
+	}
+	if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW))
+	{
+		c->setPosition(c->getPosition() + Vec2(0, 100));
+	}
+	if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW))
+	{
+		c->setPosition(c->getPosition() - Vec2(0, 100));
+	}*/
 
 	m_pGUILayer->setPosition(c->getPosition() - m_pGUILayer->GetInitialCamPos());
 }

@@ -1,24 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="left-down" width="32" height="32" tilewidth="64" tileheight="64" nextobjectid="11">
- <tileset firstgid="1" name="forest" tilewidth="64" tileheight="64" tilecount="90" columns="10">
-  <image source="forest.png" width="640" height="576"/>
+ <tileset firstgid="1" name="forest" tilewidth="64" tileheight="64" tilecount="300" columns="25">
+  <image source="forest.png" width="1640" height="768"/>
  </tileset>
- <layer name="background" width="32" height="32">
+ <layer name="Scrolling_4" width="32" height="32">
+  <properties>
+   <property name="x_scroll_speed" type="float" value="0.1"/>
+   <property name="y_scroll_speed" type="float" value="0.5"/>
+  </properties>
   <data encoding="base64" compression="zlib">
-   eJztzTkOgzAARFFfAToCB2Ct2CogqRKggpD7X4VfQOOOxlLEfOlJlmVrjFFKKaWUUkqp/ylBigw5Csf7JSrUaNA63u/QY8ATL8f7b3wwYsJ84W+Ax3GOD2cefOt9iMi6W7Diiw2/C/t3bwfbwwcF
+   eJztzclXjmEAxuGvRUhzSWyE5omyR2RKexFlyN7cbG+e2ZuJtDekKOwps9iThAwr1x/xnFp473Ou5e/csVi0aNGiRYsWbbKXSBLJpJBKGulkkMkssphNNnOYG6iN/v/v/zzyKaCQIoopoZQyylnEYiqoZEmgdinLWE4VK1hJNatYzRrWso4a1lMbqN1AHRvZRD2b2UIDjWxlG9vZQRM7A7W72M0e9rKP/RygmRZaaaOdDjo5GKg9xGGOcJRjHOcEJznFac5wlnOc50Kg9iKXuMwVrnKN69zgJl3c4jbd3KEnUHuXe9znAb08pI9+HvGYAQZ5wlOeBWqf84IhhnnJK17zhre84z0fGOEjnwK1n/nCKF8Z4xvjfOcHP5ngF7/5w99AbXxcLDaN6cwggZkkkkQyKaSSRjoZZMaFaeeRw3wWsJBc8singEKKKKaEUsoCtVO9f0KOsbE=
+  </data>
+ </layer>
+ <layer name="Copy of Scrolling_3" width="32" height="32" offsetx="2048" offsety="0">
+  <properties>
+   <property name="x_position" type="float" value="2048"/>
+   <property name="x_scroll_speed" type="float" value="-0.1"/>
+   <property name="y_scroll_speed" type="float" value="0.3"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzMcNAkEMRmE3Sw4lkJZQAjmUACyxBHKoiIe0K/kwo7lxwU/65JN/EcuyLMuyLMuyrP8qgyxyyKPwo60KqqihjgaaaAV2iiihrDbSXFvi+e2ihz4GGGKEcWAnQhsdtZHm2hLP7xwLLLHCGjE2gZ0JppipDUl2XFvi+T3giBPOuOCKW2Bnix32akOSHdeWqKt/X3iLO9/OtzseeAY2XOnfD4dfTfY=
+  </data>
+ </layer>
+ <layer name="Scrolling_3" width="32" height="32">
+  <properties>
+   <property name="x_scroll_speed" type="float" value="-0.1"/>
+   <property name="y_scroll_speed" type="float" value="0.3"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzMcNAkEMRmE3Sw4lkJZQAjmUACyxBHKoiIe0K/kwo7lxwU/65JN/EcuyLMuyLMuyrP8qgyxyyKPwo60KqqihjgaaaAV2iiihrDbSXFvi+e2ihz4GGGKEcWAnQhsdtZHm2hLP7xwLLLHCGjE2gZ0JppipDUl2XFvi+T3giBPOuOCKW2Bnix32akOSHdeWqKt/X3iLO9/OtzseeAY2XOnfD4dfTfY=
+  </data>
+ </layer>
+ <layer name="Copy of Scrolling_2" width="32" height="32" offsetx="2048" offsety="0">
+  <properties>
+   <property name="x_position" type="float" value="2048"/>
+   <property name="x_scroll_speed" type="float" value="-0.01"/>
+   <property name="y_scroll_speed" type="float" value="-0.01"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzEcOwjAQRuFcll6OQC9HoJcjhA5HSOiciLewpVFke8mGedIngZX5o0jTNE3TNE3TNO03FVBEyfwvo4IqaqiLb3PIO25C+fbsVgttdMx7Fz30McBQbDXQdNyE8u3ZrQmmmJn3ORZYYoW12Bph7LgJ5duzW1vssDfvBxxxwhkXsRVj47gJ5duzW1fccDfvDzzxwhsfsZUgddxkS8Vv316S+e5f+wJisz2J
+  </data>
+ </layer>
+ <layer name="Scrolling_2" width="32" height="32" offsetx="1" offsety="1">
+  <properties>
+   <property name="x_scroll_speed" type="float" value="-0.01"/>
+   <property name="y_scroll_speed" type="float" value="-0.01"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzEcOwjAQRuFcll6OQC9HoJcjhA5HSOiciLewpVFke8mGedIngZX5o0jTNE3TNE3TNO03FVBEyfwvo4IqaqiLb3PIO25C+fbsVgttdMx7Fz30McBQbDXQdNyE8u3ZrQmmmJn3ORZYYoW12Bph7LgJ5duzW1vssDfvBxxxwhkXsRVj47gJ5duzW1fccDfvDzzxwhsfsZUgddxkS8Vv316S+e5f+wJisz2J
+  </data>
+ </layer>
+ <layer name="Scrolling" width="32" height="32">
+  <properties>
+   <property name="x_scroll_speed" type="float" value="0"/>
+   <property name="y_scroll_speed" type="float" value="-0.01"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApGwSgYBaNgFIyCUTAK6AcsgdgKia8ExMpoajiBmIsMsxWAWJE8Zw17AAB5NwEN
   </data>
  </layer>
  <layer name="midground" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJzt0jsKwCAQQME1qPc/ciwEsQikUUFm4B1gPxEAAACzp8cef/Z98h63/EOKMcuqcqt+VA73ApvYAQg=
+   eJxjYBgFo2AUjIJRMApGwSgYBaNg5ACpUftH7R+1HycIpqP9IWTYH4wFk2o/EwWYDQsmVi8z1H7WAcQAwRYEjA==
   </data>
  </layer>
  <objectgroup name="Obj">
-  <object id="10" name="Player" type="Player" x="157.576" y="1612.12" width="136.364" height="136.364"/>
+  <object id="10" name="Player" type="Player" x="169.576" y="1700.12" width="136.364" height="136.364"/>
  </objectgroup>
- <layer name="Collision" width="32" height="32">
+ <layer name="Collision" width="32" height="32" opacity="0.42">
   <data encoding="base64" compression="zlib">
-   eJzjZBgYwImER8EoGAWjYBQgACfDwJaRnGhsersB3b6RbP9Ahf9IqKPJ8Rs1wwRbPOMzm9pxgm4/uhi97ad3ehvotD1U7OeCYmraQa+4Hor2ExPexMYHLfxPSnrAZz89ACH/0wPjc9tAlQEgewGp7QNx
+   eJzt1yEOADAIBMHT/P/B1dWkBTEkOMLorSQ1vFPD5/P5fD6fz+fz+fz7ZrPf6clX7fqzf7v/DrZBBRU=
   </data>
  </layer>
 </map>

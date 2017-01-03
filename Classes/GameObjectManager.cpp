@@ -1,6 +1,7 @@
 #include "GameObjectManager.h"
 #include "Enemy.h"
 #include "SpriteLoader.h"
+#include "CollisionManager.h"
 
 USING_NS_CC;
 
@@ -35,13 +36,13 @@ void CGameObjectManager::Update(float dt)
 {
 	for (int i = 0; i < m_pEnemyList.size(); i++)
 	{
-		auto enmey = m_pEnemyList.at(i);
-		if (enmey->GetActive())
+		auto enemy = m_pEnemyList.at(i);
+		if (enemy->GetActive())
 		{
-			enmey->Update(dt);
-			if (enmey->GetAI()->GetCurrentState() == CAIEnemy::FSM_DIED)
+			enemy->Update(dt);
+			if (enemy->GetAI()->GetCurrentState() == CAIEnemy::FSM_DIED)
 			{
-				DeactivateEnemy(enmey);
+				DeactivateEnemy(enemy);
 			}
 		}
 	}
@@ -53,7 +54,7 @@ void CGameObjectManager::SpawnEnemy(Vec2 vec2Position,
 	auto enemy = GetAnInactiveEnemy();
 	enemy->SetActive(true);
 	enemy->SetSprite(CSpriteLoader::getEnemySprite(m_EnemySpriteSize), m_EnemySpriteSize);
-	enemy->AddPhysicsBodyBox();
+	CCollisionManager::addPhysicBody(enemy);
 	enemy->setPosition(vec2Position);
 	enemy->Init(pTargetGO, fMovementSpeed, fAnimationSpeed, fDetectionRange, fAttackRange);
 }
@@ -103,7 +104,8 @@ void CGameObjectManager::SpawnPlayer(Vec2 Pos)
 
 void CGameObjectManager::DeactivateEnemy(CEnemy* enemy)
 {
-	enemy->RemovePhysicsBody();
+	if (enemy->getPhysicsBody())
+		enemy->getPhysicsBody()->setEnabled(false);
 	enemy->SetActive(false);
 	enemy->pause();
 	enemy->setVisible(false);
