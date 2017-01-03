@@ -158,7 +158,12 @@ void Player::setA_Idle()
 
 		astate = A_Idle;
 
-		SetSprite(CSpriteLoader::getPlayerSprite(), Size(49, 90));
+	//Sprite::createWithTexture
+
+		GetSprite()->setTexture(CSpriteLoader::getPlayerSprite()->getTexture());
+		GetSprite()->setTextureRect(CSpriteLoader::getPlayerSprite()->getTextureRect());
+
+		//SetSprite(CSpriteLoader::getPlayerSprite(), Size(49, 90));
 	}
 }
 
@@ -166,11 +171,12 @@ void Player::setA_Move()
 {
 	if (astate != A_Move)
 	{
-		GetSprite()->stopAllActions();
+		auto sprite = GetSprite();
+		sprite->stopAllActions();
 
 		astate = A_Move;
 
-		auto animate = RepeatForever::create(CAnimationLoader::getPlayerAnimate(astate));
-		GetSprite()->runAction(animate);
+		auto animate = RepeatForever::create(CAnimationLoader::getPlayerAnimate(astate, Size(70, 90), 0.5f));
+		sprite->runAction(animate);
 	}
 }

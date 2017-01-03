@@ -23,6 +23,7 @@ TilemapManager::TilemapManager(string filepath, Layer* theLayer, int Zorder)
 
 	if (tilemap)
 	{
+		Vector<cocos2d::experimental::TMXLayer*> dubLayers;
 		for (auto& object : tilemap->getChildren())
 		{
 			auto layer = dynamic_cast<cocos2d::experimental::TMXLayer*>(object);
@@ -30,6 +31,15 @@ TilemapManager::TilemapManager(string filepath, Layer* theLayer, int Zorder)
 			{
 				spawnBoundingBoxes(layer);
 				layer->setVisible(false);
+			}
+
+			Value temp = layer->getProperty("x_position");
+			if (!temp.isNull())
+			{
+				float xpos;
+				xpos = std::stof(temp.asString());
+
+				layer->setPosition(xpos, layer->getPosition().y);\
 			}
 		}
 	}

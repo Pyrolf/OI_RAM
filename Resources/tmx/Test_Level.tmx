@@ -12,27 +12,47 @@
    eJztzclXjmEAxuGvRUhzSWyE5omyR2RKexFlyN7cbG+e2ZuJtDekKOwps9iThAwr1x/xnFp473Ou5e/csVi0aNGiRYsWbbKXSBLJpJBKGulkkMkssphNNnOYG6iN/v/v/zzyKaCQIoopoZQyylnEYiqoZEmgdinLWE4VK1hJNatYzRrWso4a1lMbqN1AHRvZRD2b2UIDjWxlG9vZQRM7A7W72M0e9rKP/RygmRZaaaOdDjo5GKg9xGGOcJRjHOcEJznFac5wlnOc50Kg9iKXuMwVrnKN69zgJl3c4jbd3KEnUHuXe9znAb08pI9+HvGYAQZ5wlOeBWqf84IhhnnJK17zhre84z0fGOEjnwK1n/nCKF8Z4xvjfOcHP5ngF7/5w99AbXxcLDaN6cwggZkkkkQyKaSSRjoZZMaFaeeRw3wWsJBc8singEKKKKaEUsoCtVO9f0KOsbE=
   </data>
  </layer>
- <layer name="Scrolling_3" width="32" height="32">
+ <layer name="Copy of Scrolling_3" width="32" height="32" offsetx="2048" offsety="0">
   <properties>
-   <property name="x_scroll_speed" type="float" value="0.12"/>
+   <property name="x_position" type="float" value="2048"/>
+   <property name="x_scroll_speed" type="float" value="-0.1"/>
    <property name="y_scroll_speed" type="float" value="0.3"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztzscNAkEQRNFNFm9CwC0mBLwJAVhsCHgTEf/SEkK0RuJKfendStMTRUoppZRSSin1X6WQRgZZ5H58J48CiiihHNjbpoIqaqijEfiTdydGEy200QnsbdNFD30MMHT+ZHl3Rhhjgilmgb1t5lhgiQQr50+Wd2eNDbbYYR/Y2+aAI0444+L8yfLuXHHDHQ88A/v3zWff/mR5d7y8/QuualJo
+   eJztzMcNAkEMRmE3Sw4lkJZQAjmUACyxBHKoiIe0K/kwo7lxwU/65JN/EcuyLMuyLMuyrP8qgyxyyKPwo60KqqihjgaaaAV2iiihrDbSXFvi+e2ihz4GGGKEcWAnQhsdtZHm2hLP7xwLLLHCGjE2gZ0JppipDUl2XFvi+T3giBPOuOCKW2Bnix32akOSHdeWqKt/X3iLO9/OtzseeAY2XOnfD4dfTfY=
   </data>
  </layer>
- <layer name="Scrolling_2" width="32" height="32">
+ <layer name="Scrolling_3" width="32" height="32">
   <properties>
-   <property name="x_scroll_speed" type="float" value="0.15"/>
+   <property name="x_scroll_speed" type="float" value="-0.1"/>
+   <property name="y_scroll_speed" type="float" value="0.3"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzMcNAkEMRmE3Sw4lkJZQAjmUACyxBHKoiIe0K/kwo7lxwU/65JN/EcuyLMuyLMuyrP8qgyxyyKPwo60KqqihjgaaaAV2iiihrDbSXFvi+e2ihz4GGGKEcWAnQhsdtZHm2hLP7xwLLLHCGjE2gZ0JppipDUl2XFvi+T3giBPOuOCKW2Bnix32akOSHdeWqKt/X3iLO9/OtzseeAY2XOnfD4dfTfY=
+  </data>
+ </layer>
+ <layer name="Copy of Scrolling_2" width="32" height="32" offsetx="2048" offsety="0">
+  <properties>
+   <property name="x_position" type="float" value="2048"/>
+   <property name="x_scroll_speed" type="float" value="-0.01"/>
    <property name="y_scroll_speed" type="float" value="-0.01"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztzccRAjEQRNFNFm9CwJsQ8CaEXTwhsHgi4h90UknaGxe6q95BPVOaKFIURVEURVEURflNqqihbt5lVBx9DnkUUEQp41/fvt33McDQzLvoOfoGmmihjU7Gfd++3S+xwtrM51g4+hHGmGCKWcZ9377dH3HC2cz3ODj6GAk22GIXuJ0E9u3+hTc+Zv7A09FfkOKKG+6B+2lg3+7/PV9KkkQH
+   eJztzEcOwjAQRuFcll6OQC9HoJcjhA5HSOiciLewpVFke8mGedIngZX5o0jTNE3TNE3TNO03FVBEyfwvo4IqaqiLb3PIO25C+fbsVgttdMx7Fz30McBQbDXQdNyE8u3ZrQmmmJn3ORZYYoW12Bph7LgJ5duzW1vssDfvBxxxwhkXsRVj47gJ5duzW1fccDfvDzzxwhsfsZUgddxkS8Vv316S+e5f+wJisz2J
+  </data>
+ </layer>
+ <layer name="Scrolling_2" width="32" height="32" offsetx="1" offsety="1">
+  <properties>
+   <property name="x_scroll_speed" type="float" value="-0.01"/>
+   <property name="y_scroll_speed" type="float" value="-0.01"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzEcOwjAQRuFcll6OQC9HoJcjhA5HSOiciLewpVFke8mGedIngZX5o0jTNE3TNE3TNO03FVBEyfwvo4IqaqiLb3PIO25C+fbsVgttdMx7Fz30McBQbDXQdNyE8u3ZrQmmmJn3ORZYYoW12Bph7LgJ5duzW1vssDfvBxxxwhkXsRVj47gJ5duzW1fccDfvDzzxwhsfsZUgddxkS8Vv316S+e5f+wJisz2J
   </data>
  </layer>
  <layer name="Scrolling" width="32" height="32">
   <properties>
-   <property name="x_scroll_speed" type="float" value="0.01"/>
+   <property name="x_scroll_speed" type="float" value="0"/>
    <property name="y_scroll_speed" type="float" value="-0.01"/>
   </properties>
   <data encoding="base64" compression="zlib">
