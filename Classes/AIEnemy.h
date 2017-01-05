@@ -22,6 +22,7 @@ private:
 	struct ShootingInformations
 	{
 		float m_fFireRate = 0;
+		cocos2d::Size m_fProjectileSize = cocos2d::Size(0, 0);
 		float m_fProjectileSpeed = 0;
 		float m_fEffectiveRange = 0;
 	};
@@ -61,9 +62,10 @@ public:
 	void SetMovementSpeed(float fMovementSpeed) { m_fMovementSpeed = fMovementSpeed; }
 	void SetAnimationSpeed(float fAnimationSpeed) { m_fAnimationSpeed = fAnimationSpeed; }
 	void SetTarget(CGameObject* pTargetGO) { m_pTargetGO = pTargetGO; }
-	void SetShootingInfomations(float fFireRate = 0, float fProjectileSpeed = 0, float fEffectiveRange = 0)
+	void SetShootingInfomations(float fFireRate = 0, cocos2d::Size fProjectileSize = cocos2d::Size(0, 0), float fProjectileSpeed = 0, float fEffectiveRange = 0)
 	{
 		m_shootingInfomations.m_fFireRate = fFireRate;
+		m_shootingInfomations.m_fProjectileSize = fProjectileSize;
 		m_shootingInfomations.m_fProjectileSpeed = fProjectileSpeed;
 		m_shootingInfomations.m_fEffectiveRange = fEffectiveRange;
 	}

@@ -3,12 +3,46 @@
 
 USING_NS_CC;
 
-void CSpriteLoader::loadEnemiesSprites(cocos2d::Size size)
+void CSpriteLoader::loadEnemiesSprites(CEnemy::ENEMY_TYPE type, Size size)
+{
+	switch (type)
+	{
+		case CEnemy::ENEMY_TYPE_POUNCER:
+		{
+			CSpriteSystem::getInstance()->getSprite("animations/monsters/monster1/idle/frame_1.png", size);
+			break;
+		}
+		default:
+		{
+			CSpriteSystem::getInstance()->getSprite("animations/monsters/monster1/idle/frame_1.png", size);
+			break;
+		}
+	}
+}
+
+Sprite* CSpriteLoader::getEnemySprite(CEnemy::ENEMY_TYPE type, Size size)
+{
+	switch (type)
+	{
+		case CEnemy::ENEMY_TYPE_POUNCER:
+		{
+			return CSpriteSystem::getInstance()->getSprite("animations/monsters/monster1/idle/frame_1.png", size);
+			break;
+		}
+		default:
+		{
+			return CSpriteSystem::getInstance()->getSprite("animations/monsters/monster1/idle/frame_1.png", size);
+			break;
+		}
+	}
+}
+
+void CSpriteLoader::loadProjectileSprites(cocos2d::Size size)
 {
 	CSpriteSystem::getInstance()->getSprite("animations/monsters/monster1/idle/frame_1.png", size);
 }
 
-Sprite* CSpriteLoader::getEnemySprite(Size size)
+Sprite* CSpriteLoader::getProjectileSprites(Size size)
 {
 	return CSpriteSystem::getInstance()->getSprite("animations/monsters/monster1/idle/frame_1.png", size);
 }

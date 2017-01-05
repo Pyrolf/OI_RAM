@@ -38,6 +38,8 @@ private:
 	void AddEnemies(int numOfEnemies);
 	CEnemy* GetAnInactiveEnemy();
 	void DeactivateEnemy(CEnemy* enemy);
+
+	cocos2d::Size m_ProjectileSpriteSize;
 };
 
 

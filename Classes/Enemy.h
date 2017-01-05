@@ -29,6 +29,7 @@ public:
 	void SetTarget(CAIEnemy* ai) { m_AI = ai; }
 	// Getters
 	CAIEnemy* GetAI() { return m_AI; }
+	ENEMY_TYPE GetEnemeyType() { return m_eEnemyType; }
 private:
 	CAIEnemy* m_AI;
 	ENEMY_TYPE m_eEnemyType;

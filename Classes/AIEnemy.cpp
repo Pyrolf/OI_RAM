@@ -1,5 +1,5 @@
 #include "AIEnemy.h"
-#include "GameObject.h"
+#include "Enemy.h"
 #include "AnimationSystem.h"
 #include "SpriteLoader.h"
 #include "AnimationLoader.h"
@@ -149,7 +149,7 @@ void CAIEnemy::Idle()
 		auto sprite = m_pGO->GetSprite();
 		if (sprite)
 		{
-			auto animate = RepeatForever::create(CAnimationLoader::getEnemyAnimate(FSM_IDLE, m_pGO->GetSpriteSize(), m_fAnimationSpeed));
+			auto animate = RepeatForever::create(CAnimationLoader::getEnemyAnimate(FSM_IDLE, dynamic_cast<CEnemy*>(m_pGO)->GetEnemeyType(), m_pGO->GetSpriteSize(), m_fAnimationSpeed));
 			sprite->runAction(animate);
 		}
 	}
@@ -166,7 +166,7 @@ void CAIEnemy::Chase()
 		auto sprite = m_pGO->GetSprite();
 		if (sprite)
 		{
-			auto animate = RepeatForever::create(CAnimationLoader::getEnemyAnimate(FSM_CHASE, m_pGO->GetSpriteSize(), m_fAnimationSpeed));
+			auto animate = RepeatForever::create(CAnimationLoader::getEnemyAnimate(FSM_CHASE, dynamic_cast<CEnemy*>(m_pGO)->GetEnemeyType(), m_pGO->GetSpriteSize(), m_fAnimationSpeed));
 			sprite->runAction(animate);
 		}
 	}
@@ -182,8 +182,33 @@ void CAIEnemy::Shoot()
 	}
 	if (!m_pGO->getActionByTag(FSM_SHOOT))
 	{
-		//sauto projectile = SpriteLoader
-		//m_pGO->runAction();
+		// Set Projectile infomation
+		auto projectile = CSpriteLoader::getProjectileSprites(m_shootingInfomations.m_fProjectileSize);
+		projectile->setPosition(m_pGO->getPosition());
+		projectile->setFlippedX(m_pGO->GetSprite()->isFlippedX());
+		if (m_pGO->GetSprite()->isFlippedX())
+		{
+			projectile->setPositionX(m_pGO->getPositionX() + m_pGO->GetSpriteSize().width * 0.5f);
+		}
+		else
+		{
+			projectile->setPositionX(m_pGO->getPositionX() - m_pGO->GetSpriteSize().width * 0.5f);
+		}
+		m_pGO->getParent()->addChild(projectile);
+		// Move the projectile
+		auto vecMoveTo = m_pGO->getPosition() + (m_pTargetGO->getPosition() - m_pGO->getPosition()).getNormalized() * m_shootingInfomations.m_fEffectiveRange;
+		MoveTo* moveBy = MoveTo::create(m_shootingInfomations.m_fEffectiveRange / m_shootingInfomations.m_fProjectileSpeed, vecMoveTo);
+		auto destroyProjectile = RemoveSelf::create();
+
+		auto sequence = Sequence::create(moveBy, destroyProjectile, NULL);
+		sequence->setTag(FSM_SHOOT);
+		projectile->runAction(sequence);
+
+		auto coolDown = DelayTime::create(m_shootingInfomations.m_fFireRate);
+		coolDown->setTag(FSM_SHOOT);
+		m_pGO->runAction(coolDown);
+
+		CheckDirection(-vecMoveTo);
 	}
 }
 
@@ -213,5 +238,7 @@ void CAIEnemy::Pounce()
 		auto pounceAction = Sequence::create(jumpAction, activateGravityAction, coolDownAction, NULL);
 		pounceAction->setTag(FSM_POUNCE);
 		m_pGO->runAction(pounceAction);
+
+		CheckDirection(m_pTargetGO->getPosition() - m_pGO->getPosition());
 	}
 }

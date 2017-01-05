@@ -16,6 +16,8 @@ CGameObjectManager::CGameObjectManager(int numOfEnemies)
 	m_arrayOfEnemySpriteSizes[CEnemy::ENEMY_TYPE_POUNCER]	= Size(visibleSize.width * 0.11f, visibleSize.height * 0.11f);
 	m_arrayOfEnemySpriteSizes[CEnemy::ENEMY_TYPE_SHOOTER]	= Size(visibleSize.width * 0.1f, visibleSize.height * 0.11f);
 	m_arrayOfEnemySpriteSizes[CEnemy::ENEMY_TYPE_HYBRID]	= Size(visibleSize.width * 0.125f, visibleSize.height * 0.15f);
+
+	m_ProjectileSpriteSize = Size(visibleSize.height * 0.05f, visibleSize.height * 0.05f);
 	// Set Movement Speed
 	m_arrayOfEnemyMovementSpeed[CEnemy::ENEMY_TYPE_WEAK]	= m_arrayOfEnemySpriteSizes[CEnemy::ENEMY_TYPE_WEAK].width * 0.75f;
 	m_arrayOfEnemyMovementSpeed[CEnemy::ENEMY_TYPE_STRONG]	= m_arrayOfEnemySpriteSizes[CEnemy::ENEMY_TYPE_STRONG].width * 0.75f;
@@ -52,9 +54,10 @@ CGameObjectManager::CGameObjectManager(int numOfEnemies)
 	// Load Sprites and Animations
 	for (int i = 0; i < CEnemy::NUM_OF_ENEMY_TYPES; i++)
 	{
-		CSpriteLoader::loadEnemiesSprites(m_arrayOfEnemySpriteSizes[i]);
-		CAnimationLoader::loadEnemiesAnimates(m_arrayOfEnemySpriteSizes[i]);
+		CSpriteLoader::loadEnemiesSprites((CEnemy::ENEMY_TYPE)i, m_arrayOfEnemySpriteSizes[i]);
+		CAnimationLoader::loadEnemiesAnimates((CEnemy::ENEMY_TYPE)i, m_arrayOfEnemySpriteSizes[i]);
 	}
+	CSpriteLoader::loadProjectileSprites(m_ProjectileSpriteSize);
 	CSpriteLoader::loadPlayerSprites();
 	CAnimationLoader::loadPlayerAnimates();
 
@@ -101,13 +104,19 @@ void CGameObjectManager::SpawnEnemy(Vec2 vec2Position, CEnemy::ENEMY_TYPE eEnemy
 {
 	auto enemy = GetAnInactiveEnemy();
 	enemy->SetActive(true);
-	enemy->SetSprite(CSpriteLoader::getEnemySprite(m_arrayOfEnemySpriteSizes[eEnemyType]), m_arrayOfEnemySpriteSizes[eEnemyType]);
+	enemy->SetSprite(CSpriteLoader::getEnemySprite(eEnemyType, m_arrayOfEnemySpriteSizes[eEnemyType]), m_arrayOfEnemySpriteSizes[eEnemyType]);
 	CCollisionManager::addPhysicBody(enemy);
 	enemy->setPosition(vec2Position);
 	enemy->Init(eEnemyType, m_pLayerGO, m_arrayOfEnemyMovementSpeed[eEnemyType], m_arrayOfEnemyAnimationSpeed[eEnemyType], m_arrayOfEnemyRanges[eEnemyType]);
-	CAIEnemy* aiEnmey =	enemy->GetAI();;
+	CAIEnemy* aiEnmey =	enemy->GetAI();
+	Size visibleSize = Director::getInstance()->getVisibleSize();
 	switch (eEnemyType)
 	{
+	case CEnemy::ENEMY_TYPE_SHOOTER:
+		{
+			aiEnmey->SetShootingInfomations(1.0f, m_ProjectileSpriteSize, 100.0f, visibleSize.width * 0.3f);
+			break;
+		}
 		case CEnemy::ENEMY_TYPE_POUNCER:
 		{
 			aiEnmey->SetPounceInfomations(0.5f, m_arrayOfEnemySpriteSizes[eEnemyType].height * 0.5f, 2.0f);
@@ -116,6 +125,7 @@ void CGameObjectManager::SpawnEnemy(Vec2 vec2Position, CEnemy::ENEMY_TYPE eEnemy
 		case CEnemy::ENEMY_TYPE_HYBRID:
 		{
 			aiEnmey->SetPounceInfomations(0.75f, m_arrayOfEnemySpriteSizes[eEnemyType].height * 0.5f, 2.0f);
+			aiEnmey->SetShootingInfomations(1.0f, m_ProjectileSpriteSize, 100.0f, visibleSize.width * 0.3f);
 			break;
 		}
 		default:

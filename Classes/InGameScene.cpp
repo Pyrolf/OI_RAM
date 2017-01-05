@@ -92,11 +92,26 @@ void CInGameScene::initGameObjects()
 	//CParticleLoader::createBleedingEffect(m_pGOManager->getPlayer());
 
 	// Spawn Enemy
+	// Pouncer
 	for (int i = 0; i < 1; i++)
 	{
 		Vec2 position(	visibleSize.width * 0.2f + origin.x + visibleSize.width * 0.2f * i,
 						visibleSize.height * 0.6f + origin.y);
 		m_pGOManager->SpawnEnemy(position, CEnemy::ENEMY_TYPE_POUNCER);
+	}
+	// Shoot
+	for (int i = 0; i < 1; i++)
+	{
+		Vec2 position(	visibleSize.width * 1.0f + origin.x + visibleSize.width * 0.2f * i,
+						visibleSize.height * 0.6f + origin.y);
+		m_pGOManager->SpawnEnemy(position, CEnemy::ENEMY_TYPE_SHOOTER);
+	}
+	// Hybrid
+	for (int i = 0; i < 1; i++)
+	{
+		Vec2 position(visibleSize.width * 1.5f + origin.x + visibleSize.width * 0.2f * i,
+			visibleSize.height * 0.6f + origin.y);
+		m_pGOManager->SpawnEnemy(position, CEnemy::ENEMY_TYPE_HYBRID);
 	}
 
 	auto pGOManagerNode = (Node*)m_pGOManager;
