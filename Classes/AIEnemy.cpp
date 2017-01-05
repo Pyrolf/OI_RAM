@@ -71,26 +71,51 @@ void CAIEnemy::Update(float dt)
 	}
 }
 
-void CAIEnemy::Dying(float fTimeToDie)
+void CAIEnemy::Damaging(float fDamagingDuration)
 {
-	if (m_nCurrentState != FSM_DYING && m_nCurrentState != FSM_DIED)
+	if (m_nCurrentState != FSM_DAMAGING && m_nCurrentState != FSM_DIED)
 	{
 		StopGO();
 
-		m_nCurrentState = FSM_DYING;
+		m_nCurrentState = FSM_DAMAGING;
 
-		auto dyingAction = DelayTime::create(fTimeToDie);
-		auto diedAction = CallFunc::create([this]()
+
+		auto flickAction = CallFunc::create([this]()
 		{
-			m_nCurrentState = FSM_DIED;
+			m_pGO->setVisible(!m_pGO->isVisible());
 		});
-		m_pGO->runAction(Sequence::create(dyingAction, diedAction, NULL));
+		float fTimeInterval = 0.1f;
+		auto sequence = Sequence::createWithTwoActions(flickAction, DelayTime::create(fTimeInterval));
+		auto repeat = Repeat::create(sequence, fDamagingDuration / fTimeInterval);
+		auto checkAction = CallFunc::create([this]()
+		{
+			if (!m_pGO->isVisible())
+				m_pGO->setVisible(true);
+			m_nCurrentState = FSM_IDLE;
+		});
+		auto sequence2 = Sequence::createWithTwoActions(repeat, checkAction);
+		m_pGO->GetSprite()->runAction(sequence2);
+
+		// Die if no live left
+		if (m_pGO->GetLives() <= 0)
+		{
+			auto delayAction = DelayTime::create(fDamagingDuration);
+
+			auto diedAction = CallFunc::create([this]()
+			{
+				StopGO();
+				if (!m_pGO->isVisible())
+					m_pGO->setVisible(true);
+				m_nCurrentState = FSM_DIED;
+			});
+			m_pGO->runAction(Sequence::create(delayAction, diedAction, NULL));
+		}
 	}
 }
 
 void CAIEnemy::CheckTarget()
 {
-	if (m_nCurrentState != FSM_DYING && m_nCurrentState != FSM_DIED)
+	if (m_nCurrentState != FSM_DAMAGING && m_nCurrentState != FSM_DIED)
 	{
 		if (m_pTargetGO)
 		{

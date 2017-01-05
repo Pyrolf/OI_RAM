@@ -42,3 +42,9 @@ void CEnemy::Update(float dt)
 	if (m_AI)
 		m_AI->Update(dt);
 }
+
+void CEnemy::MinusLives()
+{
+	CGameObject::MinusLives();
+	m_AI->Damaging();
+}

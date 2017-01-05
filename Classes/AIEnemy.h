@@ -48,7 +48,7 @@ public:
 		FSM_CHASE,
 		FSM_SHOOT,
 		FSM_POUNCE,
-		FSM_DYING,
+		FSM_DAMAGING,
 		FSM_DIED,
 		NUM_OF_STATES
 	};
@@ -56,7 +56,7 @@ public:
 	void Init(CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, ENEMY_RANGES sRanges);
 	virtual void Update(float dt);
 
-	void Dying(float fTimeToDie = 1.0f);
+	void Damaging(float fDamagingDuration = 1.0f);
 
 	// Setters
 	void SetMovementSpeed(float fMovementSpeed) { m_fMovementSpeed = fMovementSpeed; }

@@ -31,6 +31,7 @@ private:
 	int m_nAmountOfEnemiesToAdd;
 	cocos2d::Vector<CEnemy*> m_pEnemyList;
 	cocos2d::Size m_arrayOfEnemySpriteSizes[CEnemy::NUM_OF_ENEMY_TYPES];
+	int m_arrayOfEnemyLives[CEnemy::NUM_OF_ENEMY_TYPES];
 	float m_arrayOfEnemyMovementSpeed[CEnemy::NUM_OF_ENEMY_TYPES];
 	float m_arrayOfEnemyAnimationSpeed[CEnemy::NUM_OF_ENEMY_TYPES];
 	ENEMY_RANGES m_arrayOfEnemyRanges[CEnemy::NUM_OF_ENEMY_TYPES];

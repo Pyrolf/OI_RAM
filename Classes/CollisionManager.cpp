@@ -56,13 +56,16 @@ bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 			{
 				if (player)
 				{
-					CAIEnemy* enemy = dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->GetAI();
+					CEnemy* enemy = dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode());
 
-					enemy->Dying();
-					dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setContactTestBitmask(0);
-					dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setRotationEnable(true);
-					dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setAngularVelocity(30);
-					dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->applyImpulse(Vec2(random(-1.0f, 1.0f), random(0, 1)) * 1000);
+					enemy->MinusLives();
+					if (enemy->GetLives() <= 0)
+					{
+						dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setContactTestBitmask(0);
+						dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setRotationEnable(true);
+						dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setAngularVelocity(30);
+						dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->applyImpulse(Vec2(random(-1.0f, 1.0f), random(0, 1)) * 1000);
+					}
 				}
 			}
 		}

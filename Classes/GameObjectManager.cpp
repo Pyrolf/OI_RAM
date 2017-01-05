@@ -18,6 +18,12 @@ CGameObjectManager::CGameObjectManager(int numOfEnemies)
 	m_arrayOfEnemySpriteSizes[CEnemy::ENEMY_TYPE_HYBRID]	= Size(visibleSize.width * 0.125f, visibleSize.height * 0.15f);
 
 	m_ProjectileSpriteSize = Size(visibleSize.height * 0.05f, visibleSize.height * 0.05f);
+	// Set Lives
+	m_arrayOfEnemyLives[CEnemy::ENEMY_TYPE_WEAK]	= 1;
+	m_arrayOfEnemyLives[CEnemy::ENEMY_TYPE_STRONG]	= 3;
+	m_arrayOfEnemyLives[CEnemy::ENEMY_TYPE_POUNCER]	= 2;
+	m_arrayOfEnemyLives[CEnemy::ENEMY_TYPE_SHOOTER]	= 1;
+	m_arrayOfEnemyLives[CEnemy::ENEMY_TYPE_HYBRID]	= 5;
 	// Set Movement Speed
 	m_arrayOfEnemyMovementSpeed[CEnemy::ENEMY_TYPE_WEAK]	= m_arrayOfEnemySpriteSizes[CEnemy::ENEMY_TYPE_WEAK].width * 0.75f;
 	m_arrayOfEnemyMovementSpeed[CEnemy::ENEMY_TYPE_STRONG]	= m_arrayOfEnemySpriteSizes[CEnemy::ENEMY_TYPE_STRONG].width * 0.75f;
@@ -108,6 +114,7 @@ void CGameObjectManager::SpawnEnemy(Vec2 vec2Position, CEnemy::ENEMY_TYPE eEnemy
 	CCollisionManager::addPhysicBody(enemy);
 	enemy->setPosition(vec2Position);
 	enemy->Init(eEnemyType, m_pLayerGO, m_arrayOfEnemyMovementSpeed[eEnemyType], m_arrayOfEnemyAnimationSpeed[eEnemyType], m_arrayOfEnemyRanges[eEnemyType]);
+	enemy->SetLives(m_arrayOfEnemyLives[eEnemyType]);
 	CAIEnemy* aiEnmey =	enemy->GetAI();
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	switch (eEnemyType)

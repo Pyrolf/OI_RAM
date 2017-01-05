@@ -7,6 +7,7 @@ CGameObject::CGameObject()
 	: m_pSprite(NULL)
 	, m_spriteSize(Vec2::ANCHOR_BOTTOM_LEFT)
 	, m_bActive(false)
+	, m_nLives(1)
 {
 }
 
@@ -26,6 +27,11 @@ CGameObject* CGameObject::create()
 		CC_SAFE_DELETE(ret);
 	}
 	return ret;
+}
+
+void CGameObject::MinusLives()
+{
+	m_nLives--;
 }
 
 // Setters
