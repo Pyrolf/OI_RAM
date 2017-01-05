@@ -5,8 +5,6 @@
 #include "SimpleAudioEngine.h"
 #include "GUILayer.h"
 #include "Enemy.h";
-#include "AnimationLoader.h"
-#include "SpriteLoader.h"
 #include "ParticleLoader.h"
 #include "FileOperation.h"
 #include "CollisionManager.h"
@@ -85,10 +83,7 @@ void CInGameScene::initGameObjects()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	Size targetSize = Size(visibleSize.width * 0.1f, visibleSize.height * 0.1f);
-	//Size targetSize = m_pGOManager->GetEnemySpriteSize();
-
-	m_pGOManager = CGameObjectManager::create(10, targetSize);
+	m_pGOManager = CGameObjectManager::create(10);
 
 	//spawn player
 	m_pGOManager->SpawnPlayer(Vec2(	origin.x + visibleSize.width / 2,
@@ -96,24 +91,12 @@ void CInGameScene::initGameObjects()
 	//play particle at the player
 	//CParticleLoader::createBleedingEffect(m_pGOManager->getPlayer());
 
-	// Load Sprites
-	CSpriteLoader::loadEnemiesSprites(targetSize);
-	CSpriteLoader::loadPlayerSprites();
-	// Load Animations
-	CAnimationLoader::loadEnemiesAnimates(targetSize);
-	CAnimationLoader::loadPlayerAnimates();
-
 	// Spawn Enemy
-	float movementSpeed = targetSize.width * 0.75f;
-	float animationSpeed = 1 / movementSpeed * 10.0f;
-	float detectionRange = targetSize.width * 3.0f;
-	float attackRange = targetSize.width;
 	for (int i = 0; i < 1; i++)
 	{
 		Vec2 position(	visibleSize.width * 0.2f + origin.x + visibleSize.width * 0.2f * i,
 						visibleSize.height * 0.6f + origin.y);
-		m_pGOManager->SpawnEnemy(	position,
-									m_pGOManager->getPlayer(), movementSpeed, animationSpeed, detectionRange, attackRange);
+		m_pGOManager->SpawnEnemy(position, CEnemy::ENEMY_TYPE_POUNCER);
 	}
 
 	auto pGOManagerNode = (Node*)m_pGOManager;

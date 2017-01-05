@@ -7,17 +7,20 @@
 class CGameObjectManager : cocos2d::Node
 {
 public:
-	CGameObjectManager(int numOfEnemies, cocos2d::Size enemySpriteSize);
+	CGameObjectManager(int numOfEnemies);
 	~CGameObjectManager();
 
-	static CGameObjectManager* create(int numOfEnemies, cocos2d::Size enemySpriteSize);
+	static CGameObjectManager* create(int numOfEnemies);
 
 	void Update(float dt);
 
-	void SpawnEnemy(cocos2d::Vec2 vec2Position,
-					CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, float fDetectionRange, float fAttackRange);
+	void SetEnemyInfomations();
+	void SpawnEnemy(cocos2d::Vec2 vec2Position, CEnemy::ENEMY_TYPE eEnemyType);
 	// Getters
-	cocos2d::Size GetEnemySpriteSize() { return m_EnemySpriteSize; }
+	cocos2d::Size GetEnemySpriteSize(CEnemy::ENEMY_TYPE type) { 
+		if (type != CEnemy::NUM_OF_ENEMY_TYPES)
+			return m_arrayOfEnemySpriteSizes[type];
+	}
 
 	void SpawnPlayer(cocos2d::Vec2 Pos);
 
@@ -27,7 +30,10 @@ private:
 
 	int m_nAmountOfEnemiesToAdd;
 	cocos2d::Vector<CEnemy*> m_pEnemyList;
-	cocos2d::Size m_EnemySpriteSize;
+	cocos2d::Size m_arrayOfEnemySpriteSizes[CEnemy::NUM_OF_ENEMY_TYPES];
+	float m_arrayOfEnemyMovementSpeed[CEnemy::NUM_OF_ENEMY_TYPES];
+	float m_arrayOfEnemyAnimationSpeed[CEnemy::NUM_OF_ENEMY_TYPES];
+	ENEMY_RANGES m_arrayOfEnemyRanges[CEnemy::NUM_OF_ENEMY_TYPES];
 
 	void AddEnemies(int numOfEnemies);
 	CEnemy* GetAnInactiveEnemy();

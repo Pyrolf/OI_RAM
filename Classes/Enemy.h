@@ -10,9 +10,19 @@ public:
 	CEnemy();
 	virtual ~CEnemy();
 
+	enum ENEMY_TYPE
+	{
+		ENEMY_TYPE_WEAK = 0,
+		ENEMY_TYPE_STRONG,
+		ENEMY_TYPE_POUNCER,
+		ENEMY_TYPE_SHOOTER,
+		ENEMY_TYPE_HYBRID,
+		NUM_OF_ENEMY_TYPES
+	};
+
 	static CEnemy* create();
 
-	void Init(CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, float fDetectionRange, float fAttackRange);
+	void Init(ENEMY_TYPE eEnemyType, CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, ENEMY_RANGES sRanges);
 	void Update(float dt);
 
 	// Setters
@@ -21,6 +31,7 @@ public:
 	CAIEnemy* GetAI() { return m_AI; }
 private:
 	CAIEnemy* m_AI;
+	ENEMY_TYPE m_eEnemyType;
 };
 
 #endif // __ENEMY_H__

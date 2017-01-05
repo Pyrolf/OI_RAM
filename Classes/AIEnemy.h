@@ -3,14 +3,38 @@
 
 #include "AIBase.h"
 
+struct ENEMY_RANGES
+{
+	float m_fDetectionRange;
+	float m_fShootingRange;
+	float m_fPouncingRange;
+};
+
 class CAIEnemy : public CAIBase
 {
 private:
 	CGameObject* m_pTargetGO;
 	float m_fMovementSpeed;
 	float m_fAnimationSpeed;
-	float m_fDetectionRange;
-	float m_fAttackRange;
+	ENEMY_RANGES m_sRanges;
+
+	// Shooting information
+	struct ShootingInformations
+	{
+		float m_fFireRate = 0;
+		float m_fProjectileSpeed = 0;
+		float m_fEffectiveRange = 0;
+	};
+	ShootingInformations m_shootingInfomations;
+
+	// Pounce information
+	struct PounceInformations
+	{
+		float m_fPounceDuration = 0;
+		float m_fPounceHeight = 0;
+		float m_fCoolDownTIme = 0;
+	};
+	PounceInformations m_pounceInfomations;
 public:
 	CAIEnemy();
 	CAIEnemy(int nState, CGameObject* pGO);
@@ -21,22 +45,34 @@ public:
 		FEM_NIL = 0,
 		FSM_IDLE,
 		FSM_CHASE,
-		FSM_ATTACK,
-		FSM_DEFEND,
+		FSM_SHOOT,
+		FSM_POUNCE,
 		FSM_DYING,
 		FSM_DIED,
 		NUM_OF_STATES
 	};
 
-	void Init(CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, float fDetectionRange, float fAttackRange);
+	void Init(CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, ENEMY_RANGES sRanges);
 	virtual void Update(float dt);
 
-	void Dying();
+	void Dying(float fTimeToDie = 1.0f);
 
 	// Setters
 	void SetMovementSpeed(float fMovementSpeed) { m_fMovementSpeed = fMovementSpeed; }
 	void SetAnimationSpeed(float fAnimationSpeed) { m_fAnimationSpeed = fAnimationSpeed; }
 	void SetTarget(CGameObject* pTargetGO) { m_pTargetGO = pTargetGO; }
+	void SetShootingInfomations(float fFireRate = 0, float fProjectileSpeed = 0, float fEffectiveRange = 0)
+	{
+		m_shootingInfomations.m_fFireRate = fFireRate;
+		m_shootingInfomations.m_fProjectileSpeed = fProjectileSpeed;
+		m_shootingInfomations.m_fEffectiveRange = fEffectiveRange;
+	}
+	void SetPounceInfomations(float fPounceDuration = 0, float fPounceHeight = 0, float fCoolDownTIme = 0)
+	{
+		m_pounceInfomations.m_fPounceDuration = fPounceDuration;
+		m_pounceInfomations.m_fPounceHeight = fPounceHeight;
+		m_pounceInfomations.m_fCoolDownTIme = fCoolDownTIme;
+	}
 	// Getters
 	float GetMovementSpeed() { return m_fMovementSpeed; }
 	float GtAnimationSpeed() { return m_fAnimationSpeed; }
@@ -50,9 +86,8 @@ private:
 
 	void Idle();
 	void Chase();
-	void AttackOrDefend();
-	void Attack();
-	void Defend();
+	void Shoot();
+	void Pounce();
 };
 
 #endif // __AI_ENEMY_H__

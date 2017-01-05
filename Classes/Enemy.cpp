@@ -6,6 +6,7 @@ USING_NS_CC;
 CEnemy::CEnemy()
 	: CGameObject()
 	, m_AI(NULL)
+	, m_eEnemyType(ENEMY_TYPE_WEAK)
 {
 }
 
@@ -29,10 +30,11 @@ CEnemy* CEnemy::create()
 	return ret;
 }
 
-void CEnemy::Init(CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, float fDetectionRange, float fAttackRange)
+void CEnemy::Init(ENEMY_TYPE eEnemyType, CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, ENEMY_RANGES sRanges)
 {
 	m_AI = new CAIEnemy(CAIEnemy::FEM_NIL, this);
-	m_AI->Init(pTargetGO, fMovementSpeed, fAnimationSpeed, fDetectionRange, fAttackRange);
+	m_eEnemyType = eEnemyType;
+	m_AI->Init(pTargetGO, fMovementSpeed, fAnimationSpeed, sRanges);
 }
 
 void CEnemy::Update(float dt)
