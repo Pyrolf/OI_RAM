@@ -3,11 +3,13 @@
 #include "SpriteLoader.h"
 #include "AnimationLoader.h"
 #include "CollisionManager.h"
+#include "InGameScene.h"
 
 USING_NS_CC;
 
-CGameObjectManager::CGameObjectManager(int numOfEnemies)
+CGameObjectManager::CGameObjectManager(int numOfEnemies, int numOfIteractableItems)
 	: m_nAmountOfEnemiesToAdd(numOfEnemies)
+	, m_nAmountOfInteractableItemsToAdd(numOfIteractableItems)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	// Set Size
@@ -18,6 +20,10 @@ CGameObjectManager::CGameObjectManager(int numOfEnemies)
 	m_arrayOfEnemySpriteSizes[CEnemy::ENEMY_TYPE_HYBRID]	= Size(visibleSize.width * 0.125f, visibleSize.height * 0.15f);
 
 	m_ProjectileSpriteSize = Size(visibleSize.height * 0.05f, visibleSize.height * 0.05f);
+	
+	m_arrayOfInteractableItemSizes[CInteractableGameObject::COIN]			= Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
+	m_arrayOfInteractableItemSizes[CInteractableGameObject::HEALTH_POTION]	= Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
+	m_arrayOfInteractableItemSizes[CInteractableGameObject::MANA_POTION]	= Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
 	// Set Lives
 	m_arrayOfEnemyLives[CEnemy::ENEMY_TYPE_WEAK]	= 1;
 	m_arrayOfEnemyLives[CEnemy::ENEMY_TYPE_STRONG]	= 3;
@@ -60,7 +66,7 @@ CGameObjectManager::CGameObjectManager(int numOfEnemies)
 	// Load Sprites and Animations
 	for (int i = 0; i < CEnemy::NUM_OF_ENEMY_TYPES; i++)
 	{
-		CSpriteLoader::loadEnemiesSprites((CEnemy::ENEMY_TYPE)i, m_arrayOfEnemySpriteSizes[i]);
+		CSpriteLoader::loadEnemySprites((CEnemy::ENEMY_TYPE)i, m_arrayOfEnemySpriteSizes[i]);
 		CAnimationLoader::loadEnemiesAnimates((CEnemy::ENEMY_TYPE)i, m_arrayOfEnemySpriteSizes[i]);
 	}
 	CSpriteLoader::loadProjectileSprites(m_ProjectileSpriteSize);
@@ -76,9 +82,9 @@ CGameObjectManager::~CGameObjectManager()
 }
 
 
-CGameObjectManager* CGameObjectManager::create(int numOfEnemies)
+CGameObjectManager* CGameObjectManager::create(int numOfEnemies, int numOfIteractableItems)
 {
-	CGameObjectManager * ret = new (std::nothrow) CGameObjectManager(numOfEnemies);
+	CGameObjectManager * ret = new (std::nothrow) CGameObjectManager(numOfEnemies, numOfIteractableItems);
 	if (ret && ret->init())
 	{
 		ret->autorelease();
@@ -104,6 +110,24 @@ void CGameObjectManager::Update(float dt)
 			}
 		}
 	}
+
+	for (int i = 0; i < m_pInteractableItemsList.size(); i++)
+	{
+		auto item = m_pInteractableItemsList.at(i);
+		if (item->GetActive())
+		{
+			if (item->CheckCollision())
+			{
+				switch (item->GetType())
+				{
+				case CInteractableGameObject::COIN:
+					((CInGameScene*)this->getParent())->AddCoins(1);
+					break;
+				}
+				DeactivateInteractableItem(item);
+			}
+		}
+	}
 }
 
 void CGameObjectManager::SpawnEnemy(Vec2 vec2Position, CEnemy::ENEMY_TYPE eEnemyType)
@@ -121,7 +145,7 @@ void CGameObjectManager::SpawnEnemy(Vec2 vec2Position, CEnemy::ENEMY_TYPE eEnemy
 	{
 	case CEnemy::ENEMY_TYPE_SHOOTER:
 		{
-			aiEnmey->SetShootingInfomations(1.0f, m_ProjectileSpriteSize, 100.0f, visibleSize.width * 0.3f);
+			aiEnmey->SetShootingInfomations(2.0f, m_ProjectileSpriteSize, 200.0f, visibleSize.width * 0.3f);
 			break;
 		}
 		case CEnemy::ENEMY_TYPE_POUNCER:
@@ -132,7 +156,7 @@ void CGameObjectManager::SpawnEnemy(Vec2 vec2Position, CEnemy::ENEMY_TYPE eEnemy
 		case CEnemy::ENEMY_TYPE_HYBRID:
 		{
 			aiEnmey->SetPounceInfomations(0.75f, m_arrayOfEnemySpriteSizes[eEnemyType].height * 0.5f, 2.0f);
-			aiEnmey->SetShootingInfomations(1.0f, m_ProjectileSpriteSize, 100.0f, visibleSize.width * 0.3f);
+			aiEnmey->SetShootingInfomations(2.0f, m_ProjectileSpriteSize, 200.0f, visibleSize.width * 0.3f);
 			break;
 		}
 		default:
@@ -193,4 +217,53 @@ void CGameObjectManager::DeactivateEnemy(CEnemy* enemy)
 	enemy->SetActive(false);
 	enemy->pause();
 	enemy->setVisible(false);
+}
+
+
+void CGameObjectManager::SpawnInteractableItem(cocos2d::Vec2 vec2Position, CInteractableGameObject::TYPE eInteractableItemType)
+{
+	auto item = GetAnInactiveInteractableItem();
+	item->SetActive(true);
+	item->SetSprite(CSpriteLoader::getInteractiveItemSprites(eInteractableItemType, m_arrayOfInteractableItemSizes[eInteractableItemType]), m_arrayOfInteractableItemSizes[eInteractableItemType]);
+	item->setPosition(vec2Position);
+	item->SetType(eInteractableItemType);
+	item->SetTargetGO(m_pLayerGO);
+}
+
+void CGameObjectManager::AddInteractableItems(int numOfInteractableItems)
+{
+	int goListSize = m_pInteractableItemsList.size();
+	for (int i = 0; i < numOfInteractableItems; i++)
+	{
+		auto item = CInteractableGameObject::create();
+		DeactivateInteractableItem(item);
+		item->setTag(goListSize + i);
+		m_pInteractableItemsList.pushBack(item);
+		this->addChild(item);
+	}
+}
+
+CInteractableGameObject* CGameObjectManager::GetAnInactiveInteractableItem()
+{
+	// Find an inactive enemy
+	for (int i = 0; i < m_pInteractableItemsList.size(); i++)
+	{
+		auto item = m_pInteractableItemsList.at(i);
+		if (!item->GetActive())
+		{
+			item->resume();
+			item->setVisible(true);
+			return item;
+		}
+	}
+	// Create more game objects if no empty game object
+	AddInteractableItems(m_nAmountOfInteractableItemsToAdd);
+	return GetAnInactiveInteractableItem();
+}
+
+void CGameObjectManager::DeactivateInteractableItem(CInteractableGameObject* item)
+{
+	item->SetActive(false);
+	item->pause();
+	item->setVisible(false);
 }

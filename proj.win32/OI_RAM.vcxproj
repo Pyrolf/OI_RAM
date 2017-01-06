@@ -161,6 +161,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GUILayer.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\InGameScene.cpp" />
+    <ClCompile Include="..\Classes\InteractableGameObject.cpp" />
     <ClCompile Include="..\Classes\KeyboardManager.cpp" />
     <ClCompile Include="..\Classes\lighting\Effect.cpp" />
     <ClCompile Include="..\Classes\lighting\EffectSprite.cpp" />
@@ -193,6 +194,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\GUILayer.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\InGameScene.h" />
+    <ClInclude Include="..\Classes\InteractableGameObject.h" />
     <ClInclude Include="..\Classes\KeyboardManager.h" />
     <ClInclude Include="..\Classes\lighting\Effect.h" />
     <ClInclude Include="..\Classes\lighting\EffectSprite.h" />

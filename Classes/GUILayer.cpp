@@ -37,18 +37,25 @@ bool CGUILayer::init()
 
 	// Create menu itmes
 	Vector<MenuItem*> menuItemList;
+	// Create Images
+	auto coinImage = MenuItemImage::create(	"images/coin.png",
+											"images/coin.png");
+	coinImage->setScale(visibleSize.height * 0.075f / coinImage->getContentSize().height);
+	coinImage->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	coinImage->setPosition(Vec2(origin.x + visibleSize.height * 0.025f,
+								origin.y + visibleSize.height - visibleSize.height * 0.025f));
+	menuItemList.pushBack(coinImage);
 	// Create Labels
 	std::stringstream ss;
 	std::string font = "fonts/Marker Felt.ttf";
-	float fontSize = visibleSize.height * 0.05f;
+	float fontSize = visibleSize.height * 0.07f;
 
-	ss << "Points: 0";
-	auto pointsLabel = MenuItemLabel::create(Label::createWithTTF(ss.str(), font, fontSize));
-	pointsLabel->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-	pointsLabel->setPosition(Vec2(	origin.x + visibleSize.width - visibleSize.height * 0.05f,
-									origin.y + visibleSize.height - visibleSize.height * 0.05f));
-	pointsLabel->setTag(POINTS_CHILD_TAG_FOR_MENU);
-	menuItemList.pushBack(pointsLabel);
+	ss << ": 0";
+	auto coinsLabel = MenuItemLabel::create(Label::createWithTTF(ss.str(), font, fontSize));
+	coinsLabel->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	coinsLabel->setPosition(coinImage->getPosition() + Vec2(visibleSize.height * 0.08f, visibleSize.height * 0.005f));
+	coinsLabel->setTag(COINS_CHILD_TAG_FOR_MENU);
+	menuItemList.pushBack(coinsLabel);
 
 	// Create Buttons
 	// Create pause button
@@ -82,13 +89,13 @@ void CGUILayer::ShowLayer(Vec2 offset)
 	setVisible(true);
 }
 
-void CGUILayer::ChangePointsLabel(int points)
+void CGUILayer::ChangeCoinsLabel(int coins)
 {
 	std::stringstream ss;
-	ss << "Points: " << points;
+	ss << ": " << coins;
 	auto menu = (Menu*)this->getChildByTag(MENU_CHILD_TAG);
-	auto pointsLabel = (MenuItemLabel*)menu->getChildByTag(POINTS_CHILD_TAG_FOR_MENU);
-	pointsLabel->setString(ss.str());
+	auto coinsLabel = (MenuItemLabel*)menu->getChildByTag(COINS_CHILD_TAG_FOR_MENU);
+	coinsLabel->setString(ss.str());
 }
 
 void CGUILayer::pauseCallback(Ref* pSender)

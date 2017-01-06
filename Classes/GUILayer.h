@@ -15,7 +15,7 @@ private:
 	};
 	enum CHILD_TAG_FOR_MENU
 	{
-		POINTS_CHILD_TAG_FOR_MENU = 0,
+		COINS_CHILD_TAG_FOR_MENU = 0,
 		NUM_OF_CHILD_TAGS_FOR_MENU
 	};
 	CPauseLayer* m_pPauseLayer;
@@ -28,7 +28,7 @@ public:
 	void HideLayer();
 	void ShowLayer(cocos2d::Vec2 offset);
 
-	void ChangePointsLabel(int points);
+	void ChangeCoinsLabel(int coins);
 
     // selector callbacks
 	void pauseCallback(cocos2d::Ref* pSender);

@@ -38,8 +38,8 @@ public:
     // implement the "static create()" method manually
 	CREATE_FUNC(CInGameScene);
 
-	void AddPoints(const unsigned int points);
-	void AddPointsToLabel();
+	void AddCoins(const unsigned int coins);
+	void AddCoinsToLabel();
 
 	void endScene(bool bSave = false);
 private:
@@ -49,8 +49,8 @@ private:
 
 	CGameObjectManager* m_pGOManager;
 
-	unsigned int m_nPoints;
-	unsigned int m_nPointsAddedToLabel;
+	unsigned int m_nCoins;
+	unsigned int m_nCoinsAddedToLabel;
 
 	void getData();
 	void saveData();
