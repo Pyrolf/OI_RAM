@@ -48,11 +48,11 @@ bool CPauseLayer::init()
 
 	// Create Title
 	// Use label for now, may change to sprite image
-	auto titleLabel = MenuItemLabel::create(Label::createWithTTF("Pause", font, visibleSize.height * 0.25f));
+	auto titleLabel = Label::createWithTTF("Pause", font, visibleSize.height * 0.25f);
 	titleLabel->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
 									origin.y + visibleSize.height * 0.75f));
 	titleLabel->setColor(labelColor);
-	menuItemList.pushBack(titleLabel);
+	this->addChild(titleLabel, 1);
 
 	// Create buttons
 	/*Size buttonSize(visibleSize.width * 0.25f,

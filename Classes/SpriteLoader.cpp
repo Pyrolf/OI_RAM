@@ -56,9 +56,9 @@ void CSpriteLoader::loadInteractiveItemSprites(CInteractableGameObject::TYPE typ
 			CSpriteSystem::getInstance()->getSprite("images/coin.png", size);
 			break;
 		}
-		case CInteractableGameObject::HEALTH_POTION:
+		case CInteractableGameObject::LIVE:
 		{
-			CSpriteSystem::getInstance()->getSprite("images/hp_potion.png", size);
+			CSpriteSystem::getInstance()->getSprite("images/heart.png", size);
 			break;
 		}
 		case CInteractableGameObject::MANA_POTION:
@@ -78,26 +78,26 @@ Sprite* CSpriteLoader::getInteractiveItemSprites(CInteractableGameObject::TYPE t
 {
 	switch (type)
 	{
-	case CInteractableGameObject::COIN:
-	{
-		return CSpriteSystem::getInstance()->getSprite("images/coin.png", size);
-		break;
-	}
-	case CInteractableGameObject::HEALTH_POTION:
-	{
-		return CSpriteSystem::getInstance()->getSprite("images/hp_potion.png", size);
-		break;
-	}
-	case CInteractableGameObject::MANA_POTION:
-	{
-		return CSpriteSystem::getInstance()->getSprite("images/mana_potion.png", size);
-		break;
-	}
-	default:
-	{
-		return CSpriteSystem::getInstance()->getSprite("images/coin.png", size);
-		break;
-	}
+		case CInteractableGameObject::COIN:
+		{
+			return CSpriteSystem::getInstance()->getSprite("images/coin.png", size);
+			break;
+		}
+		case CInteractableGameObject::LIVE:
+		{
+			return CSpriteSystem::getInstance()->getSprite("images/heart.png", size);
+			break;
+		}
+		case CInteractableGameObject::MANA_POTION:
+		{
+			return CSpriteSystem::getInstance()->getSprite("images/mana_potion.png", size);
+			break;
+		}
+		default:
+		{
+			return CSpriteSystem::getInstance()->getSprite("images/coin.png", size);
+			break;
+		}
 	}
 }
 

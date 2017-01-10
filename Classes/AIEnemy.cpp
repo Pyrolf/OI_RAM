@@ -207,6 +207,8 @@ void CAIEnemy::Shoot()
 	}
 	if (!m_pGO->getActionByTag(FSM_SHOOT))
 	{
+		// Check direction
+		CheckDirection(m_pTargetGO->getPosition() - m_pGO->getPosition());
 		// Set Projectile infomation
 		auto projectile = CSpriteLoader::getProjectileSprites(m_shootingInfomations.m_fProjectileSize);
 		projectile->setPosition(m_pGO->getPosition());
@@ -232,8 +234,6 @@ void CAIEnemy::Shoot()
 		auto coolDown = DelayTime::create(m_shootingInfomations.m_fFireRate);
 		coolDown->setTag(FSM_SHOOT);
 		m_pGO->runAction(coolDown);
-
-		CheckDirection(-vecMoveTo);
 	}
 }
 
@@ -247,6 +247,8 @@ void CAIEnemy::Pounce()
 	}
 	if (!m_pGO->getActionByTag(FSM_POUNCE))
 	{
+		// Check direction
+		CheckDirection(m_pTargetGO->getPosition() - m_pGO->getPosition());
 		// Deactivate Gravity
 		m_pGO->getPhysicsBody()->setGravityEnable(false);
 		// Jump
@@ -263,7 +265,5 @@ void CAIEnemy::Pounce()
 		auto pounceAction = Sequence::create(jumpAction, activateGravityAction, coolDownAction, NULL);
 		pounceAction->setTag(FSM_POUNCE);
 		m_pGO->runAction(pounceAction);
-
-		CheckDirection(m_pTargetGO->getPosition() - m_pGO->getPosition());
 	}
 }

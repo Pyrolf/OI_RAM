@@ -58,11 +58,11 @@ bool CMainMenuScene::init()
 	Vector<MenuItem*> menuItemList;
 	// Create Title
 	// Use label for now, may change to sprite image
-	auto titleLabel = MenuItemLabel::create(Label::createWithTTF("OI-RAM!", font, visibleSize.height * 0.25f));
+	auto titleLabel = Label::createWithTTF("OI-RAM!", font, visibleSize.height * 0.25f);
 	titleLabel->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
 									origin.y + visibleSize.height * 0.8f));
 	titleLabel->setColor(labelColor);
-	menuItemList.pushBack(titleLabel);
+	this->addChild(titleLabel);
 
 	// Create buttons
 	/*Size buttonSize(visibleSize.width * 0.25f,

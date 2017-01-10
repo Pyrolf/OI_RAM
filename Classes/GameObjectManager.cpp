@@ -22,7 +22,7 @@ CGameObjectManager::CGameObjectManager(int numOfEnemies, int numOfIteractableIte
 	m_ProjectileSpriteSize = Size(visibleSize.height * 0.05f, visibleSize.height * 0.05f);
 	
 	m_arrayOfInteractableItemSizes[CInteractableGameObject::COIN]			= Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
-	m_arrayOfInteractableItemSizes[CInteractableGameObject::HEALTH_POTION]	= Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
+	m_arrayOfInteractableItemSizes[CInteractableGameObject::LIVE]			= Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
 	m_arrayOfInteractableItemSizes[CInteractableGameObject::MANA_POTION]	= Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
 	// Set Lives
 	m_arrayOfEnemyLives[CEnemy::ENEMY_TYPE_WEAK]	= 1;
@@ -70,6 +70,10 @@ CGameObjectManager::CGameObjectManager(int numOfEnemies, int numOfIteractableIte
 		CAnimationLoader::loadEnemiesAnimates((CEnemy::ENEMY_TYPE)i, m_arrayOfEnemySpriteSizes[i]);
 	}
 	CSpriteLoader::loadProjectileSprites(m_ProjectileSpriteSize);
+	for (int i = 0; i < CInteractableGameObject::NUM_OF_TYPES; i++)
+	{
+		CSpriteLoader::loadInteractiveItemSprites((CInteractableGameObject::TYPE)i, m_arrayOfInteractableItemSizes[i]);
+	}
 	CSpriteLoader::loadPlayerSprites();
 	CAnimationLoader::loadPlayerAnimates();
 
@@ -120,9 +124,16 @@ void CGameObjectManager::Update(float dt)
 			{
 				switch (item->GetType())
 				{
-				case CInteractableGameObject::COIN:
-					((CInGameScene*)this->getParent())->AddCoins(1);
-					break;
+					case CInteractableGameObject::COIN:
+						((CInGameScene*)this->getParent())->AddCoins(1);
+						break;
+					case CInteractableGameObject::LIVE:
+						((CInGameScene*)this->getParent())->AddLives(1);
+						((CInGameScene*)this->getParent())->AddMana(-10);
+						break;
+					case CInteractableGameObject::MANA_POTION:
+						((CInGameScene*)this->getParent())->AddMana(5);
+						break;
 				}
 				DeactivateInteractableItem(item);
 			}

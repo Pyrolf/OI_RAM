@@ -13,9 +13,8 @@ public:
 
 	enum TYPE
 	{
-		NIL = 0,
-		COIN,
-		HEALTH_POTION,
+		COIN = 0,
+		LIVE,
 		MANA_POTION,
 		NUM_OF_TYPES
 	};

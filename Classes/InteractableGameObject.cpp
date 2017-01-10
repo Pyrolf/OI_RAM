@@ -1,12 +1,11 @@
 #include "InteractableGameObject.h"
-#include "SpriteSystem.h"
 #include "InGameScene.h"
 
 USING_NS_CC;
 
 CInteractableGameObject::CInteractableGameObject()
 	: CGameObject()
-	, m_eType(NIL)
+	, m_eType(COIN)
 	, m_pTargetGO(NULL)
 {
 }

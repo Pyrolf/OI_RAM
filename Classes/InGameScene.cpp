@@ -72,6 +72,13 @@ bool CInGameScene::init()
 	m_nCoins = 0;
 	m_nCoinsAddedToLabel = 0;
 
+	m_nLives = 0;
+	m_nLivesAddedToLabel = 0;
+
+	m_nMana = 0;
+	m_nManaMaxCap = 0;
+	m_nManaAddedToBar = 0;
+
 	// Last, get data
 	getData();
 	saveData();
@@ -140,7 +147,7 @@ void CInGameScene::initGameObjects()
 	{
 		Vec2 position(	visibleSize.width * 0.7f + origin.x + visibleSize.width * 0.2f * i,
 						visibleSize.height * 0.6f + origin.y);
-		m_pGOManager->SpawnInteractableItem(position, CInteractableGameObject::HEALTH_POTION);
+		m_pGOManager->SpawnInteractableItem(position, CInteractableGameObject::LIVE);
 	}
 	for (int i = 0; i < 1; i++)
 	{
@@ -213,6 +220,10 @@ void CInGameScene::update(float dt)
 	// AddCoins(1);
 	if (m_nCoinsAddedToLabel != m_nCoins)
 		AddCoinsToLabel();
+	if (m_nLivesAddedToLabel != m_nLives)
+		AddLivesToLabel();
+	if (m_nManaAddedToBar != m_nMana)
+		AddManaToBar();
 	if (m_pGOManager)
 		m_pGOManager->Update(dt);
 
@@ -251,7 +262,20 @@ void CInGameScene::getData()
 	if (vec_sData.size() == 0)
 		return;
 	// Get data
-	AddCoins(std::stoi(vec_sData[0]));
+	if (vec_sData.size() > 0)
+		AddCoins(std::stoi(vec_sData[0]));
+	if (vec_sData.size() > 1)
+		AddLives(std::stoi(vec_sData[1]));
+	else
+		m_nLives = 3;
+	/*if (vec_sData.size() > 2)
+		AddMana(std::stoi(vec_sData[2]));
+	else*/
+		m_nMana = 25;
+	if (vec_sData.size() > 3)
+		m_nManaMaxCap = std::stoi(vec_sData[3]);
+	else
+		m_nManaMaxCap = 25;
 }
 void CInGameScene::saveData()
 {
@@ -259,6 +283,9 @@ void CInGameScene::saveData()
 	std::stringstream ss;
 
 	ss << m_nCoins << "\n";
+	ss << m_nLives << "\n";
+	ss << m_nMana << "\n";
+	ss << m_nManaMaxCap << "\n";
 	FileOperation::saveFile(ss.str(), FileOperation::CURRENCY_DATA_FILE_TYPE);
 }
 
@@ -273,5 +300,35 @@ void CInGameScene::AddCoinsToLabel()
 	{
 		m_nCoinsAddedToLabel = m_nCoins;
 		m_pGUILayer->ChangeCoinsLabel(m_nCoinsAddedToLabel);
+	}
+}
+
+void CInGameScene::AddLives(const unsigned int lives)
+{
+	m_nLives += lives;
+}
+
+void CInGameScene::AddLivesToLabel()
+{
+	if (m_pGUILayer)
+	{
+		m_nLivesAddedToLabel = m_nLives;
+		m_pGUILayer->ChangeLivesLabel(m_nLivesAddedToLabel);
+	}
+}
+
+void CInGameScene::AddMana(const int mana)
+{
+	m_nMana += mana;
+	if (m_nMana > m_nManaMaxCap)
+		m_nMana = m_nManaMaxCap;
+}
+
+void CInGameScene::AddManaToBar()
+{
+	if (m_pGUILayer)
+	{
+		m_nManaAddedToBar = m_nMana;
+		m_pGUILayer->ChangeManabar((float)m_nManaAddedToBar / (float)m_nManaMaxCap * 100.0f);
 	}
 }

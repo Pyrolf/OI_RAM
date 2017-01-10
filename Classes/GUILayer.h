@@ -8,15 +8,18 @@ class CPauseLayer;
 class CGUILayer : public cocos2d::Layer
 {
 private:
+	enum ACTION_TAG
+	{
+		MANABAR_ACTION_TAG = 0,
+		NUM_OF_ACTION_TAGS
+	};
 	enum CHILD_TAG
 	{
 		MENU_CHILD_TAG = 0,
+		COINS_CHILD_TAG,
+		LIVES_CHILD_TAG,
+		MANA_CHILD_TAG,
 		NUM_OF_CHILD_TAGS
-	};
-	enum CHILD_TAG_FOR_MENU
-	{
-		COINS_CHILD_TAG_FOR_MENU = 0,
-		NUM_OF_CHILD_TAGS_FOR_MENU
 	};
 	CPauseLayer* m_pPauseLayer;
 	cocos2d::Vec2 m_vec2InitialCamPos;
@@ -29,6 +32,8 @@ public:
 	void ShowLayer(cocos2d::Vec2 offset);
 
 	void ChangeCoinsLabel(int coins);
+	void ChangeLivesLabel(int lives);
+	void ChangeManabar(float percentage);
 
     // selector callbacks
 	void pauseCallback(cocos2d::Ref* pSender);

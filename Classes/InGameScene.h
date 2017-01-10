@@ -41,6 +41,12 @@ public:
 	void AddCoins(const unsigned int coins);
 	void AddCoinsToLabel();
 
+	void AddLives(const unsigned int lives);
+	void AddLivesToLabel();
+
+	void AddMana(const int mana);
+	void AddManaToBar();
+
 	void endScene(bool bSave = false);
 private:
 	KeyboardManager* KBM;
@@ -51,6 +57,13 @@ private:
 
 	unsigned int m_nCoins;
 	unsigned int m_nCoinsAddedToLabel;
+
+	unsigned int m_nLives;
+	unsigned int m_nLivesAddedToLabel;
+
+	unsigned int m_nMana;
+	unsigned int m_nManaMaxCap;
+	unsigned int m_nManaAddedToBar;
 
 	void getData();
 	void saveData();
