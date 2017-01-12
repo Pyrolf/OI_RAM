@@ -5,8 +5,7 @@
 #include "SimpleAudioEngine.h"
 #include "GUILayer.h"
 #include "Enemy.h";
-#include "AnimationLoader.h"
-#include "SpriteLoader.h"
+#include "InteractableGameObject.h"
 #include "ParticleLoader.h"
 #include "FileOperation.h"
 #include "CollisionManager.h"
@@ -70,8 +69,15 @@ bool CInGameScene::init()
 
 	tileMapManager = new TilemapManager("tmx/Test_Level.tmx", this);
 
-	m_nPoints = 0;
-	m_nPointsAddedToLabel = 0;
+	m_nCoins = 0;
+	m_nCoinsAddedToLabel = 0;
+
+	m_nLives = 0;
+	m_nLivesAddedToLabel = 0;
+
+	m_nMana = 0;
+	m_nManaMaxCap = 0;
+	m_nManaAddedToBar = 0;
 
 	// Last, get data
 	getData();
@@ -85,10 +91,7 @@ void CInGameScene::initGameObjects()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	Size targetSize = Size(visibleSize.width * 0.1f, visibleSize.height * 0.1f);
-	//Size targetSize = m_pGOManager->GetEnemySpriteSize();
-
-	m_pGOManager = CGameObjectManager::create(10, targetSize);
+	m_pGOManager = CGameObjectManager::create();
 
 	//spawn player
 	m_pGOManager->SpawnPlayer(Vec2(	origin.x + visibleSize.width / 2,
@@ -96,24 +99,61 @@ void CInGameScene::initGameObjects()
 	//play particle at the player
 	//CParticleLoader::createBleedingEffect(m_pGOManager->getPlayer());
 
-	// Load Sprites
-	CSpriteLoader::loadEnemiesSprites(targetSize);
-	CSpriteLoader::loadPlayerSprites();
-	// Load Animations
-	CAnimationLoader::loadEnemiesAnimates(targetSize);
-	CAnimationLoader::loadPlayerAnimates();
-
 	// Spawn Enemy
-	float movementSpeed = targetSize.width * 0.75f;
-	float animationSpeed = 1 / movementSpeed * 10.0f;
-	float detectionRange = targetSize.width * 3.0f;
-	float attackRange = targetSize.width;
+	// Weak
 	for (int i = 0; i < 1; i++)
 	{
-		Vec2 position(	visibleSize.width * 0.2f + origin.x + visibleSize.width * 0.2f * i,
+		Vec2 position(	visibleSize.width * 0.15f + origin.x + visibleSize.width * 0.2f * i,
 						visibleSize.height * 0.6f + origin.y);
-		m_pGOManager->SpawnEnemy(	position,
-									m_pGOManager->getPlayer(), movementSpeed, animationSpeed, detectionRange, attackRange);
+		m_pGOManager->SpawnEnemy(position, CEnemy::ENEMY_TYPE_WEAK);
+	}
+	// Strong
+	for (int i = 0; i < 1; i++)
+	{
+		Vec2 position(	visibleSize.width * 0.7f + origin.x + visibleSize.width * 0.2f * i,
+						visibleSize.height * 0.6f + origin.y);
+		m_pGOManager->SpawnEnemy(position, CEnemy::ENEMY_TYPE_STRONG);
+	}
+	// Pouncer
+	for (int i = 0; i < 1; i++)
+	{
+		Vec2 position(	visibleSize.width * 1.0f + origin.x + visibleSize.width * 0.2f * i,
+						visibleSize.height * 0.6f + origin.y);
+		m_pGOManager->SpawnEnemy(position, CEnemy::ENEMY_TYPE_POUNCER);
+	}
+	// Shoot
+	for (int i = 0; i < 1; i++)
+	{
+		Vec2 position(	visibleSize.width * 1.5f + origin.x + visibleSize.width * 0.2f * i,
+						visibleSize.height * 0.6f + origin.y);
+		m_pGOManager->SpawnEnemy(position, CEnemy::ENEMY_TYPE_SHOOTER);
+	}
+	// Hybrid
+	for (int i = 0; i < 1; i++)
+	{
+		Vec2 position(	visibleSize.width * 2.0f + origin.x + visibleSize.width * 0.2f * i,
+						visibleSize.height * 0.6f + origin.y);
+		m_pGOManager->SpawnEnemy(position, CEnemy::ENEMY_TYPE_HYBRID);
+	}
+
+	// Spawn Items
+	for (int i = 0; i < 1; i++)
+	{
+		Vec2 position(	visibleSize.width * 0.15f + origin.x + visibleSize.width * 0.2f * i,
+						visibleSize.height * 0.6f + origin.y);
+		m_pGOManager->SpawnInteractableItem(position, CInteractableGameObject::COIN);
+	}
+	for (int i = 0; i < 1; i++)
+	{
+		Vec2 position(	visibleSize.width * 0.7f + origin.x + visibleSize.width * 0.2f * i,
+						visibleSize.height * 0.6f + origin.y);
+		m_pGOManager->SpawnInteractableItem(position, CInteractableGameObject::LIVE);
+	}
+	for (int i = 0; i < 1; i++)
+	{
+		Vec2 position(	visibleSize.width * 1.0f + origin.x + visibleSize.width * 0.2f * i,
+						visibleSize.height * 0.6f + origin.y);
+		m_pGOManager->SpawnInteractableItem(position, CInteractableGameObject::MANA_POTION);
 	}
 
 	auto pGOManagerNode = (Node*)m_pGOManager;
@@ -177,9 +217,13 @@ void CInGameScene::update(float dt)
 	
 	m_pGOManager->getPlayer()->update(dt);
 
-	AddPoints(1);
-	if (m_nPointsAddedToLabel != m_nPoints)
-		AddPointsToLabel();
+	// AddCoins(1);
+	if (m_nCoinsAddedToLabel != m_nCoins)
+		AddCoinsToLabel();
+	if (m_nLivesAddedToLabel != m_nLives)
+		AddLivesToLabel();
+	if (m_nManaAddedToBar != m_nMana)
+		AddManaToBar();
 	if (m_pGOManager)
 		m_pGOManager->Update(dt);
 
@@ -218,27 +262,73 @@ void CInGameScene::getData()
 	if (vec_sData.size() == 0)
 		return;
 	// Get data
-	AddPoints(std::stoi(vec_sData[0]));
+	if (vec_sData.size() > 0)
+		AddCoins(std::stoi(vec_sData[0]));
+	if (vec_sData.size() > 1)
+		AddLives(std::stoi(vec_sData[1]));
+	else
+		m_nLives = 3;
+	/*if (vec_sData.size() > 2)
+		AddMana(std::stoi(vec_sData[2]));
+	else*/
+		m_nMana = 25;
+	if (vec_sData.size() > 3)
+		m_nManaMaxCap = std::stoi(vec_sData[3]);
+	else
+		m_nManaMaxCap = 25;
 }
 void CInGameScene::saveData()
 {
 	// Save data
 	std::stringstream ss;
 
-	ss << m_nPoints << "\n";
+	ss << m_nCoins << "\n";
+	ss << m_nLives << "\n";
+	ss << m_nMana << "\n";
+	ss << m_nManaMaxCap << "\n";
 	FileOperation::saveFile(ss.str(), FileOperation::CURRENCY_DATA_FILE_TYPE);
 }
 
-void CInGameScene::AddPoints(const unsigned int points)
+void CInGameScene::AddCoins(const unsigned int coins)
 {
-	m_nPoints += points;
+	m_nCoins += coins;
 }
 
-void CInGameScene::AddPointsToLabel()
+void CInGameScene::AddCoinsToLabel()
 {
 	if (m_pGUILayer)
 	{
-		m_nPointsAddedToLabel = m_nPoints;
-		m_pGUILayer->ChangePointsLabel(m_nPointsAddedToLabel);
+		m_nCoinsAddedToLabel = m_nCoins;
+		m_pGUILayer->ChangeCoinsLabel(m_nCoinsAddedToLabel);
+	}
+}
+
+void CInGameScene::AddLives(const unsigned int lives)
+{
+	m_nLives += lives;
+}
+
+void CInGameScene::AddLivesToLabel()
+{
+	if (m_pGUILayer)
+	{
+		m_nLivesAddedToLabel = m_nLives;
+		m_pGUILayer->ChangeLivesLabel(m_nLivesAddedToLabel);
+	}
+}
+
+void CInGameScene::AddMana(const int mana)
+{
+	m_nMana += mana;
+	if (m_nMana > m_nManaMaxCap)
+		m_nMana = m_nManaMaxCap;
+}
+
+void CInGameScene::AddManaToBar()
+{
+	if (m_pGUILayer)
+	{
+		m_nManaAddedToBar = m_nMana;
+		m_pGUILayer->ChangeManabar((float)m_nManaAddedToBar / (float)m_nManaMaxCap * 100.0f);
 	}
 }

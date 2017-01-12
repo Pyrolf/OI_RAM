@@ -3,21 +3,28 @@
 
 #include "Enemy.h"
 #include "Player.h"
+#include "InteractableGameObject.h"
 
 class CGameObjectManager : cocos2d::Node
 {
 public:
-	CGameObjectManager(int numOfEnemies, cocos2d::Size enemySpriteSize);
+	CGameObjectManager(int numOfEnemies, int numOfIteractableItems);
 	~CGameObjectManager();
 
-	static CGameObjectManager* create(int numOfEnemies, cocos2d::Size enemySpriteSize);
+	static CGameObjectManager* create(int numOfEnemies = 10, int numOfIteractableItems = 10);
 
 	void Update(float dt);
 
-	void SpawnEnemy(cocos2d::Vec2 vec2Position,
-					CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, float fDetectionRange, float fAttackRange);
+	void SetEnemyInfomations();
+	void SpawnEnemy(cocos2d::Vec2 vec2Position, CEnemy::ENEMY_TYPE eEnemyType);
+
+	void SpawnInteractableItem(cocos2d::Vec2 vec2Position, CInteractableGameObject::TYPE eInteractableItemType);
+
 	// Getters
-	cocos2d::Size GetEnemySpriteSize() { return m_EnemySpriteSize; }
+	cocos2d::Size GetEnemySpriteSize(CEnemy::ENEMY_TYPE type) { 
+		if (type != CEnemy::NUM_OF_ENEMY_TYPES)
+			return m_arrayOfEnemySpriteSizes[type];
+	}
 
 	void SpawnPlayer(cocos2d::Vec2 Pos);
 
@@ -25,13 +32,32 @@ public:
 private:
 	CGameObject* m_pLayerGO = NULL;
 
+	// Enemies
 	int m_nAmountOfEnemiesToAdd;
 	cocos2d::Vector<CEnemy*> m_pEnemyList;
-	cocos2d::Size m_EnemySpriteSize;
+
+	cocos2d::Size m_arrayOfEnemySpriteSizes[CEnemy::NUM_OF_ENEMY_TYPES];
+	int m_arrayOfEnemyLives[CEnemy::NUM_OF_ENEMY_TYPES];
+	float m_arrayOfEnemyMovementSpeed[CEnemy::NUM_OF_ENEMY_TYPES];
+	float m_arrayOfEnemyAnimationSpeed[CEnemy::NUM_OF_ENEMY_TYPES];
+	ENEMY_RANGES m_arrayOfEnemyRanges[CEnemy::NUM_OF_ENEMY_TYPES];
 
 	void AddEnemies(int numOfEnemies);
 	CEnemy* GetAnInactiveEnemy();
 	void DeactivateEnemy(CEnemy* enemy);
+
+	// Projectile
+	cocos2d::Size m_ProjectileSpriteSize;
+
+	// Interactable items
+	int m_nAmountOfInteractableItemsToAdd;
+	cocos2d::Vector<CInteractableGameObject*> m_pInteractableItemsList;
+
+	cocos2d::Size m_arrayOfInteractableItemSizes[CInteractableGameObject::NUM_OF_TYPES];
+
+	void AddInteractableItems(int numOfInteractableItems);
+	CInteractableGameObject* GetAnInactiveInteractableItem();
+	void DeactivateInteractableItem(CInteractableGameObject* item);
 };
 
 

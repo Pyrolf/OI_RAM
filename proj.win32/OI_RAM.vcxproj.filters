@@ -132,6 +132,9 @@
     <ClCompile Include="..\Classes\KeyboardManager.cpp">
       <Filter>src\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\InteractableGameObject.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -223,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\KeyboardManager.h">
       <Filter>src\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\InteractableGameObject.h">
+      <Filter>src\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
