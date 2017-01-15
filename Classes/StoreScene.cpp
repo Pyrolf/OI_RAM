@@ -55,6 +55,15 @@ bool CStoreScene::init()
 	background->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
 									origin.y + visibleSize.height * 0.5f));
 	menuItemList.pushBack(background);
+	
+	// Coins Image
+	auto coinImage = MenuItemImage::create(	"images/coin.png",
+											"images/coin.png");
+	coinImage->setScale(visibleSize.height * 0.075f / coinImage->getContentSize().height);
+	coinImage->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	coinImage->setPosition(Vec2(origin.x + visibleSize.height * 0.025f,
+								origin.y + visibleSize.height - visibleSize.height * 0.025f));
+	menuItemList.pushBack(coinImage);
 
 	// Create Labels
 	std::string font = "fonts/Marker Felt.ttf";
@@ -70,13 +79,12 @@ bool CStoreScene::init()
 	titleLabel->setColor(labelColor);
 	menuItemList.pushBack(titleLabel);
 
-	// Points
-	auto pointsLabel = MenuItemLabel::create(Label::createWithTTF("Points: 0", font, fontSize));
-	pointsLabel->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
-	pointsLabel->setPosition(Vec2(	origin.x + visibleSize.width - visibleSize.height * 0.05f,
-									origin.y + visibleSize.height - visibleSize.height * 0.05f));
-	pointsLabel->setTag(POINTS_CHILD_TAG_FOR_MENU);
-	menuItemList.pushBack(pointsLabel);
+	// Coins
+	auto coinsLabel = Label::createWithTTF(": 0", font, fontSize);
+	coinsLabel->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+	coinsLabel->setPosition(coinImage->getPosition() + Vec2(visibleSize.height * 0.08f, visibleSize.height * 0.005f));
+	coinsLabel->setTag(COINS_CHILD_TAG);
+	this->addChild(coinsLabel, COINS_CHILD_TAG);
 
 	// Create Buttons
 
@@ -86,38 +94,42 @@ bool CStoreScene::init()
 	Vec2 upgradeButtonPositionOffset(0, -visibleSize.height * 0.11f);
 	//Color3B upgradeButtonColor(Color3B::YELLOW);
 
-	// Create Upgrade Button 1
-	auto upgradeButton1 = MenuItemImage::create("images/ui/button.png",
-												"images/ui/button_selected.png",
-												CC_CALLBACK_1(CStoreScene::upgradeOne, this));
-	//upgradeButton1->setScale(	upgradeButtonSize.width / upgradeButton1->getContentSize().width,
-	//							upgradeButtonSize.height / upgradeButton1->getContentSize().height);
-	upgradeButton1->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
+	// Create Upgrade Button Max Lives
+	auto upgradeButtonMaxLives = MenuItemImage::create(	"images/ui/button.png",
+														"images/ui/button_selected.png",
+														CC_CALLBACK_1(CStoreScene::upgradeMaxLives, this));
+	upgradeButtonMaxLives->setScale(upgradeButtonSize.width / upgradeButtonMaxLives->getContentSize().width,
+									upgradeButtonSize.height / upgradeButtonMaxLives->getContentSize().height);
+	upgradeButtonMaxLives->setPosition(Vec2(origin.x + visibleSize.width * 0.5f,
 										origin.y + visibleSize.height * 0.6f));
-	//upgradeButton1->setColor(upgradeButtonColor);
-	menuItemList.pushBack(upgradeButton1);
+	//upgradeButtonMaxLives->setColor(upgradeButtonColor);
+	upgradeButtonMaxLives->setTag(LIVES_CHILD_TAG_FOR_MENU);
+	menuItemList.pushBack(upgradeButtonMaxLives);
 	// Upgrade label
-	auto upgradeLabel1 = MenuItemLabel::create(Label::createWithTTF("Upgrade 1", font, fontSize));
-	upgradeLabel1->setPosition(Vec2(upgradeButton1->getContentSize().width * 0.5f,
-									upgradeButton1->getContentSize().height * 0.5f));
-	upgradeLabel1->setColor(labelColor);
-	upgradeButton1->addChild(upgradeLabel1);
+	auto upgradeLabelMaxLives = MenuItemLabel::create(Label::createWithTTF("Upgrade Max Lives: 3", font, fontSize * 0.5f));
+	upgradeLabelMaxLives->setPosition(Vec2(	upgradeButtonMaxLives->getContentSize().width * 0.5f,
+											upgradeButtonMaxLives->getContentSize().height * 0.5f));
+	upgradeLabelMaxLives->setColor(labelColor);
+	upgradeLabelMaxLives->setTag(LIVES_CHILD_TAG_FOR_MENU);
+	upgradeButtonMaxLives->addChild(upgradeLabelMaxLives);
 
-	// Create Upgrade Button 2
-	auto upgradeButton2 = MenuItemImage::create("images/ui/button.png",
-												"images/ui/button_selected.png",
-												CC_CALLBACK_1(CStoreScene::upgradeOne, this));
-	//upgradeButton2->setScale(	upgradeButtonSize.width / upgradeButton2->getContentSize().width,
-	//							upgradeButtonSize.height / upgradeButton2->getContentSize().height);
-	upgradeButton2->setPosition(upgradeButton1->getPosition() - Vec2(0, upgradeButton1->getContentSize().height * 0.5f) + upgradeButtonPositionOffset);
-	//upgradeButton2->setColor(upgradeButtonColor);
-	menuItemList.pushBack(upgradeButton2);
+	// Create Upgrade Button Max Mana
+	auto upgradeButtonMaxMana = MenuItemImage::create(	"images/ui/button.png",
+														"images/ui/button_selected.png",
+														CC_CALLBACK_1(CStoreScene::upgradeMaxMana, this));
+	upgradeButtonMaxMana->setScale(	upgradeButtonSize.width / upgradeButtonMaxMana->getContentSize().width,
+									upgradeButtonSize.height / upgradeButtonMaxMana->getContentSize().height);
+	upgradeButtonMaxMana->setPosition(upgradeButtonMaxLives->getPosition() - Vec2(0, upgradeButtonMaxLives->getContentSize().height * 0.5f) + upgradeButtonPositionOffset);
+	//upgradeButtonMaxMana->setColor(upgradeButtonColor);
+	upgradeButtonMaxMana->setTag(MANA_CHILD_TAG_FOR_MENU);
+	menuItemList.pushBack(upgradeButtonMaxMana);
 	// Upgrade label
-	auto upgradeLabel2 = MenuItemLabel::create(Label::createWithTTF("Upgrade 2", font, fontSize));
-	upgradeLabel2->setPosition(Vec2(upgradeButton2->getContentSize().width * 0.5f,
-									upgradeButton2->getContentSize().height * 0.5f));
-	upgradeLabel2->setColor(labelColor);
-	upgradeButton2->addChild(upgradeLabel2);
+	auto upgradeLabelMaxMana = MenuItemLabel::create(Label::createWithTTF("Upgrade Max Mana: 25", font, fontSize * 0.5f));
+	upgradeLabelMaxMana->setPosition(Vec2(	upgradeButtonMaxMana->getContentSize().width * 0.5f,
+											upgradeButtonMaxMana->getContentSize().height * 0.5f));
+	upgradeLabelMaxMana->setColor(labelColor);
+	upgradeLabelMaxMana->setTag(MANA_CHILD_TAG_FOR_MENU);
+	upgradeButtonMaxMana->addChild(upgradeLabelMaxMana);
 
 	// Create back to main menu button
 	auto backToMainMenuButton = MenuItemImage::create(	"images/ui/back.png",
@@ -136,7 +148,9 @@ bool CStoreScene::init()
 	menu->setTag(MENU_CHILD_TAG);
 	this->addChild(menu, MENU_CHILD_TAG);
 
-	m_nPoints = 0;
+	m_nCoins = 0;
+	m_nLives = 3;
+	m_nMana = 25;
 
 	// Get Data
 	getData();
@@ -145,9 +159,19 @@ bool CStoreScene::init()
 }
 
 
-void CStoreScene::upgradeOne(Ref* pSender)
+void CStoreScene::upgradeMaxLives(Ref* pSender)
 {
-
+	if (m_nLives > 10 || !EditCoins(-10 * (m_nLives + 1)))
+		return;
+	m_nLives += 1;
+	ChangeLivesLabel();
+}
+void CStoreScene::upgradeMaxMana(Ref* pSender)
+{
+	if (m_nMana > 100 || !EditCoins(-2 * (m_nMana + 5)))
+		return;
+	m_nMana += 5;
+	ChangeManaLabel();
 }
 void CStoreScene::backToMainMenuCallback(Ref* pSender)
 {
@@ -161,28 +185,63 @@ void CStoreScene::getData()
 	if (vec_sData.size() == 0)
 		return;
 	// Get data
-	EditPoints(std::stoi(vec_sData[0]));
+	if (vec_sData.size() > 0)
+		EditCoins(std::stoi(vec_sData[0]));
+	if (vec_sData.size() > 1)
+	{
+		m_nLives = std::stoi(vec_sData[1]);
+		ChangeLivesLabel();
+	}
+	if (vec_sData.size() > 2)
+	{
+		m_nMana = std::stoi(vec_sData[2]);
+		ChangeManaLabel();
+	}
 }
 void CStoreScene::saveData()
 {
 	// Save data
 	std::stringstream ss;
 
-	ss << m_nPoints << "\n";
+	ss << m_nCoins << "\n";
+	ss << m_nLives << "\n";
+	ss << m_nMana << "\n";
 	FileOperation::saveFile(ss.str(), FileOperation::CURRENCY_DATA_FILE_TYPE);
 }
 
-void CStoreScene::EditPoints(const unsigned int points)
+bool CStoreScene::EditCoins(const int points)
 {
-	m_nPoints += points;
-	ChangePointsLabel();
+	if ((int)m_nCoins + points < 0)
+		return false;
+	m_nCoins += points;
+	ChangeCoinsLabel();
+	return true;
 }
 
-void CStoreScene::ChangePointsLabel()
+void CStoreScene::ChangeCoinsLabel()
 {
 	std::stringstream ss;
-	ss << "Points: " << m_nPoints;
+	ss << ": " << m_nCoins;
+	auto label = (Label*)this->getChildByTag(COINS_CHILD_TAG);
+	label->setString(ss.str());
+}
+
+void CStoreScene::ChangeLivesLabel()
+{
+	std::stringstream ss;
+	ss << "Upgrade Max Lives: " << m_nLives;
 	auto menu = (Menu*)this->getChildByTag(MENU_CHILD_TAG);
-	auto pointsLabel = (MenuItemLabel*)menu->getChildByTag(POINTS_CHILD_TAG_FOR_MENU);
-	pointsLabel->setString(ss.str());
+	auto image = (MenuItemImage*)menu->getChildByTag(LIVES_CHILD_TAG_FOR_MENU);
+	auto label = (MenuItemLabel*)image->getChildByTag(LIVES_CHILD_TAG_FOR_MENU);
+	label->setString(ss.str());
+}
+
+void CStoreScene::ChangeManaLabel()
+{
+	std::stringstream ss;
+	ss << "Upgrade Max Mana: " << m_nMana;
+	auto menu = (Menu*)this->getChildByTag(MENU_CHILD_TAG);
+	auto image = (MenuItemImage*)menu->getChildByTag(MANA_CHILD_TAG_FOR_MENU);
+	auto label = (MenuItemLabel*)image->getChildByTag(MANA_CHILD_TAG_FOR_MENU);
+	label->setString(ss.str());
 }

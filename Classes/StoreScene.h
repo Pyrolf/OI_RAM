@@ -12,7 +12,8 @@ public:
 	virtual bool init();
 
     // Selector callbacks
-	void upgradeOne(cocos2d::Ref* pSender);
+	void upgradeMaxLives(cocos2d::Ref* pSender);
+	void upgradeMaxMana(cocos2d::Ref* pSender);
 	void backToMainMenuCallback(cocos2d::Ref* pSender);
 
     // implement the "static create()" method manually
@@ -21,20 +22,23 @@ private:
 	enum CHILD_TAG
 	{
 		MENU_CHILD_TAG = 0,
+		COINS_CHILD_TAG,
+		LIVES_CHILD_TAG_FOR_MENU,
+		MANA_CHILD_TAG_FOR_MENU,
 		NUM_OF_CHILD_TAGS
-	};
-	enum CHILD_TAG_FOR_MENU
-	{
-		POINTS_CHILD_TAG_FOR_MENU = 0,
-		NUM_OF_CHILD_TAGS_FOR_MENU
 	};
 
 	void getData();
 	void saveData();
 
-	unsigned int m_nPoints;
-	void EditPoints(const unsigned int points);
-	void ChangePointsLabel();
+	unsigned int m_nCoins;
+	unsigned int m_nLives;
+	unsigned int m_nMana;
+
+	bool EditCoins(const int coins);
+	void ChangeCoinsLabel();
+	void ChangeLivesLabel();
+	void ChangeManaLabel();
 };
 
 #endif // __STORE_SCENE_H__
