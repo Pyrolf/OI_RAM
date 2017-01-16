@@ -45,6 +45,7 @@ public:
 
 	void ReceiveDamage(float fDamagingDuration = 1);
 
+	void setMaxMana(float m) { maxMana = m; };
 
 	void setMana(float m) {
 		mana = m; 

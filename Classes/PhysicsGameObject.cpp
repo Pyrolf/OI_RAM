@@ -66,7 +66,7 @@ void CPhysicsGameObject::DestroyCrate()
 		auto repeat = Repeat::create(sequence, 0.5f / fTimeInterval);
 		auto checkAction = CallFunc::create([this]()
 		{
-			((CGameObjectManager*) this->getParent())->SpawnInteractableItem(this->getPosition(), (CInteractableGameObject::TYPE)cocos2d::RandomHelper::random_int(0, CInteractableGameObject::TYPE::NUM_OF_TYPES-1));
+			((CGameObjectManager*) this->getParent())->SpawnInteractableItem(this->getPosition(), (CInteractableGameObject::TYPE)cocos2d::RandomHelper::random_int(0, CInteractableGameObject::TYPE::NUM_OF_TYPES-2));
 
 			this->SetActive(false);
 			this->pause();

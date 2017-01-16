@@ -4,6 +4,7 @@
 #include "GameStateManager.h"
 #include "SimpleAudioEngine.h"
 #include "GUILayer.h"
+#include "WonOrGameoverLayer.h"
 #include "Enemy.h";
 #include "InteractableGameObject.h"
 #include "ParticleLoader.h"
@@ -27,7 +28,7 @@ Scene* CInGameScene::createScene()
 
 	scene->getPhysicsWorld()->setFixedUpdateRate(120);
 	scene->getPhysicsWorld()->setGravity(Vec2(0, -98 * 10));
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
 	auto layer = CInGameScene::create();
@@ -36,6 +37,8 @@ Scene* CInGameScene::createScene()
     scene->addChild(layer);
 
 	layer->m_pGUILayer = CGUILayer::addLayerToScene(scene);
+
+	layer->m_pWonOrGameoverLayer = CWonOrGameoverLayer::addLayerToScene(scene);
 
     // return the scene
     return scene;
@@ -63,12 +66,6 @@ bool CInGameScene::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	tileMapManager = new TilemapManager("tmx/Test_Level.tmx", this);
-
-	initGameObjects();
-
-	this->addChild(new CCollisionManager());
-
 	m_nCoins = 0;
 	m_nCoinsAddedToLabel = 0;
 
@@ -79,9 +76,21 @@ bool CInGameScene::init()
 	m_nManaMaxCap = 0;
 	m_nManaAddedToBar = 0;
 
+	m_nMaxLevel = 2;
+
 	// Last, get data
+	getMapData();
+
+	std::stringstream ss;
+	ss << "tmx/Level_" << m_nCurrentLevel << ".tmx";
+
+	tileMapManager = new TilemapManager(ss.str(), this);
+
+	initGameObjects();
+
+	this->addChild(new CCollisionManager());
+
 	getData();
-	saveData();
 
     return true;
 }
@@ -195,7 +204,14 @@ void CInGameScene::update(float dt)
 		m_pGOManager->Update(dt);
 
 	Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
-
+	auto player = m_pGOManager->getPlayer();
+	if (player)
+	{
+		if (player->GetLives() <= 0)
+		{
+			m_pWonOrGameoverLayer->ShowLayer(c->getPosition() - m_pGUILayer->GetInitialCamPos(), false);
+		}
+	}
 	m_pGUILayer->setPosition(c->getPosition() - m_pGUILayer->GetInitialCamPos());
 }
 
@@ -206,37 +222,60 @@ void CInGameScene::endScene(bool bSave)
 		saveData();
 }
 
+void CInGameScene::getMapData()
+{
+	// Get data Level
+	std::vector<std::string> vec_sData3 = FileOperation::readFile(FileOperation::LEVEL_DATA_FILE_TYPE);
+	if (vec_sData3.size() > 0)
+	{
+		m_nCurrentLevel = std::stoi(vec_sData3[0]);
+	}
+	else
+	{
+		m_nCurrentLevel = 1;
+	}
+}
+
 void CInGameScene::getData()
 {
-	std::vector<std::string> vec_sData = FileOperation::readFile(FileOperation::CURRENCY_DATA_FILE_TYPE);
-	if (vec_sData.size() == 0)
+	// Get data Currency
+	std::vector<std::string> vec_sData1 = FileOperation::readFile(FileOperation::CURRENCY_DATA_FILE_TYPE);
+	if (vec_sData1.size() == 0)
 		return;
-	// Get data
-	if (vec_sData.size() > 0)
-		AddCoins(std::stoi(vec_sData[0]));
-	/*if (vec_sData.size() > 1)
-		AddLives(std::stoi(vec_sData[1]));
-	else*/
-		m_nLives = 3;
-	/*if (vec_sData.size() > 2)
-		AddMana(std::stoi(vec_sData[2]));
-	else*/
-		m_nMana = 25;
-	/*if (vec_sData.size() > 3)
-		m_nManaMaxCap = std::stoi(vec_sData[3]);
-	else*/
-		m_nManaMaxCap = 25;
+	if (vec_sData1.size() > 0)
+		AddCoins(std::stoi(vec_sData1[0]));
+
+	// Get data Player
+	std::vector<std::string> vec_sData2 = FileOperation::readFile(FileOperation::PLAYER_DATA_FILE_TYPE);
+	if (vec_sData2.size() > 0)
+	{
+		m_pGOManager->getPlayer()->SetLives(std::stoi(vec_sData2[0]));
+	}
+	else
+	{
+		m_pGOManager->getPlayer()->SetLives(3);
+	}
+	if (vec_sData2.size() > 1)
+	{
+		m_pGOManager->getPlayer()->setMaxMana(std::stoi(vec_sData2[1]));
+		m_pGOManager->getPlayer()->setMana(std::stoi(vec_sData2[1]));
+	}
+	else
+	{
+		m_pGOManager->getPlayer()->setMaxMana(25);
+		m_pGOManager->getPlayer()->setMana(25);
+	}
 }
 void CInGameScene::saveData()
 {
 	// Save data
-	std::stringstream ss;
+	std::stringstream ss1, ss2;
 
-	ss << m_nCoins << "\n";
-	/*ss << m_nLives << "\n";
-	ss << m_nMana << "\n";
-	ss << m_nManaMaxCap << "\n";*/
-	FileOperation::saveFile(ss.str(), FileOperation::CURRENCY_DATA_FILE_TYPE);
+	ss1 << m_nCoins << "\n";
+	FileOperation::saveFile(ss1.str(), FileOperation::CURRENCY_DATA_FILE_TYPE);
+
+	ss2 << m_nCurrentLevel << "\n";
+	FileOperation::saveFile(ss2.str(), FileOperation::LEVEL_DATA_FILE_TYPE);
 }
 
 void CInGameScene::AddCoins(const unsigned int coins)
@@ -279,4 +318,21 @@ void CInGameScene::AddManaToBar()
 		m_nManaAddedToBar = m_pGOManager->getPlayer()->getMana();
 		m_pGUILayer->ChangeManabar((float)m_nManaAddedToBar / (float)m_pGOManager->getPlayer()->getMaxMana() * 100.0f);
 	}
+}
+
+void CInGameScene::ReachExit()
+{
+	Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
+	m_pWonOrGameoverLayer->ShowLayer(c->getPosition() - m_pGUILayer->GetInitialCamPos(), true);
+}
+
+bool CInGameScene::IfLastLevel()
+{
+	return m_nCurrentLevel == m_nMaxLevel;
+}
+
+void CInGameScene::NextLevel()
+{
+	if (!IfLastLevel())
+		m_nCurrentLevel++;
 }

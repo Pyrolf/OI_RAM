@@ -66,6 +66,11 @@ void CSpriteLoader::loadInteractiveItemSprites(CInteractableGameObject::TYPE typ
 			CSpriteSystem::getInstance()->getSprite("images/mana_potion.png", size);
 			break;
 		}
+		case CInteractableGameObject::EXIT:
+		{
+			CSpriteSystem::getInstance()->getSprite("images/exit.png", size);
+			break;
+		}
 		default:
 		{
 			CSpriteSystem::getInstance()->getSprite("images/coin.png", size);
@@ -91,6 +96,11 @@ Sprite* CSpriteLoader::getInteractiveItemSprites(CInteractableGameObject::TYPE t
 		case CInteractableGameObject::MANA_POTION:
 		{
 			return CSpriteSystem::getInstance()->getSprite("images/mana_potion.png", size);
+			break;
+		}
+		case CInteractableGameObject::EXIT:
+		{
+			CSpriteSystem::getInstance()->getSprite("images/exit.png", size);
 			break;
 		}
 		default:

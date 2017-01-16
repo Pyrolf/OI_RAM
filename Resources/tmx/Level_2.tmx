@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="60" height="32" tilewidth="64" tileheight="64" nextobjectid="80">
+ <tileset firstgid="1" name="forest" tilewidth="64" tileheight="64" tilecount="300" columns="25">
+  <image source="forest.png" width="1640" height="768"/>
+ </tileset>
+ <layer name="Scrolling_4" width="60" height="32">
+  <properties>
+   <property name="x_scroll_speed" type="float" value="0.1"/>
+   <property name="y_scroll_speed" type="float" value="0.45"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1DVsVVEcB+DXAX31ogtab9Edd9iR4rLjDjvusOMOO+6w4w477jDxDTR5ach9TUt6e8L9JV9yl9+553/uzUmlkiRJkiRJkiRJkiRpenLJI58CCimimBI60ZkudKUb3f/IfE5nyFwzHSHq3VG9bN2ofTenW69hvzF7yzZP1L6aM3NcZxSXuP6Npnazffdsa8Y5b2s7r9Y277+4t+Ket36Nxtxff7v7Q5q34Zwtsfe4523pbilllFNBJVVUU0Mt/ejPAAYyiMGBdocwlGEMZwQjGcVoxjCWcYxnAhOZFGh3MlOYyjTqmM4MZjKL2cxhLvOYz4JAuwtZxGKWsJRlLGcFK1nFatawlnWsD7S7gY1sYjNb2Mo2trODnexiN3vYy75Au/s5wEEOcZgjHOUYxznBSU5xmjOcDbR7jvNc4CKXuMwVrnKN69zgJre4zZ1Au3e5x30e8JBHPOYJT3nGc17wkle8DrT7hre84z0f+MgnPvOFr3zjOz/4ya9Au21yUqm2tKM9HehImlzyyKeAQooopiQnzG4PetKL3vShL6WUUU4FlVRRTQ21gXb/t/wGG7lePg==
+  </data>
+ </layer>
+ <layer name="Copy of Scrolling_3" width="60" height="32" offsetx="3840" offsety="0">
+  <properties>
+   <property name="x_position" type="float" value="3840"/>
+   <property name="x_scroll_speed" type="float" value="0.05"/>
+   <property name="y_scroll_speed" type="float" value="0.3"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzkcKAkEURdG/WXNYgjkswRyWYA5LMIcVeYUWatC2III1eBcONSh4fDOllFJKKaWUUkoppZRSSqnviiGOBJJIebL163LIo4AiSiijYtF3p5FB1tl4FbblSw000UIbHXTRs+i7q6ih7my8CtvypRHGmGCKGeZYWPTdfQwwdDYs2Anb8qUNtthhjwOOOFn03UussHY2LNgJ2zLn/Wc33N/8vbv72RkXXD9s+NYDzopEww==
+  </data>
+ </layer>
+ <layer name="Scrolling_3" width="60" height="32">
+  <properties>
+   <property name="x_scroll_speed" type="float" value="0.05"/>
+   <property name="y_scroll_speed" type="float" value="0.3"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztkFlOQkEQRWuzjKJLkEHRJag44BIYVGAJjiAr8nxA0nnpV/VC/ODjnuTkfVTqvO42E0IIIYQQQgghhBBCCCGEOIwa1rGBTWwdSeu/u6d4hufYxR72cRD023iCnaSxJ9eyCrvRfbyud550doXXeIO3eIcjvA/6F3iJw6SxJ9eyCrvRO3ld7zzpbIzPOMEpznCOL0H/AR/xKWnYrpNrWYXd6J28blmzOFviCt/xAz/xC7+D/iu+4SJp2K6Ta1nyLduN3qms6zWLs1/cWh6v/4Nr3ASNHGW73v8ObRZnf/8MirQ=
+  </data>
+ </layer>
+ <layer name="Copy of Scrolling_2" width="60" height="32" offsetx="3840" offsety="0">
+  <properties>
+   <property name="x_position" type="float" value="3840"/>
+   <property name="x_scroll_speed" type="float" value="-0.01"/>
+   <property name="y_scroll_speed" type="float" value="-0.01"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzkeOAjEURVFvlhyWQGjSEoAmLqFo8hLI0CviDhh8WZYsUZMavCsdyYOnLzunlFJKKaWUUkoppZRSSqm0lcy7jAqqqKEe2Mc2OeRRQNG7n4V+zLuDLnroYxDYxzYNNNFC27ufhSbmPcUMcyywDOxjmyFGGOPXu5+FNua9xQ57HHAM7GObBCv8Ye3dd2afpPr1993M+44Hnnjh/8NFNrYTzrjg6t13Zn9K+3GlAr0BUQk0qw==
+  </data>
+ </layer>
+ <layer name="Scrolling_2" width="60" height="32" offsetx="1" offsety="1">
+  <properties>
+   <property name="x_scroll_speed" type="float" value="-0.01"/>
+   <property name="y_scroll_speed" type="float" value="-0.01"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztjklOAkAQRbksyCAeQUBAj6DMHAEnhiMogsKJfItedDrdlUrYkf+St+h0/V9VqQghhBBCCCGEEEIIIYQQ4lJusI6N8G5iC2+xjXfRbBVrmYxFqc/TZd3inUn3dLGHD+G/jwMc4iM+Rdl77GQyFqU+T5d1i3cm3TPCMU7C/xRnOMcFLqPsM75kMhalPk+XdYt3Jt3zhu/4Ef4/cY0b3OIuyq7wNZOxKPV5uqxbvDPpnj3+4CH8H/EX//CE5yj7hd+ZjEWpz9Nl3eKdSfeI6+Yf2Hpwiw==
+  </data>
+ </layer>
+ <layer name="Props" width="60" height="32">
+  <properties>
+   <property name="x_scroll_speed" type="float" value="0"/>
+   <property name="y_scroll_speed" type="float" value="-0.01"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1z0OgCAMhuFu/pyi6in0/gezbqbggAOk8D7JN+BAGlJMEQEAAAAARHRarsz3xbJWrmU0uTOeLHODWoAe7JbjtVbL1qYUdCTyf1mFO9BCyQwVub+i8LOuCvcCdfje83PK4++bSyXt49K9vt6Bub0xrhsfJAQo
+  </data>
+ </layer>
+ <layer name="midground" width="60" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztl20KwjAMhktRD7HOY+wY/vP+Z1FBIcxak/TtknV9ITBYSfPko1uncBzNT5usg9hQg7dvDd6+NXj71uDtW3vhjSA/3ngjsRbyxstRDPq8WPPOwvW1dd8bL2I/r7zX8N27Glvv55WX816zH4pXm+9/8SGl5c3Frzl7PPJyz35NbNa8Nd/7Umyt+5k7S8j5taxvEuz34kX8v1nOr5QXIRqbpL+4PkvS8tZ+y9HyXl/0vYbbM6mw7rTyh+5nJDOiZ2gurOdX4lOrLXil+sXemveu8Pep1QKKiUrrk+Yvx1tz37pkTOojVcZQsht5Xt685wPZA+8+D24=
+  </data>
+ </layer>
+ <objectgroup name="Obj">
+  <object id="10" name="Player" type="Player" x="115.636" y="1776.27" width="100" height="100"/>
+  <object id="11" name="Jumppad" type="Jumppad" x="1114.67" y="1773.33" width="48" height="33.3333"/>
+  <object id="14" name="Crate" type="Crate" x="716" y="1784" width="30" height="30"/>
+  <object id="18" name="Enemy_Weak" type="Enemy_Weak" x="341" y="1413" width="30" height="30"/>
+  <object id="20" name="Enemy_Strong" type="Enemy_Strong" x="685" y="1407" width="30" height="30"/>
+  <object id="22" name="Jumppad" type="Jumppad" x="2390.67" y="1788.67" width="48" height="33.3333"/>
+  <object id="23" name="Jumppad" type="Jumppad" x="2201.33" y="1468.67" width="48" height="33.3333"/>
+  <object id="24" name="Jumppad" type="Jumppad" x="2404" y="1199.33" width="48" height="33.3333"/>
+  <object id="28" name="Jumppad" type="Jumppad" x="3094.67" y="1479.33" width="48" height="33.3333"/>
+  <object id="29" name="Jumppad" type="Jumppad" x="3734" y="1155.33" width="48" height="33.3333"/>
+  <object id="30" name="Enemy_Shooter" type="Enemy_Shooter" x="606.333" y="1109" width="30" height="30"/>
+  <object id="31" name="Enemy_Shooter" type="Enemy_Shooter" x="933" y="1051.67" width="30" height="30"/>
+  <object id="33" name="Enemy_Pouncer" type="Enemy_Pouncer" x="1703.67" y="1195.67" width="30" height="30"/>
+  <object id="34" name="Enemy_Pouncer" type="Enemy_Pouncer" x="527" y="1409" width="30" height="30"/>
+  <object id="35" name="Enemy_Strong" type="Enemy_Strong" x="1353" y="977" width="30" height="30"/>
+  <object id="36" name="Enemy_Strong" type="Enemy_Strong" x="1631" y="991" width="30" height="30"/>
+  <object id="37" name="Enemy_Weak" type="Enemy_Weak" x="1463" y="1367" width="30" height="30"/>
+  <object id="38" name="Enemy_Shooter" type="Enemy_Shooter" x="1743" y="1617" width="30" height="30"/>
+  <object id="39" name="Enemy_Hybrid" type="Enemy_Hybrid" x="1593" y="1627" width="30" height="30"/>
+  <object id="40" name="Coin" type="Coin" x="357" y="1781" width="30" height="30"/>
+  <object id="41" name="Coin" type="Coin" x="425" y="1779" width="30" height="30"/>
+  <object id="42" name="Coin" type="Coin" x="497" y="1779" width="30" height="30"/>
+  <object id="45" name="Mana_Potion" type="Mana_Potion" x="542.333" y="1347.67" width="30" height="30"/>
+  <object id="46" name="Coin" type="Coin" x="207" y="1174" width="30" height="30"/>
+  <object id="47" name="Coin" type="Coin" x="347" y="1172" width="30" height="30"/>
+  <object id="48" name="Coin" type="Coin" x="275" y="1172" width="30" height="30"/>
+  <object id="49" name="Coin" type="Coin" x="1431" y="1814" width="30" height="30"/>
+  <object id="50" name="Coin" type="Coin" x="1571" y="1812" width="30" height="30"/>
+  <object id="51" name="Coin" type="Coin" x="1499" y="1812" width="30" height="30"/>
+  <object id="52" name="Coin" type="Coin" x="1687" y="1862" width="30" height="30"/>
+  <object id="53" name="Coin" type="Coin" x="1827" y="1860" width="30" height="30"/>
+  <object id="54" name="Coin" type="Coin" x="1755" y="1860" width="30" height="30"/>
+  <object id="55" name="Live" type="Live" x="1381" y="1855" width="30" height="30"/>
+  <object id="57" name="Live" type="Live" x="2015" y="769" width="30" height="30"/>
+  <object id="58" name="Crate" type="Crate" x="1875" y="1345" width="30" height="30"/>
+  <object id="59" name="Crate" type="Crate" x="2305" y="1819" width="30" height="30"/>
+  <object id="60" name="Crate" type="Crate" x="2331" y="571" width="30" height="30"/>
+  <object id="62" name="Crate" type="Crate" x="2321" y="599" width="30" height="30"/>
+  <object id="64" name="Crate" type="Crate" x="2344.5" y="595" width="30" height="30"/>
+  <object id="65" name="Enemy_Shooter" type="Enemy_Shooter" x="2942.58" y="663.788" width="30" height="30"/>
+  <object id="66" name="Enemy_Pouncer" type="Enemy_Pouncer" x="3151.67" y="839.545" width="30" height="30"/>
+  <object id="67" name="Enemy_Strong" type="Enemy_Strong" x="3406.21" y="830.455" width="30" height="30"/>
+  <object id="69" name="Enemy_Shooter" type="Enemy_Shooter" x="3354.7" y="1157.73" width="30" height="30"/>
+  <object id="70" name="Enemy_Strong" type="Enemy_Strong" x="3557.73" y="1154.7" width="30" height="30"/>
+  <object id="71" name="Enemy_Strong" type="Enemy_Strong" x="2827.42" y="1460.76" width="30" height="30"/>
+  <object id="72" name="Enemy_Shooter" type="Enemy_Shooter" x="2965" y="1475" width="30" height="30"/>
+  <object id="73" name="Live" type="Live" x="2716" y="1849" width="30" height="30"/>
+  <object id="74" name="Jumppad" type="Jumppad" x="3280" y="1733.33" width="48" height="33.3333"/>
+  <object id="75" name="Enemy_Hybrid" type="Enemy_Hybrid" x="3059.67" y="1839.67" width="30" height="30"/>
+  <object id="76" name="Jumppad" type="Jumppad" x="2582.67" y="1794" width="48" height="33.3333"/>
+  <object id="78" name="Enemy_Pouncer" type="Enemy_Pouncer" x="3245" y="1815.67" width="30" height="30"/>
+  <object id="79" name="Exit" type="Exit" x="3703" y="1831" width="30" height="30"/>
+ </objectgroup>
+ <layer name="Collision" width="60" height="32" opacity="0.42">
+  <data encoding="base64" compression="zlib">
+   eJztmNEKwCAIRXvu/z94r0MKTa9o5oVgEFOPlqvNMcZ8bLyi5q2t5q2t5q2t5q2tW3hRMWbj9T7zZeOVyHIWjubVxGv1dxMvwl9WXo+7X2ZeybzGH7rXn+abs4mUlncVv0evjOCV9n5t3tA2OXu0Rpaac3681nPE/6vI+mryYlXk/j3lRWi3Lyxry5vX+i1HK3t9Pfoptc/lXjKHjA3JjO4r0fv3xCYyLoQs9d29k5GX1isDL2X8P1vHylf28ZI+p3gNIQ==
+  </data>
+ </layer>
+</map>

@@ -135,7 +135,7 @@ void CAIEnemy::CheckTarget()
 		if (m_pTargetGO)
 		{
 			Player* player = (Player*)m_pTargetGO;
-			if (player->GetActiveSkill() != Player::ACTIVE_SKILL::Invisible)
+			if (player->GetActiveSkill() != Player::ACTIVE_SKILL::Invisible && player->GetLives() > 0)
 			{
 				float getDistance = m_pTargetGO->getPosition().getDistance(m_pGO->getPosition());
 

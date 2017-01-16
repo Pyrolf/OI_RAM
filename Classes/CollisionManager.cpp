@@ -61,21 +61,23 @@ bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 				{
 					CEnemy* enemy = dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode());
 
-					if (player->GetActiveSkill() != Player::ACTIVE_SKILL::Invisible)
+					if (player->GetActiveSkill() == Player::ACTIVE_SKILL::Invisible)
 					{
-						if (player->GetActiveSkill() == Player::ACTIVE_SKILL::Slam)
-							enemy->MinusLives(2);
-						else
-							enemy->MinusLives(1);
-
-						if (enemy->GetLives() <= 0)
-						{
-							dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setCollisionBitmask(0);
-							//dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setRotationEnable(true);
-							//dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setAngularVelocity(1);
-							dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->applyImpulse(Vec2(random(-1.0f, 1.0f), random(0, 1)) * 500);
-						}
+						player->ResetSkillEffect();
 					}
+					if (player->GetActiveSkill() == Player::ACTIVE_SKILL::Slam)
+						enemy->MinusLives(2);
+					else
+						enemy->MinusLives(1);
+
+					if (enemy->GetLives() <= 0)
+					{
+						dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setCollisionBitmask(0);
+						//dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setRotationEnable(true);
+						//dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setAngularVelocity(1);
+						dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->applyImpulse(Vec2(random(-1.0f, 1.0f), random(0, 1)) * 500);
+					}
+
 					player->getPhysicsBody()->setVelocity(Vec2::ZERO);
 					player->getPhysicsBody()->applyImpulse(Vec2(0, 400));
 
@@ -125,20 +127,22 @@ bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 					Vec2 ppos = player->convertToWorldSpace(player->getPosition());
 					
 					//damage and knockback player
-					if (player->GetActiveSkill() != Player::ACTIVE_SKILL::Invisible)
+					if (player->GetActiveSkill() == Player::ACTIVE_SKILL::Invisible)
 					{
-						player->ReceiveDamage();
-						player->getPhysicsBody()->setVelocity(Vec2::ZERO);
-						player->getPhysicsBody()->applyImpulse((ppos - epos).getNormalized() * 200);
-						//player->SetFrictionMulti(0);
-
-						//knockback enemy
-						CEnemy* enemy = dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode());
-						if (enemy->GetAI()->GetCurrentState() == CAIEnemy::FSM_POUNCE)
-							enemy->GetAI()->PounceCoolDown();
-
-						enemy->getPhysicsBody()->applyImpulse((epos - ppos).getNormalized() * 200);
+						player->ResetSkillEffect();
 					}
+					player->ReceiveDamage();
+					player->getPhysicsBody()->setVelocity(Vec2::ZERO);
+					player->getPhysicsBody()->applyImpulse((ppos - epos).getNormalized() * 200);
+					//player->SetFrictionMulti(0);
+
+					//knockback enemy
+					CEnemy* enemy = dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode());
+					if (enemy->GetAI()->GetCurrentState() == CAIEnemy::FSM_POUNCE)
+						enemy->GetAI()->PounceCoolDown();
+
+					enemy->getPhysicsBody()->applyImpulse((epos - ppos).getNormalized() * 200);
+			
 
 					return true;
 				}
@@ -153,8 +157,13 @@ bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 		if (shape[other]->getCollisionBitmask() == CB_PLAYER)
 		{
 			auto player = dynamic_cast<Player*>(shape[other]->getBody()->getNode());
-			if (player->GetActiveSkill() != Player::ACTIVE_SKILL::Invisible)
-				player->ReceiveDamage();
+
+			if (player->GetActiveSkill() == Player::ACTIVE_SKILL::Invisible)
+			{
+				player->ResetSkillEffect();
+			}
+
+			player->ReceiveDamage();
 		}
 		if (shape[other]->getCollisionBitmask() == CB_PLAYER || shape[other]->getCollisionBitmask() == CB_GROUND)
 		{

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="32" height="32" tilewidth="64" tileheight="64" nextobjectid="11">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="32" height="32" tilewidth="64" tileheight="64" nextobjectid="23">
  <tileset firstgid="1" name="forest" tilewidth="64" tileheight="64" tilecount="300" columns="25">
   <image source="forest.png" width="1640" height="768"/>
  </tileset>
@@ -61,15 +61,23 @@
  </layer>
  <layer name="midground" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMApGwSgYBaNg5ACpUftH7R+1HycIpqP9IWTYH4wFk2o/EwWYDQsmVi8z1H7WAcQAwRYEjA==
+   eJxjYBgFo2AUjIJRMApGwSgYBaNg5ACpUftH7R+1f1DYH0KGfiYsmFT7sZlBLGbDgonVywy1n3UAMQDFkQJR
   </data>
  </layer>
  <objectgroup name="Obj">
-  <object id="10" name="Player" type="Player" x="90.9091" y="1790.94" width="100" height="100"/>
+  <object id="10" name="Player" type="Player" x="99.9091" y="1823.94" width="44.6667" height="48"/>
+  <object id="11" name="Enemy_Weak" type="Enemy_Weak" x="385.455" y="1827.03" width="48" height="48"/>
+  <object id="12" name="Enemy_Strong" type="Enemy_Strong" x="578" y="1800" width="48" height="48"/>
+  <object id="13" name="Enemy_Shooter" type="Enemy_Shooter" x="1254" y="1704" width="48" height="48"/>
+  <object id="14" name="Enemy_Pouncer" type="Enemy_Pouncer" x="846" y="1776" width="48" height="48"/>
+  <object id="15" name="Enemy_Hybrid" type="Enemy_Hybrid" x="1612" y="1798" width="48" height="48"/>
+  <object id="20" name="Crate" type="Crate" x="946" y="1806" width="48" height="48"/>
+  <object id="21" name="Live" type="Live" x="113.333" y="1703" width="48" height="48"/>
+  <object id="22" name="Exit" type="Exit" x="1928" y="1837.67" width="48" height="48"/>
  </objectgroup>
  <layer name="Collision" width="32" height="32" opacity="0.42">
   <data encoding="base64" compression="zlib">
-   eJzt1yEOADAIBMHT/P/B1dWkBTEkOMLorSQ1vFPD5/P5fD6fz+fz+fz7ZrPf6clX7fqzf7v/DrZBBRU=
+   eJzt17EJAEAIBMGL7b9gi5BXHka41Im3ktTxro7P5/P5fD6fz+fz+f/4k5581a6b/Tv915XBBQE=
   </data>
  </layer>
 </map>

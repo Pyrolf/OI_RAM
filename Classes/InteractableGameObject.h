@@ -16,6 +16,7 @@ public:
 		COIN = 0,
 		LIVE,
 		MANA_POTION,
+		EXIT,
 		NUM_OF_TYPES
 	};
 

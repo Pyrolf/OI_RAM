@@ -138,6 +138,9 @@
     <ClCompile Include="..\Classes\PhysicsGameObject.cpp">
       <Filter>src\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\WonOrGameoverLayer.cpp">
+      <Filter>src\Layers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -235,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\PhysicsGameObject.h">
       <Filter>src\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\WonOrGameoverLayer.h">
+      <Filter>src\Layers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

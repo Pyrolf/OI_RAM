@@ -221,6 +221,10 @@ void TilemapManager::SpawnGameObjects(CGameObjectManager* GOM)
 			{
 				GOM->SpawnInteractableItem(Vec2(x, y), CInteractableGameObject::MANA_POTION);
 			}
+			else if (type == "Exit")
+			{
+				GOM->SpawnInteractableItem(Vec2(x, y), CInteractableGameObject::EXIT);
+			}
 			else if (type == "Crate")
 			{
 				GOM->SpawnPhysicsGO(Vec2(x, y), CPhysicsGameObject::CRATE);

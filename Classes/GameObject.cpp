@@ -37,6 +37,7 @@ void CGameObject::MinusLives(int nDamage)
 // Setters
 void CGameObject::SetSprite(cocos2d::Sprite* sprite, cocos2d::Size size)
 {
+	this->removeChild(m_pSprite);
 	m_pSprite = sprite;
 	m_spriteSize = size;
 	this->addChild(m_pSprite);

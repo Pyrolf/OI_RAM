@@ -25,6 +25,7 @@ CGameObjectManager::CGameObjectManager(int numOfEnemies, int numOfIteractableIte
 	m_arrayOfInteractableItemSizes[CInteractableGameObject::COIN]			= Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
 	m_arrayOfInteractableItemSizes[CInteractableGameObject::LIVE]			= Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
 	m_arrayOfInteractableItemSizes[CInteractableGameObject::MANA_POTION]	= Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
+	m_arrayOfInteractableItemSizes[CInteractableGameObject::EXIT]			= Size(visibleSize.height * 0.15f, visibleSize.height * 0.05f);
 
 	m_arrayOfPhysicsGOSizes[CPhysicsGameObject::CRATE] = Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
 	m_arrayOfPhysicsGOSizes[CPhysicsGameObject::JUMPPAD] = Size(visibleSize.height * 0.1f, visibleSize.height * 0.025f);
@@ -135,7 +136,10 @@ void CGameObjectManager::Update(float dt)
 						((CInGameScene*)this->getParent())->AddLives(1);
 						break;
 					case CInteractableGameObject::MANA_POTION:
-						((CInGameScene*)this->getParent())->AddMana(5);
+						((CInGameScene*)this->getParent())->AddMana(20);
+						break;
+					case CInteractableGameObject::EXIT:
+						((CInGameScene*)this->getParent())->ReachExit();
 						break;
 				}
 				DeactivateInteractableItem(item);

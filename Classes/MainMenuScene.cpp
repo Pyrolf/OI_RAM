@@ -3,6 +3,7 @@
 #include "SpriteSystem.h"
 #include "GameStateManager.h"
 #include "SimpleAudioEngine.h"
+#include "FileOperation.h"
 
 USING_NS_CC;
 
@@ -125,6 +126,12 @@ bool CMainMenuScene::init()
 
 void CMainMenuScene::startGameCallback(Ref* pSender)
 {
+	// Save data
+	std::stringstream ss1;
+
+	ss1 << 1 << "\n";
+	FileOperation::saveFile(ss1.str(), FileOperation::LEVEL_DATA_FILE_TYPE);
+
 	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_GAMEPLAY);
 }
 void CMainMenuScene::goStoreCallback(Ref* pSender)

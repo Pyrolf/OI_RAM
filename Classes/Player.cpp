@@ -50,44 +50,37 @@ void Player::Init(Vec2 Pos)
 
 	activeSkill = ACTIVE_SKILL::None;
 
-	maxMana = 50;
+	maxMana = 25;
 	mana = maxMana;
 	manaRegenRate = 1;
 }
 
 void Player::Update(float dt)
 {
-	Movement(dt);
-
-	UpdateSkills(dt);
-
-	if (mana < maxMana && activeSkill == ACTIVE_SKILL::None)
+	if (GetLives() > 0)
 	{
-		mana += manaRegenRate * dt;
-		if (mana > maxMana)
-			mana = maxMana;
+		Movement(dt);
+
+		UpdateSkills(dt);
+
+		if (mana < maxMana && activeSkill == ACTIVE_SKILL::None)
+		{
+			mana += manaRegenRate * dt;
+			if (mana > maxMana)
+				mana = maxMana;
+		}
+
+		//auto Body = this->getPhysicsBody();
+
+		//if (Body->getVelocity().length > 0 && frictionLerpValue > 0)
+
+		if (!isMoving)
+		{
+			setA_Idle();
+		}
+
+		isMoving = false;
 	}
-
-	//auto Body = this->getPhysicsBody();
-
-	//if (Body->getVelocity().length > 0 && frictionLerpValue > 0)
-
-	if (!isMoving)
-	{
-		/*frictionLerpValue -= dt * frictionMulti;
-		if (frictionLerpValue < 0)
-			frictionLerpValue = 0;
-
-		Vec2 a = Body->getVelocity();
-
-		Body->setVelocity(Vec2(0, Body->getVelocity().y).lerp(Body->getVelocity(), frictionLerpValue));
-
-		a = Body->getVelocity();*/
-
-		setA_Idle();
-	}
-	
-	isMoving = false;
 }
 
 bool downKeypress = false;
@@ -120,18 +113,17 @@ void Player::UpdateSkills(float dt)
 
 	if ((KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_Z) && !ZKeypress))
 	{
-		ResetSkillEffect();
-
 		if (activeSkill != ACTIVE_SKILL::Invisible && mana > 0)
 		{
+			ResetSkillEffect();
 			activeSkill = ACTIVE_SKILL::Invisible;
 			GetSprite()->setOpacity(160);
 
-			this->addChild(CParticleLoader::createSmokeEffect(this));
+			//this->addChild(CParticleLoader::createSmokeEffect(this));
 		}
 		else
 		{
-			activeSkill = ACTIVE_SKILL::None;
+			ResetSkillEffect();
 		}
 
 		ZKeypress = true;
@@ -143,19 +135,18 @@ void Player::UpdateSkills(float dt)
 
 	if ((KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_X) && !XKeypress))
 	{
-		ResetSkillEffect();
-
 		if (activeSkill != ACTIVE_SKILL::Slow && mana > 0)
 		{
+			ResetSkillEffect();
 			activeSkill = ACTIVE_SKILL::Slow;
 			Director::getInstance()->getScheduler()->setTimeScale(0.5f);
 			Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(0.5f);
 
-			this->getParent()->addChild(CParticleLoader::createSlowEffect(this));
+			//this->getParent()->addChild(CParticleLoader::createSlowEffect(this));
 		}
 		else
 		{
-			activeSkill = ACTIVE_SKILL::None;
+			ResetSkillEffect();
 		}
 
 		XKeypress = true;
@@ -197,6 +188,7 @@ void Player::UpdateSkills(float dt)
 
 void Player::ResetSkillEffect()
 {
+	activeSkill = ACTIVE_SKILL::None;
 	GetSprite()->setOpacity(255);
 	Director::getInstance()->getScheduler()->setTimeScale(1);
 	Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(1);
