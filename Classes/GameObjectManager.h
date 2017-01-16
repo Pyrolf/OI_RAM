@@ -4,14 +4,15 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "InteractableGameObject.h"
+#include "PhysicsGameObject.h"
 
 class CGameObjectManager : cocos2d::Node
 {
 public:
-	CGameObjectManager(int numOfEnemies, int numOfIteractableItems);
+	CGameObjectManager(int numOfEnemies, int numOfIteractableItems, int numOfPhysicsGO);
 	~CGameObjectManager();
 
-	static CGameObjectManager* create(int numOfEnemies = 10, int numOfIteractableItems = 10);
+	static CGameObjectManager* create(int numOfEnemies = 10, int numOfIteractableItems = 10, int numOfPhysicsGO = 10);
 
 	void Update(float dt);
 
@@ -19,6 +20,8 @@ public:
 	void SpawnEnemy(cocos2d::Vec2 vec2Position, CEnemy::ENEMY_TYPE eEnemyType);
 
 	void SpawnInteractableItem(cocos2d::Vec2 vec2Position, CInteractableGameObject::TYPE eInteractableItemType);
+
+	void SpawnPhysicsGO(cocos2d::Vec2 vec2Position, CPhysicsGameObject::TYPE PhysicsGOType);
 
 	// Getters
 	cocos2d::Size GetEnemySpriteSize(CEnemy::ENEMY_TYPE type) { 
@@ -58,6 +61,16 @@ private:
 	void AddInteractableItems(int numOfInteractableItems);
 	CInteractableGameObject* GetAnInactiveInteractableItem();
 	void DeactivateInteractableItem(CInteractableGameObject* item);
+
+	// Physics Object
+	int m_nAmountOfPhysicsGOToAdd;
+	cocos2d::Vector<CPhysicsGameObject*> m_pPhysicsGOList;
+
+	cocos2d::Size m_arrayOfPhysicsGOSizes[CPhysicsGameObject::NUM_OF_TYPES];
+
+	void AddPhysicsGO(int numOfPhysicsGO);
+	CPhysicsGameObject* GetAnInactivePhysicsGO();
+	void DeactivatePhysicsGO(CPhysicsGameObject* item);
 };
 
 

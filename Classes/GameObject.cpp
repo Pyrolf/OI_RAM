@@ -29,9 +29,9 @@ CGameObject* CGameObject::create()
 	return ret;
 }
 
-void CGameObject::MinusLives()
+void CGameObject::MinusLives(int nDamage)
 {
-	m_nLives--;
+	m_nLives -= nDamage;
 }
 
 // Setters

@@ -13,5 +13,8 @@ public:
 															cocos2d::Vec2 offsetPosition = cocos2d::Vec2::ANCHOR_BOTTOM_LEFT,
 															cocos2d::Color4F color = cocos2d::Color4F::RED,
 															float sizeScale = 0.05f);
+
+	static cocos2d::ParticleSystem* createSmokeEffect(cocos2d::Node* target);
+	static cocos2d::ParticleSystem* createSlowEffect(cocos2d::Node* target);
 };
 #endif // __PARTICLE_LOADER_H__

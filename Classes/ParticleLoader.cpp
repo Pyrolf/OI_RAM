@@ -48,3 +48,20 @@ ParticleSystem* CParticleLoader::createBleedingEffect(	Node* target,
 
 	return m_bleeding;
 }
+
+
+ParticleSystem* CParticleLoader::createSmokeEffect(Node* target)
+{
+	auto p = cocos2d::ParticleSystem::create("particle/smoke.plist");
+	p->setPosition(target->getPosition());
+
+	return p;
+}
+
+ParticleSystem* CParticleLoader::createSlowEffect(Node* target)
+{
+	auto p = cocos2d::ParticleSystem::create("particle/slow.plist");
+	p->setPosition(target->getPosition());
+
+	return p; 
+}
