@@ -43,8 +43,11 @@ void CEnemy::Update(float dt)
 		m_AI->Update(dt);
 }
 
-void CEnemy::MinusLives()
+void CEnemy::MinusLives(int nDamage)
 {
-	CGameObject::MinusLives();
-	m_AI->Damaging();
+	if (m_AI->GetCurrentState() != CAIEnemy::FSM_DAMAGING && m_AI->GetCurrentState() != CAIEnemy::FSM_DIED)
+	{
+		CGameObject::MinusLives(nDamage);
+		m_AI->Damaging();
+	}
 }

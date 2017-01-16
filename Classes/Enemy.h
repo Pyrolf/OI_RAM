@@ -25,7 +25,7 @@ public:
 	void Init(ENEMY_TYPE eEnemyType, CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, ENEMY_RANGES sRanges);
 	void Update(float dt);
 
-	virtual void MinusLives();
+	virtual void MinusLives(int nDamage = 1);
 
 	// Setters
 	void SetTarget(CAIEnemy* ai) { m_AI = ai; }

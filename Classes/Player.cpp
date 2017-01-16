@@ -18,16 +18,16 @@ void Player::Init(Vec2 Pos)
 {
 	this->setPosition(Pos);
 
-	Sprite* temp = CSpriteLoader::getPlayerSprite();
+	Sprite* temp = CSpriteLoader::getPlayerSprite(Size(50 , 86));
 	auto spriteSize = temp->getContentSize();
 
 	this->SetSprite(temp, spriteSize);
 	astate = A_Idle;
 
 	PhysicsBody* Body;
-	Body = PhysicsBody::createBox(Size(spriteSize.width, spriteSize.height), PhysicsMaterial(1, 0, 0));
-	Body->addShape(PhysicsShapeBox::create(Size(spriteSize.width - 6, 4), PhysicsMaterial(1, 0, 0), Vec2(0, -spriteSize.height / 2 + 2)));
-	Body->getShapes().at(1)->setSensor(true);
+	Body = PhysicsBody::createBox(Size(spriteSize.width, spriteSize.height - 4), PhysicsMaterial(1, 0, 0), Vec2(0, 2));
+	Body->addShape(PhysicsShapeBox::create(Size(spriteSize.width, 4), PhysicsMaterial(1, 0, 0.4), Vec2(0, -spriteSize.height / 2 + 2)));
+	Body->getShapes().at(1)->setTag(69);
 	Body->setMass(1);
 	Body->setRotationEnable(false);
 
@@ -47,17 +47,34 @@ void Player::Init(Vec2 Pos)
 	//auto n = Node::create();
 	//n->setPhysicsBody(Body);
 	//addChild(n);
+
+	activeSkill = ACTIVE_SKILL::None;
+
+	maxMana = 50;
+	mana = maxMana;
+	manaRegenRate = 1;
 }
 
-void Player::update(float dt)
+void Player::Update(float dt)
 {
 	Movement(dt);
 
-	auto Body = this->getPhysicsBody();
+	UpdateSkills(dt);
 
-	if (!isMoving && frictionLerpValue > 0)
+	if (mana < maxMana && activeSkill == ACTIVE_SKILL::None)
 	{
-		frictionLerpValue -= dt * frictionMulti;
+		mana += manaRegenRate * dt;
+		if (mana > maxMana)
+			mana = maxMana;
+	}
+
+	//auto Body = this->getPhysicsBody();
+
+	//if (Body->getVelocity().length > 0 && frictionLerpValue > 0)
+
+	if (!isMoving)
+	{
+		/*frictionLerpValue -= dt * frictionMulti;
 		if (frictionLerpValue < 0)
 			frictionLerpValue = 0;
 
@@ -65,12 +82,124 @@ void Player::update(float dt)
 
 		Body->setVelocity(Vec2(0, Body->getVelocity().y).lerp(Body->getVelocity(), frictionLerpValue));
 
-		a = Body->getVelocity();
+		a = Body->getVelocity();*/
 
 		setA_Idle();
 	}
 	
 	isMoving = false;
+}
+
+bool downKeypress = false;
+bool ZKeypress = false;
+bool XKeypress = false;
+
+void Player::UpdateSkills(float dt)
+{
+	if ((KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW) && !downKeypress))
+	{
+		ResetSkillEffect();
+
+		if (activeSkill != ACTIVE_SKILL::Slam && mana > 10)
+		{
+			activeSkill = ACTIVE_SKILL::Slam;
+			
+			this->getPhysicsBody()->setVelocity(Vec2::ZERO);
+			this->getPhysicsBody()->applyImpulse(Vec2(0, -500));
+
+			slamSkillActiveTime = 0.5f;
+			mana -= 10;
+		}
+
+		downKeypress = true;
+	}
+	else if (!KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW) && downKeypress)
+	{
+		downKeypress = false;
+	}
+
+	if ((KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_Z) && !ZKeypress))
+	{
+		ResetSkillEffect();
+
+		if (activeSkill != ACTIVE_SKILL::Invisible && mana > 0)
+		{
+			activeSkill = ACTIVE_SKILL::Invisible;
+			GetSprite()->setOpacity(160);
+
+			this->addChild(CParticleLoader::createSmokeEffect(this));
+		}
+		else
+		{
+			activeSkill = ACTIVE_SKILL::None;
+		}
+
+		ZKeypress = true;
+	}
+	else if (!KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_Z) && ZKeypress)
+	{
+		ZKeypress = false;
+	}
+
+	if ((KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_X) && !XKeypress))
+	{
+		ResetSkillEffect();
+
+		if (activeSkill != ACTIVE_SKILL::Slow && mana > 0)
+		{
+			activeSkill = ACTIVE_SKILL::Slow;
+			Director::getInstance()->getScheduler()->setTimeScale(0.5f);
+			Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(0.5f);
+
+			this->getParent()->addChild(CParticleLoader::createSlowEffect(this));
+		}
+		else
+		{
+			activeSkill = ACTIVE_SKILL::None;
+		}
+
+		XKeypress = true;
+	}
+	else if (!KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_X) && XKeypress)
+	{
+		XKeypress = false;
+	}
+
+	switch (activeSkill)
+	{
+		case ACTIVE_SKILL::Slam:
+			slamSkillActiveTime -= dt;
+			if (slamSkillActiveTime < 0)
+				activeSkill = ACTIVE_SKILL::None;
+		break;
+
+		case ACTIVE_SKILL::Invisible:
+			mana -= 3 * dt;
+			if (mana < 0)
+			{
+				mana = 0;
+				activeSkill = ACTIVE_SKILL::None;
+				ResetSkillEffect();
+			}
+		break;
+
+		case ACTIVE_SKILL::Slow:
+			mana -= 5 * dt;
+			if (mana < 0)
+			{
+				mana = 0;
+				activeSkill = ACTIVE_SKILL::None;
+				ResetSkillEffect();
+			}
+		break;
+	}
+}
+
+void Player::ResetSkillEffect()
+{
+	GetSprite()->setOpacity(255);
+	Director::getInstance()->getScheduler()->setTimeScale(1);
+	Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(1);
 }
 
 void Player::Move(bool right, float dt)
@@ -83,18 +212,20 @@ void Player::Move(bool right, float dt)
 	if (right)
 	{
 		GetSprite()->setFlipX(false);
-		body->applyImpulse(Vec2(body->getMass() * 400.0f  * dt, 0));
+		body->applyImpulse(Vec2(body->getMass() * 1500.0f  * dt, 0));
 	}
 	else
 	{
 		GetSprite()->setFlipX(true);
-		body->applyImpulse(Vec2(body->getMass() * -400.0f  * dt, 0));
+		body->applyImpulse(Vec2(body->getMass() * -1500.0f  * dt, 0));
 	}
 
-	if (body->getVelocity().x > 150)
-		body->setVelocity(Vec2(150, body->getVelocity().y));
-	else if (body->getVelocity().x < -150)
-		body->setVelocity(Vec2(-150, body->getVelocity().y));
+	if (body->getVelocity().x > 200)
+		body->setVelocity(Vec2(200, body->getVelocity().y));
+	else if (body->getVelocity().x < -200)
+		body->setVelocity(Vec2(-200, body->getVelocity().y));
+
+	//body->getShapes().at(0)->setFriction(0);
 
 	setA_Move();
 }
@@ -115,20 +246,20 @@ bool upKeypress = false;
 
 void Player::Movement(float dt)
 {
-	if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_LEFT_ARROW) || KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_A))
+	if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_LEFT_ARROW))
 	{
 		Move(false, dt);
 	}
-	if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_RIGHT_ARROW) || KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_D))
+	if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_RIGHT_ARROW))
 	{
 		Move(true, dt);
 	}
-	if ((KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) && !upKeypress) || (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_W) && !upKeypress))
+	if ((KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) && !upKeypress))
 	{
 		upKeypress = true;
 		Jump();
 	}
-	else if (!KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) && !KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_W) && upKeypress)
+	else if (!KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW) && upKeypress)
 	{
 		upKeypress = false;
 	}
@@ -138,30 +269,50 @@ void Player::Movement(float dt)
 	}*/
 }
 
-void Player::Knockback(Vec2 dir, float force)
+void Player::ReceiveDamage(float fDamagingDuration)
 {
-	auto body = this->getPhysicsBody();
+	//auto body = this->getPhysicsBody();
 
-	body->setVelocity(Vec2(0, 0));
-	body->applyImpulse(dir * force * body->getMass());
+	//body->setVelocity(Vec2(0, 0));
+	//body->applyImpulse(dir * force * body->getMass());
 
-	CParticleLoader::createBleedingEffect(this);
+	if (!isDamaged)
+	{
+		isDamaged = true;
+		CGameObject::MinusLives(1);
+
+		auto flickAction = CallFunc::create([this]()
+		{
+			this->setVisible(!this->isVisible());
+		});
+		float fTimeInterval = 0.1f;
+		auto sequence = Sequence::createWithTwoActions(flickAction, DelayTime::create(fTimeInterval));
+		auto repeat = Repeat::create(sequence, fDamagingDuration / fTimeInterval);
+		auto checkAction = CallFunc::create([this]()
+		{
+			if (!this->isVisible())
+				this->setVisible(true);
+			isDamaged = false;
+		});
+		auto sequence2 = Sequence::createWithTwoActions(repeat, checkAction);
+		this->runAction(sequence2);
+
+		CParticleLoader::createBleedingEffect(this);
+	}
 }
-
 
 void Player::setA_Idle()
 {
 	if (astate != A_Idle)
 	{
-		GetSprite()->setFlipX(false);
 		GetSprite()->stopAllActions();
 
 		astate = A_Idle;
 
 	//Sprite::createWithTexture
 
-		GetSprite()->setTexture(CSpriteLoader::getPlayerSprite()->getTexture());
-		GetSprite()->setTextureRect(CSpriteLoader::getPlayerSprite()->getTextureRect());
+		GetSprite()->setTexture(CSpriteLoader::getPlayerSprite(Size(50, 86))->getTexture());
+		GetSprite()->setTextureRect(CSpriteLoader::getPlayerSprite(Size(50, 86))->getTextureRect());
 
 		//SetSprite(CSpriteLoader::getPlayerSprite(), Size(49, 90));
 	}
@@ -176,7 +327,7 @@ void Player::setA_Move()
 
 		astate = A_Move;
 
-		auto animate = RepeatForever::create(CAnimationLoader::getPlayerAnimate(astate, Size(70, 90), 0.5f));
+		auto animate = RepeatForever::create(CAnimationLoader::getPlayerAnimate(astate, Size(62, 86), 0.1f));
 		sprite->runAction(animate);
 	}
 }

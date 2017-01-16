@@ -39,7 +39,7 @@ TilemapManager::TilemapManager(string filepath, Layer* theLayer, int Zorder)
 				float xpos;
 				xpos = std::stof(temp.asString());
 
-				layer->setPosition(xpos, layer->getPosition().y);\
+				layer->setPosition(xpos, layer->getPosition().y);
 			}
 		}
 	}
@@ -169,3 +169,128 @@ void TilemapManager::createRectangularFixture(cocos2d::experimental::TMXLayer* l
 
 	tileCollisionNodes->addChild(node);
 }
+
+
+void TilemapManager::SpawnGameObjects(CGameObjectManager* GOM)
+{
+	auto objectGroups = tilemap->getObjectGroups();
+	for (auto& objectGroup : objectGroups)
+	{
+		auto objects = objectGroup->getObjects();
+		for (auto& object : objects)
+		{
+			auto properties = object.asValueMap();
+			auto type = properties.at("type").asString();
+
+			auto x = properties.at("x").asFloat();
+			auto y = properties.at("y").asFloat();
+
+			if (type == "Player")
+			{
+				GOM->SpawnPlayer(Vec2(x, y));
+			}
+			else if (type == "Enemy_Weak")
+			{
+				GOM->SpawnEnemy(Vec2(x, y), CEnemy::ENEMY_TYPE_WEAK);
+			}
+			else if (type == "Enemy_Strong")
+			{
+				GOM->SpawnEnemy(Vec2(x, y), CEnemy::ENEMY_TYPE_STRONG);
+			}
+			else if (type == "Enemy_Pouncer")
+			{
+				GOM->SpawnEnemy(Vec2(x, y), CEnemy::ENEMY_TYPE_POUNCER);
+			}
+			else if (type == "Enemy_Shooter")
+			{
+				GOM->SpawnEnemy(Vec2(x, y), CEnemy::ENEMY_TYPE_SHOOTER);
+			}
+			else if (type == "Enemy_Hybrid")
+			{
+				GOM->SpawnEnemy(Vec2(x, y), CEnemy::ENEMY_TYPE_HYBRID);
+			}
+			else if (type == "Coin")
+			{
+				GOM->SpawnInteractableItem(Vec2(x, y), CInteractableGameObject::COIN);
+			}
+			else if (type == "Live")
+			{
+				GOM->SpawnInteractableItem(Vec2(x, y), CInteractableGameObject::LIVE);
+			}
+			else if (type == "Mana_Potion")
+			{
+				GOM->SpawnInteractableItem(Vec2(x, y), CInteractableGameObject::MANA_POTION);
+			}
+			else if (type == "Crate")
+			{
+				GOM->SpawnPhysicsGO(Vec2(x, y), CPhysicsGameObject::CRATE);
+			}
+			else if (type == "Jumppad")
+			{
+				GOM->SpawnPhysicsGO(Vec2(x, y), CPhysicsGameObject::JUMPPAD);
+			}
+		}
+	}
+}
+
+//m_pGOManager->SpawnPlayer(Vec2(origin.x + visibleSize.width / 2,
+//	origin.y + visibleSize.height * 0.75f));
+////play particle at the player
+////CParticleLoader::createBleedingEffect(m_pGOManager->getPlayer());
+//
+//// Spawn Enemy
+//// Weak
+//for (int i = 0; i < 1; i++)
+//{
+//	Vec2 position(visibleSize.width * 0.15f + origin.x + visibleSize.width * 0.2f * i,
+//		visibleSize.height * 0.6f + origin.y);
+//	m_pGOManager->SpawnEnemy(position, CEnemy::ENEMY_TYPE_WEAK);
+//}
+//// Strong
+//for (int i = 0; i < 1; i++)
+//{
+//	Vec2 position(visibleSize.width * 0.7f + origin.x + visibleSize.width * 0.2f * i,
+//		visibleSize.height * 0.6f + origin.y);
+//	m_pGOManager->SpawnEnemy(position, CEnemy::ENEMY_TYPE_STRONG);
+//}
+//// Pouncer
+//for (int i = 0; i < 1; i++)
+//{
+//	Vec2 position(visibleSize.width * 1.0f + origin.x + visibleSize.width * 0.2f * i,
+//		visibleSize.height * 0.6f + origin.y);
+//	m_pGOManager->SpawnEnemy(position, CEnemy::ENEMY_TYPE_POUNCER);
+//}
+//// Shoot
+//for (int i = 0; i < 1; i++)
+//{
+//	Vec2 position(visibleSize.width * 1.5f + origin.x + visibleSize.width * 0.2f * i,
+//		visibleSize.height * 0.6f + origin.y);
+//	m_pGOManager->SpawnEnemy(position, CEnemy::ENEMY_TYPE_SHOOTER);
+//}
+//// Hybrid
+//for (int i = 0; i < 1; i++)
+//{
+//	Vec2 position(visibleSize.width * 2.0f + origin.x + visibleSize.width * 0.2f * i,
+//		visibleSize.height * 0.6f + origin.y);
+//	m_pGOManager->SpawnEnemy(position, CEnemy::ENEMY_TYPE_HYBRID);
+//}
+//
+//// Spawn Items
+//for (int i = 0; i < 1; i++)
+//{
+//	Vec2 position(visibleSize.width * 0.3f + origin.x + visibleSize.width * 0.2f * i,
+//		visibleSize.height * 0.6f + origin.y);
+//	m_pGOManager->SpawnPhysicsGO(position, CPhysicsGameObject::JUMPPAD);
+//}
+//for (int i = 0; i < 1; i++)
+//{
+//	Vec2 position(visibleSize.width * 0.7f + origin.x + visibleSize.width * 0.2f * i,
+//		visibleSize.height * 0.6f + origin.y);
+//	m_pGOManager->SpawnInteractableItem(position, CInteractableGameObject::LIVE);
+//}
+//for (int i = 0; i < 1; i++)
+//{
+//	Vec2 position(visibleSize.width * 1.0f + origin.x + visibleSize.width * 0.2f * i,
+//		visibleSize.height * 0.6f + origin.y);
+//	m_pGOManager->SpawnInteractableItem(position, CInteractableGameObject::MANA_POTION);
+//}

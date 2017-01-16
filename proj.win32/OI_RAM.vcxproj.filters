@@ -135,6 +135,9 @@
     <ClCompile Include="..\Classes\InteractableGameObject.cpp">
       <Filter>src\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\PhysicsGameObject.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -228,6 +231,9 @@
       <Filter>src\Managers</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\InteractableGameObject.h">
+      <Filter>src\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PhysicsGameObject.h">
       <Filter>src\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
