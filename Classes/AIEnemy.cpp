@@ -274,8 +274,9 @@ void CAIEnemy::Pounce()
 		// Deactivate Gravity
 		m_pGO->getPhysicsBody()->setGravityEnable(false);
 		// Jump
-		float distance = m_pTargetGO->getPosition().distance(m_pGO->getPosition());
-		auto jumpAction = JumpTo::create(m_pounceInfomations.m_fPounceDuration, m_pTargetGO->getPosition(), m_pounceInfomations.m_fPounceHeight, 1);
+		Vec2 targetPos(m_pTargetGO->getPositionX(), m_pGO->getPositionY());
+		float distance = targetPos.distance(m_pGO->getPosition());
+		auto jumpAction = JumpTo::create(m_pounceInfomations.m_fPounceDuration * distance / m_sRanges.m_fPouncingRange, targetPos, m_pounceInfomations.m_fPounceHeight, 1);
 		// Activate Gravity
 		auto activateGravityAction = CallFunc::create([this]()
 		{

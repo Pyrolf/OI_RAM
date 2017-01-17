@@ -131,16 +131,16 @@ bool CStoreScene::init()
 	upgradeLabelMaxMana->setTag(MANA_CHILD_TAG_FOR_MENU);
 	upgradeButtonMaxMana->addChild(upgradeLabelMaxMana);
 
-	// Create back to main menu button
-	auto backToMainMenuButton = MenuItemImage::create(	"images/ui/back.png",
-														"images/ui/back_selected.png",
-														CC_CALLBACK_1(CStoreScene::backToMainMenuCallback, this));
-	//backToMainMenuButton->setScale(	visibleSize.height * 0.15f / backToMainMenuButton->getContentSize().width,
+	// Create next button
+	auto nextButton = MenuItemImage::create(	"images/ui/back.png",
+												"images/ui/back_selected.png",
+												CC_CALLBACK_1(CStoreScene::NextCallback, this));
+	//nextButton->setScale(	visibleSize.height * 0.15f / backToMainMenuButton->getContentSize().width,
 	//								visibleSize.height * 0.15f / backToMainMenuButton->getContentSize().height);
-	backToMainMenuButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	nextButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
 	float offSet = visibleSize.height * 0.025f;
-	backToMainMenuButton->setPosition(origin + Vec2(offSet, offSet));
-	menuItemList.pushBack(backToMainMenuButton);
+	nextButton->setPosition(origin + Vec2(visibleSize.width - offSet, offSet));
+	menuItemList.pushBack(nextButton);
 
     // Create menu
 	auto menu = Menu::createWithArray(menuItemList);
@@ -161,22 +161,22 @@ bool CStoreScene::init()
 
 void CStoreScene::upgradeMaxLives(Ref* pSender)
 {
-	if (m_nLives >= 10 || !EditCoins(-10 * (m_nLives + 1)))
+	if (m_nLives >= 10 || !EditCoins(-1 * (m_nLives + 1)))
 		return;
 	m_nLives += 1;
 	ChangeLivesLabel();
 }
 void CStoreScene::upgradeMaxMana(Ref* pSender)
 {
-	if (m_nMana >= 100 || !EditCoins(-2 * (m_nMana + 5)))
+	if (m_nMana >= 100 || !EditCoins(-1 * (m_nMana + 5)))
 		return;
 	m_nMana += 5;
 	ChangeManaLabel();
 }
-void CStoreScene::backToMainMenuCallback(Ref* pSender)
+void CStoreScene::NextCallback(Ref* pSender)
 {
 	saveData();
-	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_MAINMENU);
+	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_GAMEPLAY);
 }
 
 void CStoreScene::getData()

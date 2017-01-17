@@ -86,20 +86,20 @@ bool CMainMenuScene::init()
 	startLabel->setColor(labelColor);
 	startButton->addChild(startLabel);
 	
-	// Create store button
-	auto storeButton = MenuItemImage::create(	"images/ui/button.png",
-												"images/ui/button_selected.png",
-												CC_CALLBACK_1(CMainMenuScene::goStoreCallback, this));
-	/*storeButton->setScale(	buttonSize.width / storeButton->getContentSize().width,
-							buttonSize.height / storeButton->getContentSize().height);*/
-	storeButton->setPosition(startButton->getPosition() - Vec2(0, (startButton->getScaleY() * startButton->getContentSize().height) * 0.5f) + buttonPositionOffset);
-	menuItemList.pushBack(storeButton);
-	// store label
-	auto storeLabel = MenuItemLabel::create(Label::createWithTTF("Store", font, fontSize));
-	storeLabel->setPosition(Vec2(	storeButton->getContentSize().width * 0.5f,
-									storeButton->getContentSize().height * 0.5f));
-	storeLabel->setColor(labelColor);
-	storeButton->addChild(storeLabel);
+	//// Create store button
+	//auto storeButton = MenuItemImage::create(	"images/ui/button.png",
+	//											"images/ui/button_selected.png",
+	//											CC_CALLBACK_1(CMainMenuScene::goStoreCallback, this));
+	///*storeButton->setScale(	buttonSize.width / storeButton->getContentSize().width,
+	//						buttonSize.height / storeButton->getContentSize().height);*/
+	//storeButton->setPosition(startButton->getPosition() - Vec2(0, (startButton->getScaleY() * startButton->getContentSize().height) * 0.5f) + buttonPositionOffset);
+	//menuItemList.pushBack(storeButton);
+	//// store label
+	//auto storeLabel = MenuItemLabel::create(Label::createWithTTF("Store", font, fontSize));
+	//storeLabel->setPosition(Vec2(	storeButton->getContentSize().width * 0.5f,
+	//								storeButton->getContentSize().height * 0.5f));
+	//storeLabel->setColor(labelColor);
+	//storeButton->addChild(storeLabel);
 	
 	// Create exit button
 	auto exitButton = MenuItemImage::create(	"images/ui/button.png",
@@ -107,7 +107,7 @@ bool CMainMenuScene::init()
 											CC_CALLBACK_1(CMainMenuScene::exitGameCallback, this));
 	/*exitButton->setScale(	buttonSize.width / exitButton->getContentSize().width,
 							buttonSize.height / exitButton->getContentSize().height);*/
-	exitButton->setPosition(storeButton->getPosition() - Vec2(0, (storeButton->getContentSize().height) * 0.5f) + buttonPositionOffset);
+	exitButton->setPosition(startButton->getPosition() - Vec2(0, (startButton->getContentSize().height) * 0.5f) + buttonPositionOffset);
 	menuItemList.pushBack(exitButton);
 	// exit label
 	auto exitLabel = MenuItemLabel::create(Label::createWithTTF("Exit", font, fontSize));
@@ -127,10 +127,17 @@ bool CMainMenuScene::init()
 void CMainMenuScene::startGameCallback(Ref* pSender)
 {
 	// Save data
-	std::stringstream ss1;
+	std::stringstream ss1, ss2, ss3;
 
-	ss1 << 1 << "\n";
-	FileOperation::saveFile(ss1.str(), FileOperation::LEVEL_DATA_FILE_TYPE);
+	ss1 << 0 << "\n";
+	FileOperation::saveFile(ss1.str(), FileOperation::CURRENCY_DATA_FILE_TYPE);
+
+	ss2 << 3 << "\n";
+	ss2 << 25 << "\n";
+	FileOperation::saveFile(ss2.str(), FileOperation::PLAYER_DATA_FILE_TYPE);
+
+	ss3 << 1 << "\n";
+	FileOperation::saveFile(ss3.str(), FileOperation::LEVEL_DATA_FILE_TYPE);
 
 	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_GAMEPLAY);
 }

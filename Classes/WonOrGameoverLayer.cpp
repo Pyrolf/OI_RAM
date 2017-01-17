@@ -178,7 +178,7 @@ void CWonOrGameoverLayer::nextLevelCallback(Ref* pSender)
 		// Save data
 		gameScene->endScene(true);
 	}
-	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_GAMEPLAY);
+	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_STORE);
 }
 void CWonOrGameoverLayer::restartCallback(Ref* pSender)
 {
