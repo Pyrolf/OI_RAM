@@ -115,6 +115,7 @@ bool CGUILayer::init()
 	pauseButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
 	pauseButton->setPosition(Vec2(	origin.x + visibleSize.width - visibleSize.height * 0.01f,
 									origin.y + visibleSize.height * 0.01f));
+	pauseButton->setTag(PAUSE_CHILD_TAG);
 	menuItemList.pushBack(pauseButton);
 	
     // Create menu
@@ -136,6 +137,12 @@ void CGUILayer::ShowLayer(Vec2 offset)
 {
 	this->setPosition(offset);
 	setVisible(true);
+}
+
+void CGUILayer::PauseLayer(bool pause)
+{
+	auto pauseButton = (MenuItemImage*)this->getChildByTag(MENU_CHILD_TAG)->getChildByTag(PAUSE_CHILD_TAG);
+	pauseButton->setEnabled(!pause);;
 }
 
 void CGUILayer::ChangeCoinsLabel(int coins)

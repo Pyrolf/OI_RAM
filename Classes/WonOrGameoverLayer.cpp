@@ -135,6 +135,10 @@ void CWonOrGameoverLayer::HideLayer()
 }
 void CWonOrGameoverLayer::ShowLayer(Vec2 offset, bool showWin)
 {
+	Director::getInstance()->pause();
+	if (Director::getInstance()->getRunningScene()->getPhysicsWorld())
+		Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(0);
+
 	this->setPosition(offset);
 	setVisible(true);
 

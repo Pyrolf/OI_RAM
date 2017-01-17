@@ -209,6 +209,7 @@ void CInGameScene::update(float dt)
 	{
 		if (player->GetLives() <= 0)
 		{
+			m_pGUILayer->PauseLayer(true);
 			m_pWonOrGameoverLayer->ShowLayer(c->getPosition() - m_pGUILayer->GetInitialCamPos(), false);
 		}
 	}
@@ -323,6 +324,7 @@ void CInGameScene::AddManaToBar()
 void CInGameScene::ReachExit()
 {
 	Camera* c = Director::getInstance()->getRunningScene()->getDefaultCamera();
+	m_pGUILayer->PauseLayer(true);
 	m_pWonOrGameoverLayer->ShowLayer(c->getPosition() - m_pGUILayer->GetInitialCamPos(), true);
 }
 
