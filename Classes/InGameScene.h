@@ -2,6 +2,7 @@
 #define __INGAME_SCENE_H__
 
 class CGUILayer;
+class CWonOrGameoverLayer;
 
 #include "cocos2d.h"
 #include "TilemapManager.h"
@@ -13,6 +14,7 @@ class CInGameScene : public cocos2d::Layer
 {
 private:
 	CGUILayer* m_pGUILayer;
+	CWonOrGameoverLayer* m_pWonOrGameoverLayer;
 
 	enum CHILD_TAG
 	{
@@ -47,6 +49,11 @@ public:
 	void AddMana(const int mana);
 	void AddManaToBar();
 
+	void ReachExit();
+
+	bool IfLastLevel();
+	void NextLevel();
+
 	void endScene(bool bSave = false);
 private:
 	KeyboardManager* KBM;
@@ -65,6 +72,11 @@ private:
 	unsigned int m_nManaMaxCap;
 	unsigned int m_nManaAddedToBar;
 
+	unsigned int m_nCurrentLevel;
+	unsigned int m_nMaxLevel;
+
+
+	void getMapData();
 	void getData();
 	void saveData();
 };

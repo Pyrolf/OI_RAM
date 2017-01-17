@@ -4,6 +4,8 @@
 #include "SpriteLoader.h"
 #include "AnimationLoader.h"
 #include "ParticleLoader.h"
+#include "CollisionManager.h"
+#include "Player.h"
 
 USING_NS_CC;
 
@@ -73,44 +75,57 @@ void CAIEnemy::Update(float dt)
 
 void CAIEnemy::Damaging(float fDamagingDuration)
 {
-	if (m_nCurrentState != FSM_DAMAGING && m_nCurrentState != FSM_DIED)
+	StopGO();
+
+	m_nCurrentState = FSM_DAMAGING;
+
+
+	auto flickAction = CallFunc::create([this]()
 	{
-		StopGO();
+		m_pGO->setVisible(!m_pGO->isVisible());
+	});
+	float fTimeInterval = 0.1f;
+	auto sequence = Sequence::createWithTwoActions(flickAction, DelayTime::create(fTimeInterval));
+	auto repeat = Repeat::create(sequence, fDamagingDuration / fTimeInterval);
+	auto checkAction = CallFunc::create([this]()
+	{
+		if (!m_pGO->isVisible())
+			m_pGO->setVisible(true);
+		m_nCurrentState = FSM_IDLE;
+	});
+	auto sequence2 = Sequence::createWithTwoActions(repeat, checkAction);
+	m_pGO->GetSprite()->runAction(sequence2);
 
-		m_nCurrentState = FSM_DAMAGING;
+	// Die if no live left
+	if (m_pGO->GetLives() <= 0)
+	{
+		auto delayAction = DelayTime::create(fDamagingDuration);
 
-
-		auto flickAction = CallFunc::create([this]()
+		auto diedAction = CallFunc::create([this]()
 		{
-			m_pGO->setVisible(!m_pGO->isVisible());
-		});
-		float fTimeInterval = 0.1f;
-		auto sequence = Sequence::createWithTwoActions(flickAction, DelayTime::create(fTimeInterval));
-		auto repeat = Repeat::create(sequence, fDamagingDuration / fTimeInterval);
-		auto checkAction = CallFunc::create([this]()
-		{
+			StopGO();
 			if (!m_pGO->isVisible())
 				m_pGO->setVisible(true);
-			m_nCurrentState = FSM_IDLE;
+			m_nCurrentState = FSM_DIED;
 		});
-		auto sequence2 = Sequence::createWithTwoActions(repeat, checkAction);
-		m_pGO->GetSprite()->runAction(sequence2);
-
-		// Die if no live left
-		if (m_pGO->GetLives() <= 0)
-		{
-			auto delayAction = DelayTime::create(fDamagingDuration);
-
-			auto diedAction = CallFunc::create([this]()
-			{
-				StopGO();
-				if (!m_pGO->isVisible())
-					m_pGO->setVisible(true);
-				m_nCurrentState = FSM_DIED;
-			});
-			m_pGO->runAction(Sequence::create(delayAction, diedAction, NULL));
-		}
+		m_pGO->runAction(Sequence::create(delayAction, diedAction, NULL));
 	}
+}
+
+void CAIEnemy::PounceCoolDown()
+{
+	StopGO();
+	// Activate Gravity
+	auto activateGravityAction = CallFunc::create([this]()
+	{
+		m_pGO->getPhysicsBody()->setGravityEnable(true);
+	});
+	// Cool Down
+	auto coolDownAction = DelayTime::create(m_pounceInfomations.m_fCoolDownTIme);
+	// Cool Down Sequence
+	auto coolDownSequence = Sequence::create(activateGravityAction, coolDownAction, NULL);
+	coolDownSequence->setTag(FSM_POUNCE);
+	m_pGO->runAction(coolDownSequence);
 }
 
 void CAIEnemy::CheckTarget()
@@ -119,22 +134,26 @@ void CAIEnemy::CheckTarget()
 	{
 		if (m_pTargetGO)
 		{
-			float getDistance = m_pTargetGO->getPosition().getDistance(m_pGO->getPosition());
+			Player* player = (Player*)m_pTargetGO;
+			if (player->GetActiveSkill() != Player::ACTIVE_SKILL::Invisible && player->GetLives() > 0)
+			{
+				float getDistance = m_pTargetGO->getPosition().getDistance(m_pGO->getPosition());
 
-			if (getDistance <= m_sRanges.m_fPouncingRange)
-			{
-				Pounce();
-				return;
-			}
-			else if (getDistance <= m_sRanges.m_fShootingRange)
-			{
-				Shoot();
-				return;
-			}
-			else if (getDistance <= m_sRanges.m_fDetectionRange)
-			{
-				Chase();
-				return;
+				if (getDistance <= m_sRanges.m_fPouncingRange)
+				{
+					Pounce();
+					return;
+				}
+				else if (getDistance <= m_sRanges.m_fShootingRange)
+				{
+					Shoot();
+					return;
+				}
+				else if (getDistance <= m_sRanges.m_fDetectionRange)
+				{
+					Chase();
+					return;
+				}
 			}
 		}
 		Idle();
@@ -211,6 +230,9 @@ void CAIEnemy::Shoot()
 		CheckDirection(m_pTargetGO->getPosition() - m_pGO->getPosition());
 		// Set Projectile infomation
 		auto projectile = CSpriteLoader::getProjectileSprites(m_shootingInfomations.m_fProjectileSize);
+		//add collider
+		CCollisionManager::addPhysicBodyEnemyBullet(projectile);
+
 		projectile->setPosition(m_pGO->getPosition());
 		projectile->setFlippedX(m_pGO->GetSprite()->isFlippedX());
 		if (m_pGO->GetSprite()->isFlippedX())

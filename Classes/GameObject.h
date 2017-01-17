@@ -10,7 +10,7 @@ public:
 	virtual ~CGameObject();
 
 	static CGameObject* create();
-	virtual void MinusLives();
+	virtual void MinusLives(int nDamage);
 
 	// Setters
 	void SetSprite(cocos2d::Sprite* sprite, cocos2d::Size size);

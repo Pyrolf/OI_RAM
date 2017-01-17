@@ -68,7 +68,7 @@ Animate* CAnimationLoader::getEnemyAnimate(int state, CEnemy::ENEMY_TYPE type, S
 
 void CAnimationLoader::loadPlayerAnimates(cocos2d::Size size)
 {
-	CAnimationSystem::getInstance()->loadAnimation("animations/knight/walking/frame_%d.png", size, 8);
+	CAnimationSystem::getInstance()->loadAnimation("animations/player/move/Run_00%d.png", size, 8);
 }
 
 Animate* CAnimationLoader::getPlayerAnimate(int state, Size size, float delay, unsigned int loops)
@@ -77,7 +77,7 @@ Animate* CAnimationLoader::getPlayerAnimate(int state, Size size, float delay, u
 	{
 		case Player::A_Move:
 		{
-			return CAnimationSystem::getInstance()->getAnimate("animations/knight/walking/frame_%d.png", size, 8, delay, loops);
+			return CAnimationSystem::getInstance()->getAnimate("animations/player/move/Run_00%d.png", size, 8, delay, loops);
 			break;
 		}
 	}

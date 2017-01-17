@@ -57,6 +57,7 @@ public:
 	virtual void Update(float dt);
 
 	void Damaging(float fDamagingDuration = 1.0f);
+	void PounceCoolDown();
 
 	// Setters
 	void SetMovementSpeed(float fMovementSpeed) { m_fMovementSpeed = fMovementSpeed; }

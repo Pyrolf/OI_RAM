@@ -1,6 +1,7 @@
 #pragma once
 #include "cocos2d.h"
 #include "EffectTileMap.h"
+#include "GameObjectManager.h"
 
 using namespace cocos2d;
 using std::string;
@@ -12,6 +13,8 @@ public:
 	~TilemapManager();
 	
 	cocos2d::experimental::TMXTiledMap * getTilemap() { return tilemap; };
+
+	void SpawnGameObjects(CGameObjectManager* GOM);
 
 private:
 	void spawnBoundingBoxes(cocos2d::experimental::TMXLayer* layer);

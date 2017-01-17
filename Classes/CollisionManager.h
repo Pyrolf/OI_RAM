@@ -12,7 +12,10 @@ public:
 	{
 		CB_PLAYER = 1,
 		CB_GROUND,
-		CB_ENEMY
+		CB_ENEMY,
+		CB_ENEMY_BULLET,
+		CB_CRATE,
+		CB_JUMPAD
 	};
 
 	CCollisionManager();
@@ -21,6 +24,7 @@ public:
 	void Update(float dt);
 
 	static void addPhysicBody(CEnemy* target);
+	static void addPhysicBodyEnemyBullet(cocos2d::Sprite* target);
 
 private:
 

@@ -29,14 +29,15 @@ CGameObject* CGameObject::create()
 	return ret;
 }
 
-void CGameObject::MinusLives()
+void CGameObject::MinusLives(int nDamage)
 {
-	m_nLives--;
+	m_nLives -= nDamage;
 }
 
 // Setters
 void CGameObject::SetSprite(cocos2d::Sprite* sprite, cocos2d::Size size)
 {
+	this->removeChild(m_pSprite);
 	m_pSprite = sprite;
 	m_spriteSize = size;
 	this->addChild(m_pSprite);

@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "AIEnemy.h"
+#include "PhysicsGameObject.h"
 
 USING_NS_CC;
 
@@ -28,18 +29,18 @@ bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 	shape[0] = contact.getShapeA();
 	shape[1] = contact.getShapeB();
 
-	if (shape[0]->getCollisionBitmask() == shape[1]->getCollisionBitmask())
+	/*if (shape[0]->getCollisionBitmask() == shape[1]->getCollisionBitmask())
 	{
 		return false;
 	}
-	else if (shape[0]->getCollisionBitmask() == CB_PLAYER || shape[1]->getCollisionBitmask() == CB_PLAYER)
+	else */if (shape[0]->getCollisionBitmask() == CB_PLAYER || shape[1]->getCollisionBitmask() == CB_PLAYER)
 	{
 		int self = (shape[0]->getCollisionBitmask() == CB_PLAYER ? 0 : 1);
 		int other = !self;
 
 		auto player = dynamic_cast<Player*>(shape[self]->getBody()->getNode());
 		
-		if (shape[self]->isSensor())
+		if (shape[self]->getTag() == 69)
 		{
 			if (shape[other]->getCollisionBitmask() == CB_GROUND)
 			{
@@ -48,29 +49,76 @@ bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 					if (player)
 					{
 						player->SetJumpCount(0);
-						player->SetFrictionMulti(GROUND_FRICTION_MULTI);
+						//player->SetFrictionMulti(GROUND_FRICTION_MULTI);
 					}
+
+					return true;
 				}
 			}
-			if (shape[other]->getCollisionBitmask() == CB_ENEMY)
+			else if (shape[other]->getCollisionBitmask() == CB_ENEMY)
 			{
-				if (player)
+				if (fabs(contact.getContactData()->normal.y) > 0.9)
 				{
 					CEnemy* enemy = dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode());
 
-					enemy->MinusLives();
+					if (player->GetActiveSkill() == Player::ACTIVE_SKILL::Invisible)
+					{
+						player->ResetSkillEffect();
+					}
+					if (player->GetActiveSkill() == Player::ACTIVE_SKILL::Slam)
+						enemy->MinusLives(2);
+					else
+						enemy->MinusLives(1);
+
 					if (enemy->GetLives() <= 0)
 					{
-						dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setContactTestBitmask(0);
-						dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setRotationEnable(true);
-						dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setAngularVelocity(30);
-						dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->applyImpulse(Vec2(random(-1.0f, 1.0f), random(0, 1)) * 1000);
+						dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setCollisionBitmask(0);
+						//dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setRotationEnable(true);
+						//dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->setAngularVelocity(1);
+						dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode())->getPhysicsBody()->applyImpulse(Vec2(random(-1.0f, 1.0f), random(0, 1)) * 500);
 					}
+
+					player->getPhysicsBody()->setVelocity(Vec2::ZERO);
+					player->getPhysicsBody()->applyImpulse(Vec2(0, 400));
+
+					enemy->getPhysicsBody()->setVelocity(Vec2::ZERO);
+
+					return true;
+				}
+			}
+			else if (shape[other]->getCollisionBitmask() == CB_CRATE)
+			{
+				if (fabs(contact.getContactData()->normal.y) > 0.9)
+				{
+					if (player)
+					{
+						player->SetJumpCount(0);
+						player->getPhysicsBody()->setVelocity(Vec2::ZERO);
+						player->getPhysicsBody()->applyImpulse(Vec2(0, 400));
+					}
+					dynamic_cast<CPhysicsGameObject*>(shape[other]->getBody()->getNode())->DestroyCrate();
+
+					return true;
+				}
+			}
+			else if (shape[other]->getCollisionBitmask() == CB_JUMPAD)
+			{
+				if (fabs(contact.getContactData()->normal.y) > 0.9)
+				{
+					if (player)
+					{
+						player->SetJumpCount(0);
+						player->getPhysicsBody()->setVelocity(Vec2::ZERO);
+						player->getPhysicsBody()->applyImpulse(Vec2(0, 800));
+					}
+
+					return true;
 				}
 			}
 		}
 		else
 		{
+			
 			if (shape[other]->getCollisionBitmask() == CB_ENEMY)
 			{
 				if (player)
@@ -78,11 +126,58 @@ bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 					Vec2 epos = shape[other]->getBody()->getNode()->convertToWorldSpace(shape[other]->getBody()->getNode()->getPosition());
 					Vec2 ppos = player->convertToWorldSpace(player->getPosition());
 					
-					player->Knockback((ppos - epos).getNormalized(), 800);
-					player->SetFrictionMulti(0);
+					//damage and knockback player
+					if (player->GetActiveSkill() == Player::ACTIVE_SKILL::Invisible)
+					{
+						player->ResetSkillEffect();
+					}
+					player->ReceiveDamage();
+					player->getPhysicsBody()->setVelocity(Vec2::ZERO);
+					player->getPhysicsBody()->applyImpulse((ppos - epos).getNormalized() * 200);
+					//player->SetFrictionMulti(0);
+
+					//knockback enemy
+					CEnemy* enemy = dynamic_cast<CEnemy*>(shape[other]->getBody()->getNode());
+					if (enemy->GetAI()->GetCurrentState() == CAIEnemy::FSM_POUNCE)
+						enemy->GetAI()->PounceCoolDown();
+
+					enemy->getPhysicsBody()->applyImpulse((epos - ppos).getNormalized() * 200);
+			
+
+					return true;
 				}
 			}
 		}
+	}
+	if (shape[0]->getCollisionBitmask() == CB_ENEMY_BULLET || shape[1]->getCollisionBitmask() == CB_ENEMY_BULLET)
+	{
+		int self = (shape[0]->getCollisionBitmask() == CB_ENEMY_BULLET ? 0 : 1);
+		int other = !self;
+
+		if (shape[other]->getCollisionBitmask() == CB_PLAYER)
+		{
+			auto player = dynamic_cast<Player*>(shape[other]->getBody()->getNode());
+
+			if (player->GetActiveSkill() == Player::ACTIVE_SKILL::Invisible)
+			{
+				player->ResetSkillEffect();
+			}
+
+			player->ReceiveDamage();
+		}
+		if (shape[other]->getCollisionBitmask() == CB_PLAYER || shape[other]->getCollisionBitmask() == CB_GROUND)
+		{
+			auto destroyProjectile = RemoveSelf::create();
+
+			auto sequence = Sequence::create(destroyProjectile, NULL);
+			shape[self]->getBody()->getNode()->stopAllActions();
+			shape[self]->getBody()->getNode()->runAction(sequence);
+
+			return true;
+		}
+		else
+			return false;
+
 	}
 
 	return true;
@@ -90,28 +185,28 @@ bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 
 void CCollisionManager::onContactSeparate(PhysicsContact& contact)
 {
-	PhysicsShape* shape[2];
-	shape[0] = contact.getShapeA();
-	shape[1] = contact.getShapeB();
-
-	
-	if (shape[0]->getCollisionBitmask() == CB_PLAYER || shape[1]->getCollisionBitmask() == CB_PLAYER)
-	{
-		int self = (shape[0]->getCollisionBitmask() == CB_PLAYER ? 0 : 1);
-		int other = !self;
-
-		if (shape[self]->isSensor())
-		{
-			if (shape[other]->getCollisionBitmask() == CB_GROUND)
-			{
-				auto player = dynamic_cast<Player*>(shape[self]->getBody()->getNode());
-				if (player)
-				{
-					player->SetFrictionMulti(AIR_FRICTION_MULTI);
-				}
-			}
-		}
-	}
+//	PhysicsShape* shape[2];
+//	shape[0] = contact.getShapeA();
+//	shape[1] = contact.getShapeB();
+//
+//	
+//	if (shape[0]->getCollisionBitmask() == CB_PLAYER || shape[1]->getCollisionBitmask() == CB_PLAYER)
+//	{
+//		int self = (shape[0]->getCollisionBitmask() == CB_PLAYER ? 0 : 1);
+//		int other = !self;
+//
+//		if (shape[self]->isSensor())
+//		{
+//			if (shape[other]->getCollisionBitmask() == CB_GROUND)
+//			{
+//				auto player = dynamic_cast<Player*>(shape[self]->getBody()->getNode());
+//				if (player)
+//				{
+//					player->SetFrictionMulti(AIR_FRICTION_MULTI);
+//				}
+//			}
+//		}
+//	}
 }
 
 //bool CCollisionManager::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolve& solve) 
@@ -130,10 +225,25 @@ void CCollisionManager::addPhysicBody(CEnemy* target)
 		target->removeComponent(target->getPhysicsBody());
 
 	auto body = PhysicsBody::createBox(target->GetSprite()->getContentSize(), PhysicsMaterial(1, 0.4f, 1));
-	body->setRotationEnable(false);
 
 	body->setCollisionBitmask(CCollisionManager::CB_ENEMY);
 	body->setContactTestBitmask(1);
+
+	body->setMass(1);
+	body->setRotationEnable(false);
+
+	target->setPhysicsBody(body);
+}
+
+void CCollisionManager::addPhysicBodyEnemyBullet(cocos2d::Sprite* target)
+{
+	auto body = PhysicsBody::createBox(target->getContentSize());
+
+	body->setCollisionBitmask(CCollisionManager::CB_ENEMY_BULLET);
+	body->setContactTestBitmask(1);
+
+	body->setGravityEnable(false);
+	body->getShapes().at(0)->setSensor(true);
 
 	target->setPhysicsBody(body);
 }

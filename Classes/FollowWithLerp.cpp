@@ -44,19 +44,26 @@ void FollowWithLerp::step(float dt)
 
 		Vec2 pre = _target->getPosition();
 
-		_target->setPosition(clampf(_target->getPosition().x + dir.x * speed * dt, _leftBoundary, _rightBoundary),
-			clampf(_target->getPosition().y + dir.y * speed * dt, _bottomBoundary, _topBoundary));
+		if (dir.length() > 5)
+		{
+			_target->setPosition(clampf(_target->getPosition().x + dir.x * speed * dt, _leftBoundary, _rightBoundary),
+				clampf(_target->getPosition().y + dir.y * speed * dt, _bottomBoundary, _topBoundary));
 
-		if (tilemap != nullptr)
-			tilemapParallaxScrolling(_target->getPosition() - pre, dt);
+			if (tilemap != nullptr)
+				tilemapParallaxScrolling(_target->getPosition() - pre, dt);
+		}
 	}
 	else
 	{
+
 		Vec2 targetPos = (_halfScreenSize - _followedNode->getPosition());
 		
 		Vec2 dir = targetPos - _target->getPosition();
-		
-		_target->setPosition(_target->getPosition() + (dir)* dt * speed);
+
+		if (dir.length() > 5)
+		{
+			_target->setPosition(_target->getPosition() + (dir)* dt * speed);
+		}
 	}
 }
 
@@ -67,9 +74,6 @@ void FollowWithLerp::tilemapParallaxScrolling(Vec2 displacement, float dt)
 		auto layer = dynamic_cast<cocos2d::experimental::TMXLayer*>(object);
 		if (layer->getLayerName().find("Scrolling") != std::string::npos)
 		{
-			Vec2 asdscc = layer->getPosition();
-			Vec2 akbvr = layer->convertToWorldSpace(layer->getPosition());
-			
 			float xsp = 0, ysp = 0;
 			
 			Value temp = layer->getProperty("x_scroll_speed");

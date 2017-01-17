@@ -7,9 +7,10 @@
 
 USING_NS_CC;
 
-CGameObjectManager::CGameObjectManager(int numOfEnemies, int numOfIteractableItems)
+CGameObjectManager::CGameObjectManager(int numOfEnemies, int numOfIteractableItems, int numOfPhysicsGO)
 	: m_nAmountOfEnemiesToAdd(numOfEnemies)
 	, m_nAmountOfInteractableItemsToAdd(numOfIteractableItems)
+	, m_nAmountOfPhysicsGOToAdd(numOfPhysicsGO)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	// Set Size
@@ -24,6 +25,10 @@ CGameObjectManager::CGameObjectManager(int numOfEnemies, int numOfIteractableIte
 	m_arrayOfInteractableItemSizes[CInteractableGameObject::COIN]			= Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
 	m_arrayOfInteractableItemSizes[CInteractableGameObject::LIVE]			= Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
 	m_arrayOfInteractableItemSizes[CInteractableGameObject::MANA_POTION]	= Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
+	m_arrayOfInteractableItemSizes[CInteractableGameObject::EXIT]			= Size(visibleSize.height * 0.15f, visibleSize.height * 0.05f);
+
+	m_arrayOfPhysicsGOSizes[CPhysicsGameObject::CRATE] = Size(visibleSize.height * 0.1f, visibleSize.height * 0.1f);
+	m_arrayOfPhysicsGOSizes[CPhysicsGameObject::JUMPPAD] = Size(visibleSize.height * 0.1f, visibleSize.height * 0.025f);
 	// Set Lives
 	m_arrayOfEnemyLives[CEnemy::ENEMY_TYPE_WEAK]	= 1;
 	m_arrayOfEnemyLives[CEnemy::ENEMY_TYPE_STRONG]	= 3;
@@ -74,8 +79,8 @@ CGameObjectManager::CGameObjectManager(int numOfEnemies, int numOfIteractableIte
 	{
 		CSpriteLoader::loadInteractiveItemSprites((CInteractableGameObject::TYPE)i, m_arrayOfInteractableItemSizes[i]);
 	}
-	CSpriteLoader::loadPlayerSprites();
-	CAnimationLoader::loadPlayerAnimates();
+	CSpriteLoader::loadPlayerSprites(Size(50, 86));
+	CAnimationLoader::loadPlayerAnimates(Size(62, 86));
 
 	AddEnemies(numOfEnemies);
 }
@@ -86,9 +91,9 @@ CGameObjectManager::~CGameObjectManager()
 }
 
 
-CGameObjectManager* CGameObjectManager::create(int numOfEnemies, int numOfIteractableItems)
+CGameObjectManager* CGameObjectManager::create(int numOfEnemies, int numOfIteractableItems, int numOfPhysicsGO)
 {
-	CGameObjectManager * ret = new (std::nothrow) CGameObjectManager(numOfEnemies, numOfIteractableItems);
+	CGameObjectManager * ret = new (std::nothrow) CGameObjectManager(numOfEnemies, numOfIteractableItems, numOfPhysicsGO);
 	if (ret && ret->init())
 	{
 		ret->autorelease();
@@ -129,10 +134,12 @@ void CGameObjectManager::Update(float dt)
 						break;
 					case CInteractableGameObject::LIVE:
 						((CInGameScene*)this->getParent())->AddLives(1);
-						((CInGameScene*)this->getParent())->AddMana(-10);
 						break;
 					case CInteractableGameObject::MANA_POTION:
-						((CInGameScene*)this->getParent())->AddMana(5);
+						((CInGameScene*)this->getParent())->AddMana(20);
+						break;
+					case CInteractableGameObject::EXIT:
+						((CInGameScene*)this->getParent())->ReachExit();
 						break;
 				}
 				DeactivateInteractableItem(item);
@@ -273,6 +280,55 @@ CInteractableGameObject* CGameObjectManager::GetAnInactiveInteractableItem()
 }
 
 void CGameObjectManager::DeactivateInteractableItem(CInteractableGameObject* item)
+{
+	item->SetActive(false);
+	item->pause();
+	item->setVisible(false);
+}
+
+
+void CGameObjectManager::SpawnPhysicsGO(cocos2d::Vec2 vec2Position, CPhysicsGameObject::TYPE PhysicsGOType)
+{
+	auto item = GetAnInactivePhysicsGO();
+	item->SetActive(true);
+	item->SetSprite(CSpriteLoader::getPhysicsGOSprites(PhysicsGOType, m_arrayOfPhysicsGOSizes[PhysicsGOType]), m_arrayOfPhysicsGOSizes[PhysicsGOType]);
+	item->setPosition(vec2Position);
+	item->SetType(PhysicsGOType);
+	item->GeneratePhysicsBody();
+}
+
+void CGameObjectManager::AddPhysicsGO(int numOfPhysicsGO)
+{
+	int goListSize = m_pPhysicsGOList.size();
+	for (int i = 0; i < numOfPhysicsGO; i++)
+	{
+		auto item = CPhysicsGameObject::create();
+		DeactivatePhysicsGO(item);
+		item->setTag(goListSize + i);
+		m_pPhysicsGOList.pushBack(item);
+		this->addChild(item);
+	}
+}
+
+CPhysicsGameObject* CGameObjectManager::GetAnInactivePhysicsGO()
+{
+	// Find an inactive enemy
+	for (int i = 0; i < m_pPhysicsGOList.size(); i++)
+	{
+		auto item = m_pPhysicsGOList.at(i);
+		if (!item->GetActive())
+		{
+			item->resume();
+			item->setVisible(true);
+			return item;
+		}
+	}
+	// Create more game objects if no empty game object
+	AddPhysicsGO(m_nAmountOfPhysicsGOToAdd);
+	return GetAnInactivePhysicsGO();
+}
+
+void CGameObjectManager::DeactivatePhysicsGO(CPhysicsGameObject* item)
 {
 	item->SetActive(false);
 	item->pause();

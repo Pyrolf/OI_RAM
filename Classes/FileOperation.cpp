@@ -64,6 +64,11 @@ string FileOperation::getFilePath(FILE_TYPE fileType)
 			path = CCFileUtils::getInstance()->getWritablePath() + "playerfile";
 			break;
 		}
+		case LEVEL_DATA_FILE_TYPE:
+		{
+			path = CCFileUtils::getInstance()->getWritablePath() + "levelfile";
+			break;
+		}
 		case CURRENCY_DATA_FILE_TYPE:
 		{
 			path = CCFileUtils::getInstance()->getWritablePath() + "currencyfile";

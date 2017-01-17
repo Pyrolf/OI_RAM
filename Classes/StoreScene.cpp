@@ -161,14 +161,14 @@ bool CStoreScene::init()
 
 void CStoreScene::upgradeMaxLives(Ref* pSender)
 {
-	if (m_nLives > 10 || !EditCoins(-10 * (m_nLives + 1)))
+	if (m_nLives >= 10 || !EditCoins(-10 * (m_nLives + 1)))
 		return;
 	m_nLives += 1;
 	ChangeLivesLabel();
 }
 void CStoreScene::upgradeMaxMana(Ref* pSender)
 {
-	if (m_nMana > 100 || !EditCoins(-2 * (m_nMana + 5)))
+	if (m_nMana >= 100 || !EditCoins(-2 * (m_nMana + 5)))
 		return;
 	m_nMana += 5;
 	ChangeManaLabel();
@@ -181,32 +181,37 @@ void CStoreScene::backToMainMenuCallback(Ref* pSender)
 
 void CStoreScene::getData()
 {
-	std::vector<std::string> vec_sData = FileOperation::readFile(FileOperation::CURRENCY_DATA_FILE_TYPE);
-	if (vec_sData.size() == 0)
+	// Get data Currency
+	std::vector<std::string> vec_sData1 = FileOperation::readFile(FileOperation::CURRENCY_DATA_FILE_TYPE);
+	if (vec_sData1.size() == 0)
 		return;
-	// Get data
-	if (vec_sData.size() > 0)
-		EditCoins(std::stoi(vec_sData[0]));
-	if (vec_sData.size() > 1)
+	if (vec_sData1.size() > 0)
+		EditCoins(std::stoi(vec_sData1[0]));
+
+	// Get data Player
+	std::vector<std::string> vec_sData2 = FileOperation::readFile(FileOperation::PLAYER_DATA_FILE_TYPE);
+	if (vec_sData2.size() > 0)
 	{
-		m_nLives = std::stoi(vec_sData[1]);
+		m_nLives = std::stoi(vec_sData2[0]);
 		ChangeLivesLabel();
 	}
-	if (vec_sData.size() > 2)
+	if (vec_sData2.size() > 1)
 	{
-		m_nMana = std::stoi(vec_sData[2]);
+		m_nMana = std::stoi(vec_sData2[1]);
 		ChangeManaLabel();
 	}
 }
 void CStoreScene::saveData()
 {
 	// Save data
-	std::stringstream ss;
+	std::stringstream ss1, ss2;
 
-	ss << m_nCoins << "\n";
-	ss << m_nLives << "\n";
-	ss << m_nMana << "\n";
-	FileOperation::saveFile(ss.str(), FileOperation::CURRENCY_DATA_FILE_TYPE);
+	ss1 << m_nCoins << "\n";
+	FileOperation::saveFile(ss1.str(), FileOperation::CURRENCY_DATA_FILE_TYPE);
+
+	ss2 << m_nLives << "\n";
+	ss2 << m_nMana << "\n";
+	FileOperation::saveFile(ss2.str(), FileOperation::PLAYER_DATA_FILE_TYPE);
 }
 
 bool CStoreScene::EditCoins(const int points)

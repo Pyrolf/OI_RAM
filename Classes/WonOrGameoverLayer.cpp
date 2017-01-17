@@ -1,4 +1,4 @@
-#include "PauseLayer.h"
+#include "WonOrGameoverLayer.h"
 #include "AnimationSystem.h"
 #include "SpriteSystem.h"
 #include "GameStateManager.h"
@@ -6,11 +6,11 @@
 
 USING_NS_CC;
 
-CPauseLayer* CPauseLayer::addLayerToScene(Scene* scene)
+CWonOrGameoverLayer* CWonOrGameoverLayer::addLayerToScene(Scene* scene)
 {
     // 'layer' is an autorelease object
-    auto layer = CPauseLayer::create();
-	layer->setName("CPauseLayer");
+    auto layer = CWonOrGameoverLayer::create();
+	layer->setName("CWonOrGameoverLayer");
     // add layer as a child to scene
     scene->addChild(layer);
 
@@ -18,7 +18,7 @@ CPauseLayer* CPauseLayer::addLayerToScene(Scene* scene)
 }
 
 // on "init" you need to initialize your instance
-bool CPauseLayer::init()
+bool CWonOrGameoverLayer::init()
 {
     //////////////////////////////
     // 1. super init first
@@ -48,40 +48,49 @@ bool CPauseLayer::init()
 
 	// Create Title
 	// Use label for now, may change to sprite image
-	auto titleLabel = Label::createWithTTF("Pause", font, visibleSize.height * 0.25f);
-	titleLabel->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
+	auto wonLabel = Label::createWithTTF("WON", font, visibleSize.height * 0.25f);
+	wonLabel->setPosition(Vec2(origin.x + visibleSize.width * 0.5f,
 									origin.y + visibleSize.height * 0.75f));
-	titleLabel->setColor(labelColor);
-	this->addChild(titleLabel, 1);
+	wonLabel->setColor(labelColor);
+	wonLabel->setTag(CHILD_TAG_WON_LABEL);
+	this->addChild(wonLabel, 1);
+	
+	auto gameoverLabel = Label::createWithTTF("GAMEOVER", font, visibleSize.height * 0.25f);
+	gameoverLabel->setPosition(Vec2(origin.x + visibleSize.width * 0.5f,
+									origin.y + visibleSize.height * 0.75f));
+	gameoverLabel->setColor(labelColor);
+	gameoverLabel->setTag(CHILD_TAG_GAMEOVER_LABEL);
+	this->addChild(gameoverLabel, 1);
 
 	// Create buttons
 	/*Size buttonSize(visibleSize.width * 0.25f,
 					visibleSize.height * 0.1f);*/
 	Vec2 buttonPositionOffset(0, -visibleSize.height * 0.11f);
-	// Create resume button
-	auto resumeButton = MenuItemImage::create(	"images/ui/button.png",
+	// Create next level button
+	auto nextLevelButton = MenuItemImage::create(	"images/ui/button.png",
 												"images/ui/button_selected.png",
-												CC_CALLBACK_1(CPauseLayer::resumeCallback, this));
-	/*resumeButton->setScale(	buttonSize.width * 1.5f / resumeButton->getContentSize().width,
-							buttonSize.height * 1.5f / resumeButton->getContentSize().height);*/
-	resumeButton->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
+												CC_CALLBACK_1(CWonOrGameoverLayer::nextLevelCallback, this));
+	/*nextLevelButton->setScale(	buttonSize.width * 1.5f / resumeButton->getContentSize().width,
+									buttonSize.height * 1.5f / resumeButton->getContentSize().height);*/
+	nextLevelButton->setPosition(Vec2(origin.x + visibleSize.width * 0.5f,
 									origin.y + visibleSize.height * 0.5f));
-	menuItemList.pushBack(resumeButton);
-	// resume label
-	auto resumeLabel = MenuItemLabel::create(Label::createWithTTF("Resume", font, fontSize));
-	resumeLabel->setPosition(Vec2(	resumeButton->getContentSize().width * 0.5f,
-									resumeButton->getContentSize().height * 0.5f));
-	resumeLabel->setColor(labelColor);
-	resumeButton->addChild(resumeLabel);
+	nextLevelButton->setTag(CHILD_TAG_NEXT_LEVEL_BUTTON);
+	menuItemList.pushBack(nextLevelButton);
+	// next level label
+	auto nextLevelLabel = MenuItemLabel::create(Label::createWithTTF("Next Level", font, fontSize));
+	nextLevelLabel->setPosition(Vec2(nextLevelButton->getContentSize().width * 0.5f,
+									nextLevelButton->getContentSize().height * 0.5f));
+	nextLevelLabel->setColor(labelColor);
+	nextLevelButton->addChild(nextLevelLabel);
 	
 	// Create restart button
 	auto restartButton = MenuItemImage::create(	"images/ui/button.png",
 												"images/ui/button_selected.png",
-												CC_CALLBACK_1(CPauseLayer::restartCallback, this));
+												CC_CALLBACK_1(CWonOrGameoverLayer::restartCallback, this));
 	/*restartButton->setScale(	buttonSize.width / restartButton->getContentSize().width,
 								buttonSize.height / restartButton->getContentSize().height);*/
 	restartButton->setScale(0.75f);
-	restartButton->setPosition(resumeButton->getPosition() - Vec2(0, (resumeButton->getScaleY() * resumeButton->getContentSize().height) * 0.5f) + buttonPositionOffset);
+	restartButton->setPosition(nextLevelButton->getPosition() - Vec2(0, (nextLevelButton->getScaleY() * nextLevelButton->getContentSize().height) * 0.5f) + buttonPositionOffset);
 	menuItemList.pushBack(restartButton);
 	// restart label
 	auto restartLabel = MenuItemLabel::create(Label::createWithTTF("Restart", font, fontSize));
@@ -93,7 +102,7 @@ bool CPauseLayer::init()
 	// Create quit button
 	auto quitButton = MenuItemImage::create(	"images/ui/button.png",
 												"images/ui/button_selected.png",
-											CC_CALLBACK_1(CPauseLayer::quitCallback, this));
+											CC_CALLBACK_1(CWonOrGameoverLayer::quitCallback, this));
 	//quitButton->setScale(	buttonSize.width / quitButton->getContentSize().width,
 	//						buttonSize.height / quitButton->getContentSize().height);
 	quitButton->setScale(0.75f);
@@ -109,6 +118,7 @@ bool CPauseLayer::init()
     // Create menu
 	auto menu = Menu::createWithArray(menuItemList);
 	menu->setPosition(origin);
+	menu->setTag(CHILD_TAG_MENU);
 	this->addChild(menu);
 
 
@@ -119,25 +129,54 @@ bool CPauseLayer::init()
 	return true;
 }
 
-void CPauseLayer::HideLayer()
+void CWonOrGameoverLayer::HideLayer()
 {
 	setVisible(false);
 }
-void CPauseLayer::ShowLayer(Vec2 offset)
+void CWonOrGameoverLayer::ShowLayer(Vec2 offset, bool showWin)
 {
 	this->setPosition(offset);
 	setVisible(true);
+
+	// Show Won / Gameover layer
+	auto wonLabel = (Label*)this->getChildByTag(CHILD_TAG_WON_LABEL);
+	wonLabel->setVisible(showWin);
+
+	auto gameoverLabel = (Label*)this->getChildByTag(CHILD_TAG_GAMEOVER_LABEL);
+	gameoverLabel->setVisible(!showWin);
+
+	auto menu = (Menu*)this->getChildByTag(CHILD_TAG_MENU);
+	auto nextLevelButton = (MenuItemImage*)menu->getChildByTag(CHILD_TAG_NEXT_LEVEL_BUTTON);
+
+	Scene* scene = Director::getInstance()->getRunningScene();
+	auto gameScene = (CInGameScene*)scene->getChildByName("CInGameScene");
+	if (!gameScene->IfLastLevel())
+	{
+		nextLevelButton->setVisible(showWin);
+	}
+	else
+	{
+		nextLevelButton->setVisible(false);
+	}
 }
 
-void CPauseLayer::resumeCallback(Ref* pSender)
+void CWonOrGameoverLayer::nextLevelCallback(Ref* pSender)
 {
 	Director::getInstance()->resume();
 	Scene* scene = Director::getInstance()->getRunningScene();
 	if (scene->getPhysicsWorld())
 		scene->getPhysicsWorld()->setSpeed(1);
-	HideLayer();
+	// End Scene
+	auto gameScene = (CInGameScene*)scene->getChildByName("CInGameScene");
+	if (gameScene)
+	{
+		gameScene->NextLevel();
+		// Save data
+		gameScene->endScene(true);
+	}
+	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_GAMEPLAY);
 }
-void CPauseLayer::restartCallback(Ref* pSender)
+void CWonOrGameoverLayer::restartCallback(Ref* pSender)
 {
 	Director::getInstance()->resume();
 	Scene* scene = Director::getInstance()->getRunningScene();
@@ -152,7 +191,7 @@ void CPauseLayer::restartCallback(Ref* pSender)
 	}
 	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_GAMEPLAY);
 }
-void CPauseLayer::quitCallback(Ref* pSender)
+void CWonOrGameoverLayer::quitCallback(Ref* pSender)
 {
 	Director::getInstance()->resume();
 	Scene* scene = Director::getInstance()->getRunningScene();
