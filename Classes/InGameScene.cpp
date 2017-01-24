@@ -14,6 +14,8 @@
 
 USING_NS_CC;
 
+#include <cstdlib>
+
 CInGameScene::~CInGameScene()
 {
 	delete tileMapManager;

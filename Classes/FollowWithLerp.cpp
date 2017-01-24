@@ -1,5 +1,6 @@
 #include "FollowWithLerp.h"
 
+#include <cstdlib>
 
 FollowWithLerp::FollowWithLerp()
 {

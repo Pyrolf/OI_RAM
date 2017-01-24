@@ -7,6 +7,8 @@
 
 USING_NS_CC;
 
+#include <cstdlib>
+
 Scene* CStoreScene::createScene()
 {
     // 'scene' is an autorelease object
