@@ -68,7 +68,7 @@ bool CMainMenuScene::init()
 	// Create buttons
 	/*Size buttonSize(visibleSize.width * 0.25f,
 					visibleSize.height * 0.1f);*/
-	Vec2 buttonPositionOffset(0, -visibleSize.height * 0.11f);
+	Vec2 buttonPositionOffset(0, -visibleSize.height * 0.15f);
 	// Create start button
 	auto startButton = MenuItemImage::create(	"images/ui/button.png",
 												"images/ui/button_selected.png",
@@ -118,7 +118,7 @@ bool CMainMenuScene::init()
 
     // Create menu
 	auto menu = Menu::createWithArray(menuItemList);
-    menu->setPosition(origin);
+	menu->setPosition(Vec2::ANCHOR_BOTTOM_LEFT);
 	this->addChild(menu, CHILD_TAG_MENU);
 
     return true;
