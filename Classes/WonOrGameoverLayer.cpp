@@ -117,7 +117,7 @@ bool CWonOrGameoverLayer::init()
 
     // Create menu
 	auto menu = Menu::createWithArray(menuItemList);
-	menu->setPosition(origin);
+	menu->setPosition(Vec2::ANCHOR_BOTTOM_LEFT);
 	menu->setTag(CHILD_TAG_MENU);
 	this->addChild(menu);
 

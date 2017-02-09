@@ -12,8 +12,39 @@ LOCAL_MODULE := MyGame_shared
 LOCAL_MODULE_FILENAME := libMyGame
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
+                   ../../../Classes/lighting/Effect.cpp \
+                   ../../../Classes/lighting/EffectSprite.cpp \
+                   ../../../Classes/lighting/LightEffect.cpp \
+                   ../../../Classes/SpriteSystem.cpp \
+                   ../../../Classes/AnimationSystem.cpp \
+                   ../../../Classes/GameStateManager.cpp \
+                   ../../../Classes/KeyboardManager.cpp \
                    ../../../Classes/AppDelegate.cpp \
-                   ../../../Classes/HelloWorldScene.cpp
+                   ../../../Classes/SpriteLoader.cpp \
+                   ../../../Classes/AnimationLoader.cpp \
+                   ../../../Classes/ParticleLoader.cpp \
+                   ../../../Classes/CollisionManager.cpp \
+                   ../../../Classes/AIBase.cpp \
+                   ../../../Classes/AIEnemy.cpp \
+                   ../../../Classes/GameObject.cpp \
+                   ../../../Classes/InteractableGameObject.cpp \
+                   ../../../Classes/PhysicsGameObject.cpp \
+                   ../../../Classes/Enemy.cpp \
+                   ../../../Classes/Player.cpp \
+                   ../../../Classes/GameObjectManager.cpp \
+                   ../../../Classes/CameraController.cpp \
+                   ../../../Classes/EffectTileMap.cpp \
+                   ../../../Classes/FileOperation.cpp \
+                   ../../../Classes/FollowWithLerp.cpp \
+                   ../../../Classes/GUILayer.cpp \
+                   ../../../Classes/PauseLayer.cpp \
+                   ../../../Classes/EffectTileLayer.cpp \
+                   ../../../Classes/WonOrGameoverLayer.cpp \
+                   ../../../Classes/HelloWorldScene.cpp \
+                   ../../../Classes/InGameScene.cpp \
+                   ../../../Classes/MainMenuScene.cpp \
+                   ../../../Classes/StoreScene.cpp \
+                   ../../../Classes/TilemapManager.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

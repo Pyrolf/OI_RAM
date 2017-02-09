@@ -59,8 +59,16 @@ Sprite* CSpriteSystem::createNewSpriteWithoutScale(const char *format, Size newS
 	auto newSprite = Sprite::createWithTexture(renderTexture->getSprite()->getTexture());
 
 	newSprite->getTexture()->retain();
-	TextureInfo newTexturePath;
-	sprintf(newTexturePath.originalPath, format);
+	TextureInfo newTexturePath; std::stringstream ss1;
+	ss1 << format;
+	std::string pathString = ss1.str();
+	for (int i = 0; i < 100; i++)
+	{
+		if (i < pathString.size())
+			newTexturePath.originalPath[i] = pathString[i];
+		else
+			newTexturePath.originalPath[i] = NULL;
+	}
 	newTexturePath.texture = newSprite->getTexture();
 	newTexturePath.size = newSize;
 	newTexturePath.rect = newSprite->getTextureRect();

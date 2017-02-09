@@ -108,7 +108,7 @@ bool CPauseLayer::init()
 
     // Create menu
 	auto menu = Menu::createWithArray(menuItemList);
-	menu->setPosition(origin);
+	menu->setPosition(Vec2::ANCHOR_BOTTOM_LEFT);
 	this->addChild(menu);
 
 

@@ -33,7 +33,6 @@ CAIEnemy::CAIEnemy(int nState, CGameObject* pGO)
 
 CAIEnemy::~CAIEnemy()
 {
-	CAIBase::~CAIBase();
 }
 
 void CAIEnemy::Init(CGameObject* pTargetGO, float fMovementSpeed, float fAnimationSpeed, ENEMY_RANGES sRanges)
