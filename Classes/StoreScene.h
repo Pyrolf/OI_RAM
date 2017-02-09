@@ -14,7 +14,7 @@ public:
     // Selector callbacks
 	void upgradeMaxLives(cocos2d::Ref* pSender);
 	void upgradeMaxMana(cocos2d::Ref* pSender);
-	void backToMainMenuCallback(cocos2d::Ref* pSender);
+	void NextCallback(cocos2d::Ref* pSender);
 
     // implement the "static create()" method manually
 	CREATE_FUNC(CStoreScene);

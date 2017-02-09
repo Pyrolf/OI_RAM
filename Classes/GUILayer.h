@@ -19,6 +19,7 @@ private:
 		COINS_CHILD_TAG,
 		LIVES_CHILD_TAG,
 		MANA_CHILD_TAG,
+		PAUSE_CHILD_TAG,
 		NUM_OF_CHILD_TAGS
 	};
 	CPauseLayer* m_pPauseLayer;
@@ -30,6 +31,8 @@ public:
 
 	void HideLayer();
 	void ShowLayer(cocos2d::Vec2 offset);
+
+	void PauseLayer(bool pause);
 
 	void ChangeCoinsLabel(int coins);
 	void ChangeLivesLabel(int lives);

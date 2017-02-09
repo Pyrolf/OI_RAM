@@ -161,25 +161,33 @@ void CGameObjectManager::SpawnEnemy(Vec2 vec2Position, CEnemy::ENEMY_TYPE eEnemy
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	switch (eEnemyType)
 	{
-	case CEnemy::ENEMY_TYPE_SHOOTER:
+		case CEnemy::ENEMY_TYPE_WEAK:
 		{
+			enemy->GetSprite()->setColor(Color3B::WHITE);
+			break;
+		}
+		case CEnemy::ENEMY_TYPE_STRONG:
+		{
+			enemy->GetSprite()->setColor(Color3B::YELLOW);
+			break;
+		}
+		case CEnemy::ENEMY_TYPE_SHOOTER:
+		{
+			enemy->GetSprite()->setColor(Color3B::GREEN);
 			aiEnmey->SetShootingInfomations(2.0f, m_ProjectileSpriteSize, 200.0f, visibleSize.width * 0.3f);
 			break;
 		}
 		case CEnemy::ENEMY_TYPE_POUNCER:
 		{
-			aiEnmey->SetPounceInfomations(0.5f, m_arrayOfEnemySpriteSizes[eEnemyType].height * 0.5f, 2.0f);
+			enemy->GetSprite()->setColor(Color3B::RED);
+			aiEnmey->SetPounceInfomations(0.75f, m_arrayOfEnemySpriteSizes[eEnemyType].height * 0.5f, 2.0f);
 			break;
 		}
 		case CEnemy::ENEMY_TYPE_HYBRID:
 		{
+			enemy->GetSprite()->setColor(Color3B::MAGENTA);
 			aiEnmey->SetPounceInfomations(0.75f, m_arrayOfEnemySpriteSizes[eEnemyType].height * 0.5f, 2.0f);
 			aiEnmey->SetShootingInfomations(2.0f, m_ProjectileSpriteSize, 200.0f, visibleSize.width * 0.3f);
-			break;
-		}
-		default:
-		{
-			aiEnmey->SetPounceInfomations();
 			break;
 		}
 	}

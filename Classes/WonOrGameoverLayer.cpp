@@ -135,6 +135,10 @@ void CWonOrGameoverLayer::HideLayer()
 }
 void CWonOrGameoverLayer::ShowLayer(Vec2 offset, bool showWin)
 {
+	Director::getInstance()->pause();
+	if (Director::getInstance()->getRunningScene()->getPhysicsWorld())
+		Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(0);
+
 	this->setPosition(offset);
 	setVisible(true);
 
@@ -174,7 +178,7 @@ void CWonOrGameoverLayer::nextLevelCallback(Ref* pSender)
 		// Save data
 		gameScene->endScene(true);
 	}
-	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_GAMEPLAY);
+	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_STORE);
 }
 void CWonOrGameoverLayer::restartCallback(Ref* pSender)
 {
