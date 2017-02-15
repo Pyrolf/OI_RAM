@@ -70,7 +70,7 @@ bool CStoreScene::init()
 
 	// Create Labels
 	std::string font = "fonts/Marker Felt.ttf";
-	float fontSize = visibleSize.height * 0.05f;
+	float fontSize = visibleSize.height * 0.07f;
 	Color3B labelColor(Color3B::MAGENTA);
 
 	// Create Title
@@ -109,7 +109,7 @@ bool CStoreScene::init()
 	upgradeButtonMaxLives->setTag(LIVES_CHILD_TAG_FOR_MENU);
 	menuItemList.pushBack(upgradeButtonMaxLives);
 	// Upgrade label
-	auto upgradeLabelMaxLives = MenuItemLabel::create(Label::createWithTTF("Upgrade Max Lives: 3", font, fontSize * 0.5f));
+	auto upgradeLabelMaxLives = MenuItemLabel::create(Label::createWithTTF("Upgrade Max Lives: 3", font, fontSize * 0.3f));
 	upgradeLabelMaxLives->setPosition(Vec2(	upgradeButtonMaxLives->getContentSize().width * 0.5f,
 											upgradeButtonMaxLives->getContentSize().height * 0.5f));
 	upgradeLabelMaxLives->setColor(labelColor);
@@ -127,7 +127,7 @@ bool CStoreScene::init()
 	upgradeButtonMaxMana->setTag(MANA_CHILD_TAG_FOR_MENU);
 	menuItemList.pushBack(upgradeButtonMaxMana);
 	// Upgrade label
-	auto upgradeLabelMaxMana = MenuItemLabel::create(Label::createWithTTF("Upgrade Max Mana: 25", font, fontSize * 0.5f));
+	auto upgradeLabelMaxMana = MenuItemLabel::create(Label::createWithTTF("Upgrade Max Mana: 25", font, fontSize * 0.3f));
 	upgradeLabelMaxMana->setPosition(Vec2(	upgradeButtonMaxMana->getContentSize().width * 0.5f,
 											upgradeButtonMaxMana->getContentSize().height * 0.5f));
 	upgradeLabelMaxMana->setColor(labelColor);

@@ -96,7 +96,6 @@ void Player::UpdateSkills(float dt)
 	if ((KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW) && !downKeypress))
 	{
 		UseSkills(ACTIVE_SKILL::Slam);
-		CSoundLoader::playSoundEffect(CSoundLoader::SHUSH_SOUND_EFFECT);
 
 		downKeypress = true;
 	}
@@ -107,7 +106,6 @@ void Player::UpdateSkills(float dt)
 
 	if ((KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_Z) && !ZKeypress))
 	{
-		CSoundLoader::playSoundEffect(CSoundLoader::SUCK_SOUND_EFFECT);
 		UseSkills(ACTIVE_SKILL::Invisible);
 		
 		ZKeypress = true;
@@ -119,7 +117,6 @@ void Player::UpdateSkills(float dt)
 
 	if ((KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_X) && !XKeypress))
 	{
-		CSoundLoader::playSoundEffect(CSoundLoader::DROPLET_SOUND_EFFECT);
 		UseSkills(ACTIVE_SKILL::Slow);
 
 		XKeypress = true;
@@ -181,6 +178,8 @@ void Player::UseSkills(ACTIVE_SKILL s)
 				ParticleSystem *p = CParticleLoader::createSlamEffect();
 				this->addChild(p);
 				p->setPosition(Vec2(0, -this->GetSprite()->getContentSize().height * 0.5));
+
+				CSoundLoader::playSoundEffect(CSoundLoader::SHUSH_SOUND_EFFECT);
 			}
 		}
 		break;
@@ -194,6 +193,8 @@ void Player::UseSkills(ACTIVE_SKILL s)
 				GetSprite()->setOpacity(160);
 
 				this->addChild(CParticleLoader::createSmokeEffect());
+
+				CSoundLoader::playSoundEffect(CSoundLoader::SUCK_SOUND_EFFECT);
 			}
 			else
 			{
@@ -212,6 +213,8 @@ void Player::UseSkills(ACTIVE_SKILL s)
 				Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(0.5f);
 
 				this->addChild(CParticleLoader::createSlowEffect());
+
+				CSoundLoader::playSoundEffect(CSoundLoader::DROPLET_SOUND_EFFECT);
 			}
 			else
 			{
