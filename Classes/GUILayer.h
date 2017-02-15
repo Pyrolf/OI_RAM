@@ -25,6 +25,16 @@ private:
 	CPauseLayer* m_pPauseLayer;
 	cocos2d::Vec2 m_vec2InitialCamPos;
 public:
+	enum PLAYER_CONTROL_TYPE
+	{
+		PC_LEFT = 0,
+		PC_RIGHT,
+		PC_JUMP,
+		PC_SLAM,
+		PC_SLOW,
+		PC_INVIS
+	};
+
 	static CGUILayer* addLayerToScene(cocos2d::Scene* scene);
 
 	virtual bool init();
@@ -40,6 +50,8 @@ public:
 
     // selector callbacks
 	void pauseCallback(cocos2d::Ref* pSender);
+
+	void playerControlCallback(PLAYER_CONTROL_TYPE PCT);
     
     // implement the "static create()" method manually
 	CREATE_FUNC(CGUILayer);

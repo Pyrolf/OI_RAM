@@ -14,7 +14,8 @@ public:
 															cocos2d::Color4F color = cocos2d::Color4F::RED,
 															float sizeScale = 0.05f);
 
-	static cocos2d::ParticleSystem* createSmokeEffect(cocos2d::Node* target);
-	static cocos2d::ParticleSystem* createSlowEffect(cocos2d::Node* target);
+	static cocos2d::ParticleSystem* createSmokeEffect();
+	static cocos2d::ParticleSystem* createSlowEffect();
+	static cocos2d::ParticleSystem* createSlamEffect();
 };
 #endif // __PARTICLE_LOADER_H__

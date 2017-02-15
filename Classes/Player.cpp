@@ -54,6 +54,8 @@ void Player::Init(Vec2 Pos)
 	maxMana = 25;
 	mana = maxMana;
 	manaRegenRate = 1;
+
+	moveLeft = moveRight = false;
 }
 
 void Player::Update(float dt)
@@ -90,22 +92,11 @@ bool XKeypress = false;
 
 void Player::UpdateSkills(float dt)
 {
+#if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC))
 	if ((KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW) && !downKeypress))
 	{
-		ResetSkillEffect();
-
-		if (activeSkill != ACTIVE_SKILL::Slam && mana > 10)
-		{
-			activeSkill = ACTIVE_SKILL::Slam;
-			
-			this->getPhysicsBody()->setVelocity(Vec2::ZERO);
-			this->getPhysicsBody()->applyImpulse(Vec2(0, -500));
-
-			slamSkillActiveTime = 0.5f;
-			mana -= 10;
-
-			CSoundLoader::playSoundEffect(CSoundLoader::SHUSH_SOUND_EFFECT);
-		}
+		UseSkills(ACTIVE_SKILL::Slam);
+		CSoundLoader::playSoundEffect(CSoundLoader::SHUSH_SOUND_EFFECT);
 
 		downKeypress = true;
 	}
@@ -116,21 +107,9 @@ void Player::UpdateSkills(float dt)
 
 	if ((KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_Z) && !ZKeypress))
 	{
-		if (activeSkill != ACTIVE_SKILL::Invisible && mana > 0)
-		{
-			ResetSkillEffect();
-			activeSkill = ACTIVE_SKILL::Invisible;
-			GetSprite()->setOpacity(160);
-
-			//this->addChild(CParticleLoader::createSmokeEffect(this));
-
-			CSoundLoader::playSoundEffect(CSoundLoader::SUCK_SOUND_EFFECT);
-		}
-		else
-		{
-			ResetSkillEffect();
-		}
-
+		CSoundLoader::playSoundEffect(CSoundLoader::SUCK_SOUND_EFFECT);
+		UseSkills(ACTIVE_SKILL::Invisible);
+		
 		ZKeypress = true;
 	}
 	else if (!KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_Z) && ZKeypress)
@@ -140,21 +119,8 @@ void Player::UpdateSkills(float dt)
 
 	if ((KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_X) && !XKeypress))
 	{
-		if (activeSkill != ACTIVE_SKILL::Slow && mana > 0)
-		{
-			ResetSkillEffect();
-			activeSkill = ACTIVE_SKILL::Slow;
-			Director::getInstance()->getScheduler()->setTimeScale(0.5f);
-			Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(0.5f);
-
-			//this->getParent()->addChild(CParticleLoader::createSlowEffect(this));
-
-			CSoundLoader::playSoundEffect(CSoundLoader::DROPLET_SOUND_EFFECT);
-		}
-		else
-		{
-			ResetSkillEffect();
-		}
+		CSoundLoader::playSoundEffect(CSoundLoader::DROPLET_SOUND_EFFECT);
+		UseSkills(ACTIVE_SKILL::Slow);
 
 		XKeypress = true;
 	}
@@ -162,6 +128,7 @@ void Player::UpdateSkills(float dt)
 	{
 		XKeypress = false;
 	}
+#endif
 
 	switch (activeSkill)
 	{
@@ -172,7 +139,7 @@ void Player::UpdateSkills(float dt)
 		break;
 
 		case ACTIVE_SKILL::Invisible:
-			mana -= 3 * dt;
+			mana -= 5 * dt;
 			if (mana < 0)
 			{
 				mana = 0;
@@ -182,13 +149,75 @@ void Player::UpdateSkills(float dt)
 		break;
 
 		case ACTIVE_SKILL::Slow:
-			mana -= 5 * dt;
+			mana -= 14 * dt;
 			if (mana < 0)
 			{
 				mana = 0;
 				activeSkill = ACTIVE_SKILL::None;
 				ResetSkillEffect();
 			}
+		break;
+	}
+}
+
+void Player::UseSkills(ACTIVE_SKILL s)
+{
+	switch (s)
+	{
+	case ACTIVE_SKILL::Slam:
+		{
+			if (activeSkill != ACTIVE_SKILL::Slam && mana > 10)
+			{
+				ResetSkillEffect();
+
+				activeSkill = ACTIVE_SKILL::Slam;
+			
+				this->getPhysicsBody()->setVelocity(Vec2::ZERO);
+				this->getPhysicsBody()->applyImpulse(Vec2(0, -500));
+
+				slamSkillActiveTime = 0.5f;
+				mana -= 10;
+
+				ParticleSystem *p = CParticleLoader::createSlamEffect();
+				this->addChild(p);
+				p->setPosition(Vec2(0, -this->GetSprite()->getContentSize().height * 0.5));
+			}
+		}
+		break;
+
+	case ACTIVE_SKILL::Invisible:
+		{
+			if (activeSkill != ACTIVE_SKILL::Invisible && mana > 1)
+			{
+				ResetSkillEffect();
+				activeSkill = ACTIVE_SKILL::Invisible;
+				GetSprite()->setOpacity(160);
+
+				this->addChild(CParticleLoader::createSmokeEffect());
+			}
+			else
+			{
+				ResetSkillEffect();
+			}
+		}
+		break;
+
+	case ACTIVE_SKILL::Slow:
+		{
+			if (activeSkill != ACTIVE_SKILL::Slow && mana > 1)
+			{
+				ResetSkillEffect();
+				activeSkill = ACTIVE_SKILL::Slow;
+				Director::getInstance()->getScheduler()->setTimeScale(0.5f);
+				Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(0.5f);
+
+				this->addChild(CParticleLoader::createSlowEffect());
+			}
+			else
+			{
+				ResetSkillEffect();
+			}
+		}
 		break;
 	}
 }
@@ -247,6 +276,7 @@ bool upKeypress = false;
 
 void Player::Movement(float dt)
 {
+#if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC))
 	if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_LEFT_ARROW))
 	{
 		Move(false, dt);
@@ -264,6 +294,17 @@ void Player::Movement(float dt)
 	{
 		upKeypress = false;
 	}
+//#elif ((CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS))
+	if (moveLeft)
+	{
+		Move(false, dt);
+	}
+	if (moveRight)
+	{
+		Move(true, dt);
+	}
+#endif
+
 	/*if (KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW) || KeyboardManager::GetInstance()->isKeyPressed(EventKeyboard::KeyCode::KEY_S))
 	{
 		c->setPosition(c->getPositionX(), c->getPositionY() - dt * 500);

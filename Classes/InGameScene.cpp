@@ -340,3 +340,29 @@ void CInGameScene::NextLevel()
 	if (!IfLastLevel())
 		m_nCurrentLevel++;
 }
+
+void CInGameScene::PlayerTouchControl(int playerControlType)
+{
+	switch (playerControlType)
+	{
+	case CGUILayer::PLAYER_CONTROL_TYPE::PC_LEFT:
+		m_pGOManager->getPlayer()->moveLeft = !m_pGOManager->getPlayer()->moveLeft;
+		break;
+	case CGUILayer::PLAYER_CONTROL_TYPE::PC_RIGHT:
+		m_pGOManager->getPlayer()->moveRight = !m_pGOManager->getPlayer()->moveRight;
+		break;
+	case CGUILayer::PLAYER_CONTROL_TYPE::PC_JUMP:
+		m_pGOManager->getPlayer()->Jump();
+		break;
+	case CGUILayer::PLAYER_CONTROL_TYPE::PC_SLAM:
+		m_pGOManager->getPlayer()->UseSkills(Player::ACTIVE_SKILL::Slam);
+		break;
+	case CGUILayer::PLAYER_CONTROL_TYPE::PC_INVIS:
+		m_pGOManager->getPlayer()->UseSkills(Player::ACTIVE_SKILL::Invisible);
+		break;
+	case CGUILayer::PLAYER_CONTROL_TYPE::PC_SLOW:
+		m_pGOManager->getPlayer()->UseSkills(Player::ACTIVE_SKILL::Slow);
+		break;
+	}
+	Director::getInstance()->getDeltaTime();
+}

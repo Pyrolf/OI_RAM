@@ -50,18 +50,26 @@ ParticleSystem* CParticleLoader::createBleedingEffect(	Node* target,
 }
 
 
-ParticleSystem* CParticleLoader::createSmokeEffect(Node* target)
+ParticleSystem* CParticleLoader::createSmokeEffect()
 {
-	auto p = cocos2d::ParticleSystem::create("particle/smoke.plist");
-	p->setPosition(target->getPosition());
+	auto p = cocos2d::CCParticleSystemQuad::create("particle/smoke.plist");
+	p->setPosition(Vec2::ZERO);
 
 	return p;
 }
 
-ParticleSystem* CParticleLoader::createSlowEffect(Node* target)
+ParticleSystem* CParticleLoader::createSlowEffect()
 {
-	auto p = cocos2d::ParticleSystem::create("particle/slow.plist");
-	p->setPosition(target->getPosition());
+	auto p = cocos2d::CCParticleSystemQuad::create("particle/slow.plist");
+	p->setPosition(Vec2::ZERO);
 
 	return p; 
+}
+
+ParticleSystem* CParticleLoader::createSlamEffect()
+{
+	auto p = cocos2d::CCParticleSystemQuad::create("particle/slam.plist");
+	p->setPosition(Vec2::ZERO);
+
+	return p;
 }
