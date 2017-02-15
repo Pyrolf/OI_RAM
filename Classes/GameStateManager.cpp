@@ -2,6 +2,7 @@
 #include "MainMenuScene.h"
 #include "InGameScene.h"
 #include "StoreScene.h"
+#include "SoundLoader.h"
 
 USING_NS_CC;
 
@@ -41,16 +42,19 @@ void CGameStateManager::switchState(CGameStateManager::STATE state)
 		case STATE_MAINMENU:
 		{
 			CMainMenuScene::toMainMenuScene();
+			CSoundLoader::playBackgroundMusic(CSoundLoader::BACKGROUND_MUSIC::MAIN_MENU_MUSIC);
 			break;
 		}
 		case STATE_GAMEPLAY:
 		{
 			CInGameScene::toInGameScene();
+			CSoundLoader::playBackgroundMusic(CSoundLoader::BACKGROUND_MUSIC::GAMEPLAY_MUSIC);
 			break;
 		}
 		case STATE_STORE:
 		{
 			CStoreScene::toStoreScene();
+			CSoundLoader::playBackgroundMusic(CSoundLoader::BACKGROUND_MUSIC::STORE_MUSIC);
 			break;
 		}
 		default:

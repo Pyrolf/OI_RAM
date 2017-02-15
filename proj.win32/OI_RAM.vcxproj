@@ -171,6 +171,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\PauseLayer.cpp" />
     <ClCompile Include="..\Classes\PhysicsGameObject.cpp" />
     <ClCompile Include="..\Classes\Player.cpp" />
+    <ClCompile Include="..\Classes\SoundLoader.cpp" />
     <ClCompile Include="..\Classes\SpriteLoader.cpp" />
     <ClCompile Include="..\Classes\SpriteSystem.cpp" />
     <ClCompile Include="..\Classes\StoreScene.cpp" />
@@ -206,6 +207,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\PauseLayer.h" />
     <ClInclude Include="..\Classes\PhysicsGameObject.h" />
     <ClInclude Include="..\Classes\Player.h" />
+    <ClInclude Include="..\Classes\SoundLoader.h" />
     <ClInclude Include="..\Classes\SpriteLoader.h" />
     <ClInclude Include="..\Classes\SpriteSystem.h" />
     <ClInclude Include="..\Classes\StoreScene.h" />

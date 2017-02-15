@@ -4,6 +4,7 @@
 #include "GameStateManager.h"
 #include "PauseLayer.h"
 #include "InGameScene.h"
+#include "SoundLoader.h"
 
 USING_NS_CC;
 
@@ -189,6 +190,8 @@ void CGUILayer::ChangeManabar(float percentage)
 
 void CGUILayer::pauseCallback(Ref* pSender)
 {
+	CSoundLoader::pauseSounds(true);
+	CSoundLoader::playSoundEffect(CSoundLoader::PAUSE_SOUND_EFFECT);
 	Director::getInstance()->pause();
 	if (Director::getInstance()->getRunningScene()->getPhysicsWorld())
 		Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(0);

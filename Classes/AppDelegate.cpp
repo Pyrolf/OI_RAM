@@ -3,6 +3,7 @@
 #include "SpriteSystem.h"
 #include "GameStateManager.h"
 #include "KeyboardManager.h"
+#include "SoundLoader.h"
 
 #include "HelloWorldScene.h"
 #include "MainMenuScene.h"
@@ -88,6 +89,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	register_all_packages();
 
+	// Preload Sounds
+	CSoundLoader::preloadAllSounds();
+
 	// create Animation System
 	CAnimationSystem::getInstance();
 	// create Sprite System
@@ -112,6 +116,7 @@ void AppDelegate::applicationDidEnterBackground() {
 
     // if you use SimpleAudioEngine, it must be pause
     // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+	CSoundLoader::pauseSounds(true);
 }
 
 // this function will be called when the app is active again
@@ -120,4 +125,5 @@ void AppDelegate::applicationWillEnterForeground() {
 
     // if you use SimpleAudioEngine, it must resume here
     // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+	CSoundLoader::pauseSounds(false);
 }

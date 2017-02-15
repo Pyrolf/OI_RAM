@@ -44,7 +44,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/InGameScene.cpp \
                    ../../../Classes/MainMenuScene.cpp \
                    ../../../Classes/StoreScene.cpp \
-                   ../../../Classes/TilemapManager.cpp
+                   ../../../Classes/TilemapManager.cpp \
+                   ../../../Classes/SoundLoader.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 

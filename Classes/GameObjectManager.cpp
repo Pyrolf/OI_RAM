@@ -4,6 +4,7 @@
 #include "AnimationLoader.h"
 #include "CollisionManager.h"
 #include "InGameScene.h"
+#include "SoundLoader.h"
 
 USING_NS_CC;
 
@@ -143,6 +144,7 @@ void CGameObjectManager::Update(float dt)
 						break;
 				}
 				DeactivateInteractableItem(item);
+				CSoundLoader::playSoundEffect(CSoundLoader::CHIME_SOUND_EFFECT);
 			}
 		}
 	}

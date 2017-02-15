@@ -141,6 +141,9 @@
     <ClCompile Include="..\Classes\WonOrGameoverLayer.cpp">
       <Filter>src\Layers</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\SoundLoader.cpp">
+      <Filter>src\Loaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -241,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\WonOrGameoverLayer.h">
       <Filter>src\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SoundLoader.h">
+      <Filter>src\Loaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
