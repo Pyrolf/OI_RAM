@@ -25,6 +25,8 @@ public:
 		Invisible
 	};
 
+	bool moveLeft, moveRight;
+
 	Player();
 	virtual ~Player();
 
@@ -32,6 +34,7 @@ public:
 	virtual void Update(float dt);
 
 	void UpdateSkills(float dt);
+	void UseSkills(ACTIVE_SKILL s);
 
 	ACTIVE_SKILL GetActiveSkill() { return activeSkill; };
 	void ResetSkillEffect();

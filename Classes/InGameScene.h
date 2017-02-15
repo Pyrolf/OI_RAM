@@ -55,6 +55,9 @@ public:
 	void NextLevel();
 
 	void endScene(bool bSave = false);
+
+	void PlayerTouchControl(int playerControlType);
+
 private:
 	KeyboardManager* KBM;
 

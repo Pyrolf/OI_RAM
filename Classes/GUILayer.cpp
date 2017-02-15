@@ -4,6 +4,8 @@
 #include "GameStateManager.h"
 #include "PauseLayer.h"
 #include "InGameScene.h"
+#include "ui/CocosGUI.h"
+
 
 USING_NS_CC;
 
@@ -112,12 +114,118 @@ bool CGUILayer::init()
 												"images/ui/pause_selected.png",
 												CC_CALLBACK_1(CGUILayer::pauseCallback, this));
 	pauseButton->setScale(0.75f);
-	pauseButton->setAnchorPoint(Vec2::ANCHOR_BOTTOM_RIGHT);
+	pauseButton->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 	pauseButton->setPosition(Vec2(	origin.x + visibleSize.width - visibleSize.height * 0.01f,
-									origin.y + visibleSize.height * 0.01f));
+									origin.y + visibleSize.height * 0.99f));
 	pauseButton->setTag(PAUSE_CHILD_TAG);
 	menuItemList.pushBack(pauseButton);
 	
+#if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS))
+	float offset;
+	//create move left button
+	auto button = ui::Button::create("images/ui/arrow_key.png", "images/ui/arrow_key_selected.png");
+	button->setScale(1.3f);
+	button->setRotation(-90);
+	button->setPosition(Vec2(origin.x + visibleSize.height * 0.12f, origin.y + visibleSize.height * 0.12f));
+	button->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type){
+		switch (type)
+		{
+		case ui::Widget::TouchEventType::BEGAN:
+			playerControlCallback(PC_LEFT);
+			break;
+		case ui::Widget::TouchEventType::ENDED:
+			playerControlCallback(PC_LEFT);
+			break;
+		case ui::Widget::TouchEventType::CANCELED:
+			playerControlCallback(PC_LEFT);
+			break;
+		}
+	});
+	this->addChild(button);
+
+	//create move right button
+	button = ui::Button::create("images/ui/arrow_key.png", "images/ui/arrow_key_selected.png");
+	button->setScale(1.3f);
+	button->setRotation(90);
+	offset = button->getSize().width * button->getScale() * 1.2;
+	button->setPosition(Vec2(origin.x + visibleSize.height * 0.12f + offset, origin.y + visibleSize.height * 0.12f));
+	button->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type){
+		switch (type)
+		{
+		case ui::Widget::TouchEventType::BEGAN:
+			playerControlCallback(PC_RIGHT);
+			break;
+		case ui::Widget::TouchEventType::ENDED:
+			playerControlCallback(PC_RIGHT);
+			break;
+		case ui::Widget::TouchEventType::CANCELED:
+			playerControlCallback(PC_RIGHT);
+			break;
+		}
+	});
+	this->addChild(button);
+
+	//create jump button
+	button = ui::Button::create("images/ui/arrow_key.png", "images/ui/arrow_key_selected.png");
+	button->setScale(1.3f);
+	button->setPosition(Vec2(origin.x + visibleSize.width - visibleSize.height * 0.12f, origin.y + visibleSize.height * 0.12f));
+	button->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type){
+		switch (type)
+		{
+		case ui::Widget::TouchEventType::BEGAN:
+			playerControlCallback(PC_JUMP);
+			break;
+		}
+	});
+	this->addChild(button);
+
+	//create slam button
+	button = ui::Button::create("images/ui/arrow_key.png", "images/ui/arrow_key_selected.png");
+	button->setScale(1.3f);
+	button->setRotation(180);
+	offset = button->getSize().width * button->getScale() * 1.2;
+	button->setPosition(Vec2(origin.x + visibleSize.width - visibleSize.height * 0.12f + -offset, origin.y + visibleSize.height * 0.12f));
+	button->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type){
+		switch (type)
+		{
+		case ui::Widget::TouchEventType::BEGAN:
+			playerControlCallback(PC_SLAM);
+			break;
+		}
+	});
+	this->addChild(button);
+
+	//create invis button
+	button = ui::Button::create("images/ui/invisible.png", "images/ui/invisible_selected.png");
+	button->setScale(1.3f);
+	offset = button->getSize().width * button->getScale() * 1.2;
+	button->setPosition(Vec2(origin.x + visibleSize.width - visibleSize.height * 0.12f, origin.y + visibleSize.height * 0.12f + offset));
+	button->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type){
+		switch (type)
+		{
+		case ui::Widget::TouchEventType::BEGAN:
+			playerControlCallback(PC_INVIS);
+			break;
+		}
+	});
+	this->addChild(button);
+
+	//create slow button
+	button = ui::Button::create("images/ui/slow.png", "images/ui/slow_selected.png");
+	button->setScale(1.3f);
+	offset = button->getSize().width * button->getScale() * 1.2;
+	button->setPosition(Vec2(origin.x + visibleSize.width - visibleSize.height * 0.12f + (-offset), origin.y + visibleSize.height * 0.12f + offset));
+	button->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type){
+		switch (type)
+		{
+		case ui::Widget::TouchEventType::BEGAN:
+			playerControlCallback(PC_SLOW);
+			break;
+		}
+	});
+	this->addChild(button);
+#endif
+
     // Create menu
 	auto menu = Menu::createWithArray(menuItemList);
 	menu->setPosition(Vec2::ANCHOR_BOTTOM_LEFT);
@@ -193,4 +301,13 @@ void CGUILayer::pauseCallback(Ref* pSender)
 	if (Director::getInstance()->getRunningScene()->getPhysicsWorld())
 		Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(0);
 	m_pPauseLayer->ShowLayer(Camera::getDefaultCamera()->getPosition() - m_vec2InitialCamPos);
+}
+
+void CGUILayer::playerControlCallback(PLAYER_CONTROL_TYPE PCT)
+{
+	CInGameScene* igc = dynamic_cast<CInGameScene*>(Director::getInstance()->getRunningScene()->getChildByName("CInGameScene"));
+	if (igc)
+	{
+		igc->PlayerTouchControl((int)PCT);
+	}
 }
