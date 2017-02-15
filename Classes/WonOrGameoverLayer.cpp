@@ -3,6 +3,7 @@
 #include "SpriteSystem.h"
 #include "GameStateManager.h"
 #include "InGameScene.h"
+#include "SoundLoader.h"
 
 USING_NS_CC;
 
@@ -33,10 +34,10 @@ bool CWonOrGameoverLayer::init()
 	// Create menu itmes
 	Vector<MenuItem*> menuItemList;
 	
-	auto background = MenuItemImage::create("HelloWorld.png",
-												"HelloWorld.png");
-	background->setScale(	visibleSize.width * 0.5f / background->getContentSize().width,
-							visibleSize.height * 0.9f / background->getContentSize().height);
+	auto background = MenuItemImage::create(	"images/ui/bloody_hand.png",
+												"images/ui/bloody_hand.png");
+	background->setScale(	visibleSize.width * 1.0f / background->getContentSize().width,
+							visibleSize.height * 1.0f / background->getContentSize().height);
 	background->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
 									origin.y + visibleSize.height * 0.5f));
 	menuItemList.pushBack(background);
@@ -162,10 +163,20 @@ void CWonOrGameoverLayer::ShowLayer(Vec2 offset, bool showWin)
 	{
 		nextLevelButton->setVisible(false);
 	}
+	CSoundLoader::stopBackgroundMusic();
+	if (!showWin)
+	{
+		CSoundLoader::playSoundEffect(CSoundLoader::PAIN_SOUND_EFFECT);
+	}
+	else
+	{
+		CSoundLoader::playSoundEffect(CSoundLoader::APPLAUSE_SOUND_EFFECT);
+	}
 }
 
 void CWonOrGameoverLayer::nextLevelCallback(Ref* pSender)
 {
+	CSoundLoader::playSoundEffect(CSoundLoader::SELECT_SOUND_EFFECT);
 	Director::getInstance()->resume();
 	Scene* scene = Director::getInstance()->getRunningScene();
 	if (scene->getPhysicsWorld())
@@ -182,6 +193,7 @@ void CWonOrGameoverLayer::nextLevelCallback(Ref* pSender)
 }
 void CWonOrGameoverLayer::restartCallback(Ref* pSender)
 {
+	CSoundLoader::playSoundEffect(CSoundLoader::SELECT_SOUND_EFFECT);
 	Director::getInstance()->resume();
 	Scene* scene = Director::getInstance()->getRunningScene();
 	if (scene->getPhysicsWorld())
@@ -197,6 +209,7 @@ void CWonOrGameoverLayer::restartCallback(Ref* pSender)
 }
 void CWonOrGameoverLayer::quitCallback(Ref* pSender)
 {
+	CSoundLoader::playSoundEffect(CSoundLoader::SELECT_SOUND_EFFECT);
 	Director::getInstance()->resume();
 	Scene* scene = Director::getInstance()->getRunningScene();
 	if (scene->getPhysicsWorld())

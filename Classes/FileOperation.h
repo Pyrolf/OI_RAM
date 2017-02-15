@@ -11,6 +11,7 @@ public:
 		PLAYER_DATA_FILE_TYPE = 0,
 		LEVEL_DATA_FILE_TYPE,
 		CURRENCY_DATA_FILE_TYPE,
+		SETTINGS_DATA_FILE_TYPE,
 		NUM_OF_FILE_TYPES
 	};
 	static void saveFile(std::string vecFileContents, FILE_TYPE fileType);

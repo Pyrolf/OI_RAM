@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "AIEnemy.h"
+#include "SoundLoader.h"
 
 USING_NS_CC;
 
@@ -49,5 +50,7 @@ void CEnemy::MinusLives(int nDamage)
 	{
 		CGameObject::MinusLives(nDamage);
 		m_AI->Damaging();
+
+		CSoundLoader::playSoundEffect(CSoundLoader::WHIP_SOUND_EFFECT);
 	}
 }

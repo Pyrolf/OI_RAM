@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "AIEnemy.h"
 #include "PhysicsGameObject.h"
+#include "SoundLoader.h"
 
 USING_NS_CC;
 
@@ -98,6 +99,8 @@ bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 					}
 					dynamic_cast<CPhysicsGameObject*>(shape[other]->getBody()->getNode())->DestroyCrate();
 
+					CSoundLoader::playSoundEffect(CSoundLoader::SMASH_SOUND_EFFECT);
+
 					return true;
 				}
 			}
@@ -111,6 +114,8 @@ bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 						player->getPhysicsBody()->setVelocity(Vec2::ZERO);
 						player->getPhysicsBody()->applyImpulse(Vec2(0, 800));
 					}
+
+					CSoundLoader::playSoundEffect(CSoundLoader::BOUNCE_SOUND_EFFECT);
 
 					return true;
 				}

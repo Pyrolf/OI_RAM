@@ -4,6 +4,7 @@
 #include "GameStateManager.h"
 #include "SimpleAudioEngine.h"
 #include "FileOperation.h"
+#include "SoundLoader.h"
 
 USING_NS_CC;
 
@@ -50,8 +51,8 @@ bool CStoreScene::init()
 	Vector<MenuItem*> menuItemList;
 
 	// Create background
-	auto background = MenuItemImage::create(	"HelloWorld.png",
-												"HelloWorld.png");
+	auto background = MenuItemImage::create(	"images/ui/background1.png",
+												"images/ui/background1.png");
 	background->setScale(	visibleSize.width / background->getContentSize().width,
 							visibleSize.height / background->getContentSize().height);
 	background->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
@@ -163,6 +164,7 @@ bool CStoreScene::init()
 
 void CStoreScene::upgradeMaxLives(Ref* pSender)
 {
+	CSoundLoader::playSoundEffect(CSoundLoader::SELECT_SOUND_EFFECT);
 	if (m_nLives >= 10 || !EditCoins(-1 * (m_nLives + 1)))
 		return;
 	m_nLives += 1;
@@ -170,6 +172,7 @@ void CStoreScene::upgradeMaxLives(Ref* pSender)
 }
 void CStoreScene::upgradeMaxMana(Ref* pSender)
 {
+	CSoundLoader::playSoundEffect(CSoundLoader::SELECT_SOUND_EFFECT);
 	if (m_nMana >= 100 || !EditCoins(-1 * (m_nMana + 5)))
 		return;
 	m_nMana += 5;
@@ -177,6 +180,7 @@ void CStoreScene::upgradeMaxMana(Ref* pSender)
 }
 void CStoreScene::NextCallback(Ref* pSender)
 {
+	CSoundLoader::playSoundEffect(CSoundLoader::SELECT_SOUND_EFFECT);
 	saveData();
 	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_GAMEPLAY);
 }

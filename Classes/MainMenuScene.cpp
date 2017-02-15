@@ -2,8 +2,8 @@
 #include "AnimationSystem.h"
 #include "SpriteSystem.h"
 #include "GameStateManager.h"
-#include "SimpleAudioEngine.h"
 #include "FileOperation.h"
+#include "SoundLoader.h"
 
 USING_NS_CC;
 
@@ -44,12 +44,6 @@ bool CMainMenuScene::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-
-	// Create background
-	auto background = CSpriteSystem::getInstance()->getSprite("HelloWorld.png", visibleSize);
-	background->setPosition(origin + visibleSize * 0.5f);
-	this->addChild(background, CHILD_TAG_BACKGROUND);
-
 	// Label
 	std::string font = "fonts/Marker Felt.ttf";
 	float fontSize = visibleSize.height * 0.05f;
@@ -57,17 +51,28 @@ bool CMainMenuScene::init()
 
 	// Create menu itmes
 	Vector<MenuItem*> menuItemList;
+	
+	// Create background
+	auto background = MenuItemImage::create(	"images/ui/background1.png",
+												"images/ui/background1.png");
+	background->setScale(	visibleSize.width / background->getContentSize().width,
+							visibleSize.height / background->getContentSize().height);
+	background->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
+									origin.y + visibleSize.height * 0.5f));
+	menuItemList.pushBack(background);
+
 	// Create Title
 	// Use label for now, may change to sprite image
 	auto titleLabel = Label::createWithTTF("OI-RAM!", font, visibleSize.height * 0.25f);
 	titleLabel->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
 									origin.y + visibleSize.height * 0.8f));
 	titleLabel->setColor(labelColor);
-	this->addChild(titleLabel);
+	titleLabel->setTag(CHILD_TAG_LABEL);
+	this->addChild(titleLabel, CHILD_TAG_LABEL);
 
 	// Create buttons
-	/*Size buttonSize(visibleSize.width * 0.25f,
-					visibleSize.height * 0.1f);*/
+	Size toggleButtonSize(	visibleSize.height * 0.1f,
+							visibleSize.height * 0.1f);
 	Vec2 buttonPositionOffset(0, -visibleSize.height * 0.15f);
 	// Create start button
 	auto startButton = MenuItemImage::create(	"images/ui/button.png",
@@ -77,7 +82,7 @@ bool CMainMenuScene::init()
 							buttonSize.height * 1.5f / startButton->getContentSize().height);*/
 	startButton->setScale(1.5f);
 	startButton->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
-									origin.y + visibleSize.height * 0.55f));
+									origin.y + visibleSize.height * 0.4f));
 	menuItemList.pushBack(startButton);
 	// start label
 	auto startLabel = MenuItemLabel::create(Label::createWithTTF("Start", font, fontSize));
@@ -115,17 +120,46 @@ bool CMainMenuScene::init()
 								exitButton->getContentSize().height * 0.5f));
 	exitLabel->setColor(labelColor);
 	exitButton->addChild(exitLabel);
+	
+	// Music toggle button
+	auto musicToggleButton = MenuItemImage::create(	"images/ui/music_toggle.png",
+													"images/ui/music_toggle_selected.png",
+													CC_CALLBACK_1(CMainMenuScene::toggleMusicCallback, this));
+	musicToggleButton->setScale(	toggleButtonSize.width / musicToggleButton->getContentSize().width,
+									toggleButtonSize.height / musicToggleButton->getContentSize().height);
+	musicToggleButton->setPosition(	origin.x + visibleSize.width - toggleButtonSize.width * 2.0f,
+									origin.y + visibleSize.height - toggleButtonSize.width * 0.75f);
+	musicToggleButton->setTag(CHILD_TAG_MUSIC_TOGGLE_BUTTON);
+	menuItemList.pushBack(musicToggleButton);
+	
+	// Sound Effect toggle button
+	auto soundEffectToggleButton = MenuItemImage::create(	"images/ui/sound_effects_toggle.png",
+															"images/ui/sound_effects_toggle_selected.png",
+															CC_CALLBACK_1(CMainMenuScene::toggleSoundEffectsCallback, this));
+	soundEffectToggleButton->setScale(	toggleButtonSize.width / soundEffectToggleButton->getContentSize().width,
+										toggleButtonSize.height / soundEffectToggleButton->getContentSize().height);
+	soundEffectToggleButton->setPosition(	origin.x + visibleSize.width - toggleButtonSize.width * 0.75f,
+											origin.y + visibleSize.height - toggleButtonSize.width * 0.75f);
+	soundEffectToggleButton->setTag(CHILD_TAG_SOUND_EFFECT_TOGGLE_BUTTON);
+	menuItemList.pushBack(soundEffectToggleButton);
 
     // Create menu
 	auto menu = Menu::createWithArray(menuItemList);
 	menu->setPosition(Vec2::ANCHOR_BOTTOM_LEFT);
+	menu->setTag(CHILD_TAG_MENU);
 	this->addChild(menu, CHILD_TAG_MENU);
+
+	m_bMusicMuted = false;
+	m_bSoundEffectsMuted = false;
+	getSettingsData();
 
     return true;
 }
 
 void CMainMenuScene::startGameCallback(Ref* pSender)
 {
+	CSoundLoader::playSoundEffect(CSoundLoader::SELECT_SOUND_EFFECT);
+
 	// Save data
 	std::stringstream ss1, ss2, ss3;
 
@@ -143,13 +177,94 @@ void CMainMenuScene::startGameCallback(Ref* pSender)
 }
 void CMainMenuScene::goStoreCallback(Ref* pSender)
 {
+	CSoundLoader::playSoundEffect(CSoundLoader::SELECT_SOUND_EFFECT);
+
 	CGameStateManager::getInstance()->switchState(CGameStateManager::STATE_STORE);
 }
 void CMainMenuScene::exitGameCallback(Ref* pSender)
 {
+	CSoundLoader::playSoundEffect(CSoundLoader::SELECT_SOUND_EFFECT);
+
     Director::getInstance()->end();
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
+}
+
+void CMainMenuScene::toggleMusicCallback(cocos2d::Ref* pSender)
+{
+	m_bMusicMuted = !m_bMusicMuted;
+	setSettingsData();
+	toggleMusicButtonImage();
+	CSoundLoader::muteBackgroundMusic(m_bMusicMuted);
+	CSoundLoader::playSoundEffect(CSoundLoader::PAUSE_SOUND_EFFECT);
+}
+
+void CMainMenuScene::toggleSoundEffectsCallback(cocos2d::Ref* pSender)
+{
+	m_bSoundEffectsMuted = !m_bSoundEffectsMuted;
+	setSettingsData();
+	toggleSoundEffectsButtonImage();
+	CSoundLoader::muteSoundEffect(m_bSoundEffectsMuted);
+	CSoundLoader::playSoundEffect(CSoundLoader::PAUSE_SOUND_EFFECT);
+}
+
+void CMainMenuScene::getSettingsData()
+{
+	// Get data Currency
+	std::vector<std::string> vec_sData1 = FileOperation::readFile(FileOperation::SETTINGS_DATA_FILE_TYPE);
+	if (vec_sData1.size() == 0)
+		return;
+	if (vec_sData1.size() > 0)
+	{
+		if (std::stoi(vec_sData1[0]) > 0)
+		{
+			m_bMusicMuted = true;
+			toggleMusicButtonImage();
+			CSoundLoader::muteBackgroundMusic(m_bMusicMuted);
+		}
+		else
+			m_bMusicMuted = false;
+	}
+	if (vec_sData1.size() > 1)
+	{
+		if (std::stoi(vec_sData1[1]) > 0)
+		{
+			m_bSoundEffectsMuted = true;
+			toggleSoundEffectsButtonImage();
+			CSoundLoader::muteSoundEffect(m_bSoundEffectsMuted);
+		}
+		else
+			m_bSoundEffectsMuted = false;
+	}
+}
+
+void CMainMenuScene::setSettingsData()
+{
+	// Save data
+	std::stringstream ss1;
+
+	ss1 << m_bMusicMuted << "\n";
+	ss1 << m_bSoundEffectsMuted << "\n";
+	FileOperation::saveFile(ss1.str(), FileOperation::SETTINGS_DATA_FILE_TYPE);
+}
+
+void CMainMenuScene::toggleMusicButtonImage()
+{
+	auto button = (MenuItemImage*)this->getChildByTag(CHILD_TAG_MENU)->getChildByTag(CHILD_TAG_MUSIC_TOGGLE_BUTTON);
+	const std::string UNPRESSED = (m_bMusicMuted) ? "images/ui/music_toggle_muted_selected.png" : "images/ui/music_toggle_selected.png";
+	const std::string PRESSED = (m_bMusicMuted) ? "images/ui/music_toggle_muted.png" : "images/ui/music_toggle.png";
+
+	button->setSelectedImage(Sprite::create(UNPRESSED));
+	button->setNormalImage(Sprite::create(PRESSED));
+}
+void CMainMenuScene::toggleSoundEffectsButtonImage()
+{
+	auto button = (MenuItemImage*)this->getChildByTag(CHILD_TAG_MENU)->getChildByTag(CHILD_TAG_SOUND_EFFECT_TOGGLE_BUTTON);
+	const std::string UNPRESSED = (m_bSoundEffectsMuted) ? "images/ui/sound_effects_toggle_muted_selected.png" : "images/ui/sound_effects_toggle_selected.png";
+	const std::string PRESSED = (m_bSoundEffectsMuted) ? "images/ui/sound_effects_toggle_muted.png" : "images/ui/sound_effects_toggle.png";
+
+	button->setSelectedImage(Sprite::create(UNPRESSED));
+	button->setNormalImage(Sprite::create(PRESSED));
 }

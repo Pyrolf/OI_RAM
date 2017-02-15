@@ -100,7 +100,7 @@ Sprite* CSpriteLoader::getInteractiveItemSprites(CInteractableGameObject::TYPE t
 		}
 		case CInteractableGameObject::EXIT:
 		{
-			CSpriteSystem::getInstance()->getSprite("images/exit.png", size);
+			return CSpriteSystem::getInstance()->getSprite("images/exit.png", size);
 			break;
 		}
 		default:

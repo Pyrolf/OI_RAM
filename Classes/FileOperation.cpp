@@ -74,6 +74,11 @@ string FileOperation::getFilePath(FILE_TYPE fileType)
 			path = CCFileUtils::getInstance()->getWritablePath() + "currencyfile";
 			break;
 		}
+		case SETTINGS_DATA_FILE_TYPE:
+		{
+			path = CCFileUtils::getInstance()->getWritablePath() + "settingsfile";
+			break;
+		}
 	}
 //	string path("");
 //

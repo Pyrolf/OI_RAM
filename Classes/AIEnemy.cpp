@@ -6,6 +6,7 @@
 #include "ParticleLoader.h"
 #include "CollisionManager.h"
 #include "Player.h"
+#include "SoundLoader.h"
 
 USING_NS_CC;
 
@@ -255,6 +256,8 @@ void CAIEnemy::Shoot()
 		auto coolDown = DelayTime::create(m_shootingInfomations.m_fFireRate);
 		coolDown->setTag(FSM_SHOOT);
 		m_pGO->runAction(coolDown);
+
+		CSoundLoader::playSoundEffect(CSoundLoader::SHOOT_SOUND_EFFECT);
 	}
 }
 
@@ -287,5 +290,7 @@ void CAIEnemy::Pounce()
 		auto pounceAction = Sequence::create(jumpAction, activateGravityAction, coolDownAction, NULL);
 		pounceAction->setTag(FSM_POUNCE);
 		m_pGO->runAction(pounceAction);
+
+		CSoundLoader::playSoundEffect(CSoundLoader::LEAP_SOUND_EFFECT);
 	}
 }

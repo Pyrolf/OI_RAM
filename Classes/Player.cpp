@@ -4,6 +4,7 @@
 #include "SpriteLoader.h"
 #include "AnimationLoader.h"
 #include "ParticleLoader.h"
+#include "SoundLoader.h"
 
 Player::Player()
 : CGameObject()
@@ -102,6 +103,8 @@ void Player::UpdateSkills(float dt)
 
 			slamSkillActiveTime = 0.5f;
 			mana -= 10;
+
+			CSoundLoader::playSoundEffect(CSoundLoader::SHUSH_SOUND_EFFECT);
 		}
 
 		downKeypress = true;
@@ -120,6 +123,8 @@ void Player::UpdateSkills(float dt)
 			GetSprite()->setOpacity(160);
 
 			//this->addChild(CParticleLoader::createSmokeEffect(this));
+
+			CSoundLoader::playSoundEffect(CSoundLoader::SUCK_SOUND_EFFECT);
 		}
 		else
 		{
@@ -143,6 +148,8 @@ void Player::UpdateSkills(float dt)
 			Director::getInstance()->getRunningScene()->getPhysicsWorld()->setSpeed(0.5f);
 
 			//this->getParent()->addChild(CParticleLoader::createSlowEffect(this));
+
+			CSoundLoader::playSoundEffect(CSoundLoader::DROPLET_SOUND_EFFECT);
 		}
 		else
 		{
@@ -231,6 +238,8 @@ void Player::Jump()
 		body->setVelocity(Vec2(body->getVelocity().x, 0));
 		body->applyImpulse(Vec2(0, this->getPhysicsBody()->getMass() * 400));
 		jumpCount++;
+
+		CSoundLoader::playSoundEffect(CSoundLoader::JUMP_SOUND_EFFECT);
 	}
 }
 
@@ -290,6 +299,8 @@ void Player::ReceiveDamage(float fDamagingDuration)
 		this->runAction(sequence2);
 
 		CParticleLoader::createBleedingEffect(this);
+
+		CSoundLoader::playSoundEffect(CSoundLoader::JAB_SOUND_EFFECT);
 	}
 }
 

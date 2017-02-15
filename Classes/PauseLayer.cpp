@@ -3,6 +3,7 @@
 #include "SpriteSystem.h"
 #include "GameStateManager.h"
 #include "InGameScene.h"
+#include "SoundLoader.h"
 
 USING_NS_CC;
 
@@ -33,10 +34,10 @@ bool CPauseLayer::init()
 	// Create menu itmes
 	Vector<MenuItem*> menuItemList;
 	
-	auto background = MenuItemImage::create("HelloWorld.png",
-												"HelloWorld.png");
-	background->setScale(	visibleSize.width * 0.5f / background->getContentSize().width,
-							visibleSize.height * 0.9f / background->getContentSize().height);
+	auto background = MenuItemImage::create("images/ui/boom.png",
+											"images/ui/boom.png");
+	background->setScale(	visibleSize.width * 1.0f / background->getContentSize().width,
+							visibleSize.height * 1.0f / background->getContentSize().height);
 	background->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
 									origin.y + visibleSize.height * 0.5f));
 	menuItemList.pushBack(background);
@@ -48,16 +49,16 @@ bool CPauseLayer::init()
 
 	// Create Title
 	// Use label for now, may change to sprite image
-	auto titleLabel = Label::createWithTTF("Pause", font, visibleSize.height * 0.25f);
+	auto titleLabel = Label::createWithTTF("Pause", font, visibleSize.height * 0.2f);
 	titleLabel->setPosition(Vec2(	origin.x + visibleSize.width * 0.5f,
-									origin.y + visibleSize.height * 0.75f));
+									origin.y + visibleSize.height * 0.7f));
 	titleLabel->setColor(labelColor);
 	this->addChild(titleLabel, 1);
 
 	// Create buttons
 	/*Size buttonSize(visibleSize.width * 0.25f,
 					visibleSize.height * 0.1f);*/
-	Vec2 buttonPositionOffset(0, -visibleSize.height * 0.11f);
+	Vec2 buttonPositionOffset(0, -visibleSize.height * 0.07f);
 	// Create resume button
 	auto resumeButton = MenuItemImage::create(	"images/ui/button.png",
 												"images/ui/button_selected.png",
@@ -131,6 +132,8 @@ void CPauseLayer::ShowLayer(Vec2 offset)
 
 void CPauseLayer::resumeCallback(Ref* pSender)
 {
+	CSoundLoader::pauseSounds(false);
+	CSoundLoader::playSoundEffect(CSoundLoader::SELECT_SOUND_EFFECT);
 	Director::getInstance()->resume();
 	Scene* scene = Director::getInstance()->getRunningScene();
 	if (scene->getPhysicsWorld())
@@ -139,6 +142,8 @@ void CPauseLayer::resumeCallback(Ref* pSender)
 }
 void CPauseLayer::restartCallback(Ref* pSender)
 {
+	CSoundLoader::pauseSounds(false);
+	CSoundLoader::playSoundEffect(CSoundLoader::SELECT_SOUND_EFFECT);
 	Director::getInstance()->resume();
 	Scene* scene = Director::getInstance()->getRunningScene();
 	if (scene->getPhysicsWorld())
@@ -154,6 +159,8 @@ void CPauseLayer::restartCallback(Ref* pSender)
 }
 void CPauseLayer::quitCallback(Ref* pSender)
 {
+	CSoundLoader::pauseSounds(false);
+	CSoundLoader::playSoundEffect(CSoundLoader::SELECT_SOUND_EFFECT);
 	Director::getInstance()->resume();
 	Scene* scene = Director::getInstance()->getRunningScene();
 	if (scene->getPhysicsWorld())
