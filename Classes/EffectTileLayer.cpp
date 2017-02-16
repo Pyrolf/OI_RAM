@@ -7,7 +7,7 @@ EffectTileLayer::EffectTileLayer()
 
 EffectTileLayer::~EffectTileLayer()
 {
-	CC_SAFE_RELEASE(_effect);
+	//CC_SAFE_RELEASE(_effect);
 }
 
 EffectTileLayer * EffectTileLayer::create(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
@@ -20,18 +20,6 @@ EffectTileLayer * EffectTileLayer::create(TMXTilesetInfo *tilesetInfo, TMXLayerI
 	}
 	CC_SAFE_DELETE(ret);
 	return nullptr;
-}
-
-void EffectTileLayer::setEffect(LightEffect *effect)
-{
-	if (_effect != effect) 
-	{
-		CC_SAFE_RELEASE(_effect);
-		_effect = effect;
-		CC_SAFE_RETAIN(_effect);
-
-		setGLProgramState(_effect->getGLProgramState());
-	}
 }
 
 bool EffectTileLayer::initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
@@ -190,14 +178,14 @@ void EffectTileLayer::draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &tra
 	int maxY = clampf(getLayerSize().height - (-offset.y) / getTileSet()->_tileSize.height + 1, 0, getLayerSize().height);*/
 	
 
-	if (/*_LayerNormalmap == nullptr ||*/ flags != 0 || _dirty || _quadsDirty)
-	{
-		setLayerNormalmap();
-	}
-	if (_effect != nullptr)
-	{
-		_effect->prepareForRender(Sp, _LayerNormalmap);
-	}
-	experimental::TMXLayer::draw(renderer, transform, flags);
-	renderer->render();
+	//if (/*_LayerNormalmap == nullptr ||*/ flags != 0 || _dirty || _quadsDirty)
+	//{
+	//	setLayerNormalmap();
+	//}
+	//if (_effect != nullptr)
+	//{
+	//	_effect->prepareForRender(Sp, _LayerNormalmap);
+	//}
+	//experimental::TMXLayer::draw(renderer, transform, flags);
+	//renderer->render();
 }

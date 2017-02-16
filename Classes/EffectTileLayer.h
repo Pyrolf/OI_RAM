@@ -1,6 +1,5 @@
 #pragma once
 #include "cocos2d.h"
-#include "lighting\LightEffect.h"
 
 using namespace cocos2d;
 
@@ -12,7 +11,7 @@ public:
 
 	static EffectTileLayer * create(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
 
-	void setEffect(LightEffect *effect);
+	//void setEffect(LightEffect *effect);
 
 	void setLayerNormalmap();
 
@@ -23,7 +22,7 @@ protected:
 	virtual void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags) override;
 
 private:
-	LightEffect *_effect = nullptr;
+	//LightEffect *_effect = nullptr;
 	Texture2D *_normalmap = nullptr;
 	Texture2D *_LayerNormalmap = nullptr;
 

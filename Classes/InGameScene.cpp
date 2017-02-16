@@ -30,7 +30,7 @@ Scene* CInGameScene::createScene()
 
 	scene->getPhysicsWorld()->setFixedUpdateRate(120);
 	scene->getPhysicsWorld()->setGravity(Vec2(0, -98 * 10));
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
 	auto layer = CInGameScene::create();
