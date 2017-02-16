@@ -50,6 +50,7 @@ bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 					if (player)
 					{
 						player->SetJumpCount(0);
+						player->inAir = false;
 						//player->SetFrictionMulti(GROUND_FRICTION_MULTI);
 					}
 
@@ -190,28 +191,28 @@ bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 
 void CCollisionManager::onContactSeparate(PhysicsContact& contact)
 {
-//	PhysicsShape* shape[2];
-//	shape[0] = contact.getShapeA();
-//	shape[1] = contact.getShapeB();
-//
-//	
-//	if (shape[0]->getCollisionBitmask() == CB_PLAYER || shape[1]->getCollisionBitmask() == CB_PLAYER)
-//	{
-//		int self = (shape[0]->getCollisionBitmask() == CB_PLAYER ? 0 : 1);
-//		int other = !self;
-//
-//		if (shape[self]->isSensor())
-//		{
-//			if (shape[other]->getCollisionBitmask() == CB_GROUND)
-//			{
-//				auto player = dynamic_cast<Player*>(shape[self]->getBody()->getNode());
-//				if (player)
-//				{
-//					player->SetFrictionMulti(AIR_FRICTION_MULTI);
-//				}
-//			}
-//		}
-//	}
+	PhysicsShape* shape[2];
+	shape[0] = contact.getShapeA();
+	shape[1] = contact.getShapeB();
+
+	
+	if (shape[0]->getCollisionBitmask() == CB_PLAYER || shape[1]->getCollisionBitmask() == CB_PLAYER)
+	{
+		int self = (shape[0]->getCollisionBitmask() == CB_PLAYER ? 0 : 1);
+		int other = !self;
+
+		if (shape[self]->getTag() == 69)
+		{
+			if (shape[other]->getCollisionBitmask() == CB_GROUND)
+			{
+				auto player = dynamic_cast<Player*>(shape[self]->getBody()->getNode());
+				if (player)
+				{
+					player->inAir = true;
+				}
+			}
+		}
+	}
 }
 
 //bool CCollisionManager::onContactPreSolve(PhysicsContact& contact, PhysicsContactPreSolve& solve) 

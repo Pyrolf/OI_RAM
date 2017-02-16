@@ -26,6 +26,7 @@ public:
 	};
 
 	bool moveLeft, moveRight;
+	bool inAir;
 
 	Player();
 	virtual ~Player();

@@ -26,7 +26,7 @@ void Player::Init(Vec2 Pos)
 	astate = A_Idle;
 
 	PhysicsBody* Body;
-	Body = PhysicsBody::createBox(Size(spriteSize.width, spriteSize.height - 4), PhysicsMaterial(1, 0, 0), Vec2(0, 2));
+	Body = PhysicsBody::createBox(Size(spriteSize.width, spriteSize.height - 6), PhysicsMaterial(1, 0, 0), Vec2(0, 3));
 	Body->addShape(PhysicsShapeBox::create(Size(spriteSize.width, 4), PhysicsMaterial(1, 0, 0.4), Vec2(0, -spriteSize.height / 2 + 2)));
 	Body->getShapes().at(1)->setTag(69);
 	Body->setMass(1);
@@ -56,6 +56,7 @@ void Player::Init(Vec2 Pos)
 	manaRegenRate = 1;
 
 	moveLeft = moveRight = false;
+	inAir = false;
 }
 
 void Player::Update(float dt)
@@ -163,7 +164,7 @@ void Player::UseSkills(ACTIVE_SKILL s)
 	{
 	case ACTIVE_SKILL::Slam:
 		{
-			if (activeSkill != ACTIVE_SKILL::Slam && mana > 10)
+			if (activeSkill != ACTIVE_SKILL::Slam && mana > 10 && inAir)
 			{
 				ResetSkillEffect();
 
