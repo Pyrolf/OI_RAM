@@ -120,7 +120,7 @@ bool CGUILayer::init()
 	pauseButton->setTag(PAUSE_CHILD_TAG);
 	menuItemList.pushBack(pauseButton);
 	
-#if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS))
+#if ((CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS))
 	float offset;
 	//create move left button
 	auto button = ui::Button::create("images/ui/arrow_key.png", "images/ui/arrow_key_selected.png");

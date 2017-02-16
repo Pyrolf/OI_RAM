@@ -297,7 +297,7 @@ void Player::Movement(float dt)
 	{
 		upKeypress = false;
 	}
-//#elif ((CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS))
+#elif ((CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS))
 	if (moveLeft)
 	{
 		Move(false, dt);
