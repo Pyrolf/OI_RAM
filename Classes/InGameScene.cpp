@@ -183,7 +183,9 @@ void CInGameScene::onEnterTransitionDidFinish()
 	KeyboardManager::GetInstance()->removeFromParent();
 	this->addChild(KeyboardManager::GetInstance());
 
-	auto fll = FollowWithLerp::create(m_pGOManager->getPlayer(), 3, Rect(0, 0, tileMapManager->getTilemap()->getContentSize().width, tileMapManager->getTilemap()->getContentSize().height));
+	float xoffset = (896 - Director::getInstance()->getVisibleSize().width) * 0.5;
+
+	auto fll = FollowWithLerp::create(m_pGOManager->getPlayer(), 3, Rect(-xoffset, 0, tileMapManager->getTilemap()->getContentSize().width + xoffset, tileMapManager->getTilemap()->getContentSize().height));
 
 	this->runAction(fll);
 

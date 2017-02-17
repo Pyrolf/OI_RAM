@@ -6,7 +6,7 @@
 #include "InteractableGameObject.h"
 #include "PhysicsGameObject.h"
 
-class CGameObjectManager : cocos2d::Node
+class CGameObjectManager : public cocos2d::Node
 {
 public:
 	CGameObjectManager(int numOfEnemies, int numOfIteractableItems, int numOfPhysicsGO);

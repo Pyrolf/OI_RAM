@@ -4,6 +4,7 @@
 #include "AIEnemy.h"
 #include "PhysicsGameObject.h"
 #include "SoundLoader.h"
+#include "ParticleLoader.h"
 
 USING_NS_CC;
 
@@ -67,10 +68,22 @@ bool CCollisionManager::onContactBegin(PhysicsContact& contact)
 					{
 						player->ResetSkillEffect();
 					}
+
+					int i = enemy->GetLives();
+
 					if (player->GetActiveSkill() == Player::ACTIVE_SKILL::Slam)
 						enemy->MinusLives(2);
 					else
 						enemy->MinusLives(1);
+
+					if (i != enemy->GetLives())
+					{
+						auto p = CParticleLoader::createHitmarkerEffect();
+						auto pp = contact.getContactData()->points[0];
+						p->setPosition(contact.getContactData()->points[0].lerp(contact.getContactData()->points[1], 0.5) - player->getParent()->getParent()->getPosition());
+						player->getParent()->addChild(p);
+					}
+
 
 					if (enemy->GetLives() <= 0)
 					{

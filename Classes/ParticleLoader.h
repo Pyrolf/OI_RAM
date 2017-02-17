@@ -17,5 +17,6 @@ public:
 	static cocos2d::ParticleSystem* createSmokeEffect();
 	static cocos2d::ParticleSystem* createSlowEffect();
 	static cocos2d::ParticleSystem* createSlamEffect();
+	static cocos2d::ParticleSystem* createHitmarkerEffect();
 };
 #endif // __PARTICLE_LOADER_H__

@@ -23,6 +23,13 @@ TilemapManager::TilemapManager(string filepath, Layer* theLayer, int Zorder)
 
 	if (tilemap)
 	{
+		auto visibleSize = Director::getInstance()->getVisibleSize();
+		float h = 504;
+		h = h/tilemap->getTileSize().height;
+		h = visibleSize.height / h;
+		tilemap->setScale(tilemap->getTileSize().height / h);
+
+
 		Vector<cocos2d::experimental::TMXLayer*> dubLayers;
 		for (auto& object : tilemap->getChildren())
 		{
@@ -139,17 +146,19 @@ void TilemapManager::spawnBoundingBoxes(cocos2d::experimental::TMXLayer* layer)
 void TilemapManager::createRectangularFixture(cocos2d::experimental::TMXLayer* layer, int x, int y, int offset, bool isHorizontal)
 {
 	Size tileSize = tilemap->getTileSize();
+	tileSize = tileSize * tilemap->getScale();
 
 	Vec2 p = layer->getPositionAt(Point(x, y));
+	p = p * tilemap->getScale();
 	if (isHorizontal)
 	{
-		p.x += std::abs(layer->getPositionAt(Point(x + offset, y)).x + tileSize.width - p.x) * 0.5;
+		p.x += std::abs(layer->getPositionAt(Point(x + offset, y)).x * tilemap->getScale() +tileSize.width - p.x) * 0.5;
 		p.y += tileSize.height * 0.5;
 	}
 	else
 	{
 		p.x += tileSize.width * 0.5;
-		p.y -= std::abs(layer->getPositionAt(Point(x, y + offset)).y - p.y) * 0.5 - tileSize.width * 0.5;
+		p.y -= std::abs(layer->getPositionAt(Point(x, y + offset)).y * tilemap->getScale() -p.y) * 0.5 - tileSize.width * 0.5;
 	}
 
 	PhysicsBody* body;

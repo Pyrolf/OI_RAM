@@ -73,3 +73,13 @@ ParticleSystem* CParticleLoader::createSlamEffect()
 
 	return p;
 }
+
+ParticleSystem* CParticleLoader::createHitmarkerEffect()
+{
+	auto p = cocos2d::CCParticleSystemQuad::create("particle/hitmarker.plist");
+	auto t = Director::getInstance()->getTextureCache()->addImage("images/hitmarker.png");
+	p->setTexture(t);
+	p->setPosition(Vec2::ZERO);
+
+	return p;
+}
